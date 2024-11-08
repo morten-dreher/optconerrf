@@ -1,0 +1,17 @@
+Package: optconerrf
+Title: Optimal Monotone Conditional Error Functions
+Version: 0.0.7.0001
+Authors@R: 
+  c(person(given = "Morten", family = "Dreher", email = "morten.dreher@outlook.de", role = c("aut", "cre")),
+    person(given = "Werner", family = "Brannath", role = "aut", comment = c(ORCID = "0000-0002-8622-3904")),
+    person(given = "Cornelia Ursula", family = "Kunz", role = "ctb", comment = c(ORCID = "0000-0002-8900-9401")))
+Description: Calculate and monotonise the optimal conditional error function.
+Imports: mvtnorm
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
