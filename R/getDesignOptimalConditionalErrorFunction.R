@@ -16,7 +16,7 @@
 #' @template param_ncp1
 #' @template param_ncp0
 #' @template param_dist
-#' @param minimumConditionalError Lower boundary for the optimal conditional error function. Default 0 (no restriction)
+#' @param minimumConditionalError Lower boundary for the optimal conditional error function. Default 0 (no restriction).
 #' @param maximumConditionalError Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power (assuming no early efficacy stop).
 #' @param ... Additional arguments required for the specification of the likelihood ratio.
 #'
