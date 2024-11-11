@@ -40,9 +40,9 @@ Each case requires different additional specifications. \cr
 \item \code{dist="maxlr"} estimates the non-centrality parameter to be used for the likelihood ratio from the data. No additional parameters must be specified.
 }}
 
-\item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction)}
+\item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction).}
 
-\item{maximumConditionalError}{Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power.}
+\item{maximumConditionalError}{Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power (assuming no early efficacy stop).}
 
 \item{...}{Additional arguments required for the specification of the likelihood ratio.}
 }

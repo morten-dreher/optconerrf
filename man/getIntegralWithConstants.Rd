@@ -12,5 +12,6 @@ getIntegralWithConstants(constant, design)
 \item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 }
 \description{
-Calculate the integral over a partially constant function
+This function aims to provide a more accurate integration routine than the \code{integrate()} function
+for a partially constant function.
 }
