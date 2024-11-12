@@ -18,8 +18,8 @@
 #' @examples
 #' getCircularConditionalError(firstStagePValue=0.1, alpha1=0.01170, alpha0=0.5)
 #'
-#' @references Proschan, M. A., & Hunsberger, S. A. (1995). Designed extension of studies based on conditional power. Biometrics. http://www.jstor.org/stable/2533262
-#' @references Wassmer, G., & Brannath, W. (2016). Group sequential and confirmatory adaptive designs in clinical trials. Springer. https://doi.org/https://doi.org/10.1007/978-3-319-32562-0
+#' @references Proschan, M. A. & Hunsberger, S. A. (1995). Designed extension of studies based on conditional power. Biometrics. http://www.jstor.org/stable/2533262
+#' @references Wassmer, G. & Brannath, W. (2016). Group sequential and confirmatory adaptive designs in clinical trials. Springer. https://doi.org/https://doi.org/10.1007/978-3-319-32562-0
 
 getCircularConditionalError <- function(firstStagePValue, alpha1, alpha0) {
 

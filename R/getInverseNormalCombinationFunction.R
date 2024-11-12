@@ -18,7 +18,7 @@
 #' }
 #' where \eqn{w_1, w_2} are positive stage-wise weights subject to \eqn{w_1^2+w_2^2=1}.
 #'
-#' @references Wassmer, G., & Brannath, W. (2016). Group sequential and confirmatory adaptive designs in clinical trials. Springer. https://doi.org/https://doi.org/10.1007/978-3-319-32562-0
+#' @references Wassmer, G. & Brannath, W. (2016). Group sequential and confirmatory adaptive designs in clinical trials. Springer. https://doi.org/https://doi.org/10.1007/978-3-319-32562-0
 #'
 #' @examples
 #' getInverseNormalCombinationFunction(

@@ -23,7 +23,7 @@
 #' @export
 #'
 #'
-#' @references Brannath, W., & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
+#' @references Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
 
 getMonotoneFunction <- function(x, fun, lower=NULL, upper=NULL, argument=NULL, nSteps = 10^4, epsilon = 10^(-5), numberOfIterationsQ = 10^4, design, printConstant = TRUE) {
 

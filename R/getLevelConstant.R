@@ -14,18 +14,18 @@
 #' the constant is calculated for the optimal conditional error function with no transformations.
 #'
 #' @template param_design
-#' @param constant_min Minimum value of the interval on which the constant should be searched. Default = 0.
-#' @param constant_max Maximum value of the interval on which the constant should be searched. Default = 10.
+#' @template param_levelConstantMinimum
+#' @template param_levelConstantMaximum
 #'
 #' @return A list that contains the constant (element \code{$root}) and other components provided by \code{uniroot()}.
 #'
 #' @export
 #'
 #'
-#' @references Brannath, W., & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
-#' @references Brannath, W., & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
+#' @references Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
+#' @references Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
 
-getLevelConstant <- function(design, constant_min = 0, constant_max = 10) {
+getLevelConstant <- function(design, levelConstantMinimum = 0, levelConstantMaximum = 10) {
 
   # Check basic condition for decision rules
   if(design$alpha1 + design$conditionalPower*(design$alpha0-design$alpha1)<=design$alpha) {
@@ -33,7 +33,7 @@ getLevelConstant <- function(design, constant_min = 0, constant_max = 10) {
   }
 
   # Get the uniroot of a helper function that calculates the integral over alpha2.
-  return(stats::uniroot(f = getIntegral, lower = constant_min, upper = constant_max,
+  return(stats::uniroot(f = getIntegral, lower = levelConstantMinimum, upper = levelConstantMaximum,
                         design = design, tol = 1e-15))
 
 }

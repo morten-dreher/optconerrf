@@ -27,7 +27,7 @@
 #' getInverseNormalConditionalError(
 #' alpha=0.025, alpha0=0.5, alpha1=0.001, firstStagePValue=0.09)
 #'
-#' @references Wassmer, G., & Brannath, W. (2016). Group sequential and confirmatory adaptive designs in clinical trials. Springer. https://doi.org/https://doi.org/10.1007/978-3-319-32562-0
+#' @references Wassmer, G. & Brannath, W. (2016). Group sequential and confirmatory adaptive designs in clinical trials. Springer. https://doi.org/https://doi.org/10.1007/978-3-319-32562-0
 #'
 getInverseNormalConditionalError <- function(alpha, alpha0, alpha1, firstStagePValue, weights = c(sqrt(0.5), sqrt(0.5)), alpha2 = NULL) {
 

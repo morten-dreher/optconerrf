@@ -18,6 +18,8 @@
 #' @template param_dist
 #' @param minimumConditionalError Lower boundary for the optimal conditional error function. Default 0 (no restriction).
 #' @param maximumConditionalError Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power (assuming no early efficacy stop).
+#' @template param_levelConstantMinimum
+#' @template param_levelConstantMaximum
 #' @param ... Additional arguments required for the specification of the likelihood ratio.
 #'
 #' @return A list of the optimal conditional error design which can be passed on to other package functions.
@@ -31,7 +33,8 @@
 #'
 getDesignOptimalConditionalErrorFunction <- function(
     alpha, alpha1, alpha0, conditionalPower, ncp1 = NULL, ncp0 = NULL,
-    dist, minimumConditionalError = 0, maximumConditionalError = 1, ...) {
+    dist, minimumConditionalError = 0, maximumConditionalError = 1,
+    levelConstantMinimum = 0, levelConstantMaximum = 10, ...) {
 
   # Get additional arguments (parameters of likelihood ratio distribution)
   additionalArguments <- list(...)
@@ -96,7 +99,7 @@ getDesignOptimalConditionalErrorFunction <- function(
 
   # Next, determine effect specification for conditional power
   # ncp0 specified -> use of interim estimate with cutoff ncp0
-  if(!is.null(ncp0)) {
+  if(!is.null(ncp0) && is.null(ncp1)) {
     designList$ncp0 <- ncp0
 
     # Get monotonisation constants
@@ -107,12 +110,13 @@ getDesignOptimalConditionalErrorFunction <- function(
 
     # Get level constant
     designList$levelConstant <- getLevelConstant(
-      design = designList
+      design = designList, levelConstantMinimum = levelConstantMinimum,
+      levelConstantMaximum = levelConstantMaximum
     )$root
 
   }
   # ncp1 specified -> use fixed effect size ncp1
-  else if(!is.null(ncp1)) {
+  else if(!is.null(ncp1) && is.null(ncp0)) {
     designList$ncp1 <- ncp1
 
     # Get monotonisation constants
@@ -123,11 +127,12 @@ getDesignOptimalConditionalErrorFunction <- function(
 
     # Get level constant
     designList$levelConstant <- getLevelConstant(
-      design = designList
+      design = designList, levelConstantMinimum = levelConstantMinimum,
+      levelConstantMaximum = levelConstantMaximum
     )$root
   }
   else {
-    stop("Effect size must be specified as a fixed effect ncp1 or by a lower cut-off ncp0 for an interim estimate.")
+    stop("Effect size for conditional power must be specified either as a fixed effect ncp1 or by a lower cut-off ncp0 for an interim estimate.")
   }
 
 

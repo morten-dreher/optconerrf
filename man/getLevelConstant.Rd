@@ -4,14 +4,14 @@
 \alias{getLevelConstant}
 \title{Get Level Constant for Optimal Conditional Error Function}
 \usage{
-getLevelConstant(design, constant_min = 0, constant_max = 10)
+getLevelConstant(design, levelConstantMinimum = 0, levelConstantMaximum = 10)
 }
 \arguments{
 \item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 
-\item{constant_min}{Minimum value of the interval on which the constant should be searched. Default = 0.}
+\item{levelConstantMinimum}{The minimum of the interval on which the value for the level constant should be searched. Default value is 0.}
 
-\item{constant_max}{Maximum value of the interval on which the constant should be searched. Default = 10.}
+\item{levelConstantMaximum}{The maximum of the interval on which the value for the level constant should be searched. Default value is 10.}
 }
 \value{
 A list that contains the constant (element \code{$root}) and other components provided by \code{uniroot()}.
@@ -31,7 +31,7 @@ to calculate the level constant for the non-decreasing transformation of the opt
 the constant is calculated for the optimal conditional error function with no transformations.
 }
 \references{
-Brannath, W., & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
+Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
 
-Brannath, W., & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
+Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
 }

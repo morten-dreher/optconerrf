@@ -14,6 +14,8 @@ getDesignOptimalConditionalErrorFunction(
   dist,
   minimumConditionalError = 0,
   maximumConditionalError = 1,
+  levelConstantMinimum = 0,
+  levelConstantMaximum = 10,
   ...
 )
 }
@@ -43,6 +45,10 @@ Each case requires different additional specifications. \cr
 \item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction).}
 
 \item{maximumConditionalError}{Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power (assuming no early efficacy stop).}
+
+\item{levelConstantMinimum}{The minimum of the interval on which the value for the level constant should be searched. Default value is 0.}
+
+\item{levelConstantMaximum}{The maximum of the interval on which the value for the level constant should be searched. Default value is 10.}
 
 \item{...}{Additional arguments required for the specification of the likelihood ratio.}
 }

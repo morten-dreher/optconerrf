@@ -40,5 +40,5 @@ Computes the constants required to make a function non-increasing on the specifi
 The output object is a list that contains the intervals on which constant values are required, specified by the minimum \code{dls} and maximum \code{dus} of the interval and the respective constants, \code{qs}.
 }
 \references{
-Brannath, W., & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
+Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
 }
