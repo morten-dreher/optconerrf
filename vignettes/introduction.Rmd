@@ -161,15 +161,20 @@ In this case, a message is printed during the creation of the design object and 
 # Using the design object
 
 Once the design object is created using `getDesignOptimalCondtionalErrorFunction()`, it can be easily passed to other functions of `optconerrf`.
-The design object is a list and it can be easily printed for an overview:
+The design object is an instance of the class `TrialDesignOptimalConditionalError` and offers implementations of the generic functions `print()` and `plot()`:
 
-```{r, message = FALSE}
+```{r, message = FALSE, results = "markup"}
 design <- getDesignOptimalConditionalErrorFunction(
   alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
-  ncp1 = 1, dist = "fixed", ncpLR = 1
+  delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 0.5,
+  firstStageInformation = 4
 )
-
 print(design)
+```
+
+
+```{r, fig.dim = c(6,4)}
+plot(design)
 ```
 
 To access individual fields of the object, e.g., the overall type I error rate (`alpha`) or the level constant (`levelConstant`) the following code can be used:
@@ -178,14 +183,6 @@ To access individual fields of the object, e.g., the overall type I error rate (
 design$alpha
 design$levelConstant
 ```
-
-For an overview of all available fields, the `names()` function can be used:
-
-```{r}
-names(design)
-```
-
-Note that only either the field `ncp1` or `ncp0` can exist, depending on the specification of the effect for conditional power.
 
 # Computing the optimal conditional error function
 
@@ -241,21 +238,21 @@ The calculation of the expected second-stage sample size of the treatment group 
 
 ```{r}
 getExpectedSecondStageSampleSize(
-  design = design, distDelta = "fixed", ncpLRDelta = 1,
-  allocationRatio = 1, standardDeviation = 1, delta1 = 0.25
+  design = design, distDelta = "fixed", deltaLR = 0.5,
+  allocationRatio = 1, standardDeviation = 1, delta1 = 0.5
 )
 ```
 
 
 The specification of the likelihood ratio under which to calculate the expected second-stage sample size is given by `distDelta="fixed"` and the corresponding non-centrality parameter is specified by `ncpLRDelta = 1`.
-The effect size for the conditional power is specified via `delta1 = 0.25`.
+The effect size for the conditional power is specified via `delta1 = 0.5`.
 The standard deviation $\sigma$ and the allocation ratio $r$ may be explicitly specified, otherwise the default values `standardDeviation=1` and `allocationRatio=1` are used by `getExpectedSecondStageSampleSize()`.
 
 The expected second-stage sample size of the above design under the null hypothesis (for `ncpLRDelta = 0`) can be calculated as:
 
 ```{r}
 getExpectedSecondStageSampleSize(
-  design = design, distDelta = "fixed", ncpLRDelta = 0, delta1 = 0.25
+  design = design, distDelta = "fixed", deltaLR = 0, delta1 = 0.5
 )
 ```
 

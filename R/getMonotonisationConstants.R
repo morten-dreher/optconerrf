@@ -159,7 +159,7 @@ getMonotonisationConstants <- function(fun, lower = 0, upper = 1, argument, nSte
   # Return list of length 0 if no entries were made
   if(is.null(output)) {
     output <- list()
-    print("Function already non-increasing, monotonisation constants are an empty list.")
+    message("Function already non-increasing, monotonisation constants are an empty list.")
   }
 
   return(output)

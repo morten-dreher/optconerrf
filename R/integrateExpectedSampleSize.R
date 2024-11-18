@@ -27,16 +27,20 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
 
   # Fixed effect
   if(distDelta == "fixed") {
-    ncpLR <- unlist(args["ncpLRDelta"])
-    weights <- unlist(args["weightsDelta"])
+    ncpLR <- unlist(args["deltaLR"])
+    weights <- unlist(args["weightsDeltaLR"])
 
     # Ensure argument specified
     if(is.null(ncpLR)) {
       stop("Argument ncpLRDelta must be provided for fixed likelihood ratio case.")
     }
+    if(is.null(weights)) {
+      weights <- rep(1/length(ncpLR), length(ncpLR))
+    }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
-    ghostDesign <- list("dist" = distDelta, "ncpLR" = ncpLR, "weights" = weights)
+    ghostDesign <- list("likelihoodRatioDistribution" = distDelta, "deltaLR" = ncpLR, "weightsDeltaLR" = weights,
+                        "firstStageInformation" = design$firstStageInformation)
 
     # Calculate likelihood ratio
     likelihoodRatio <- getLikelihoodRatio(
@@ -45,8 +49,8 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
   }
   # Normal prior for effect
   else if(distDelta == "normal") {
-    ncpLR <- unlist(args["ncpLRDelta"])
-    tauLR <- unlist(args["tauLRDelta"])
+    ncpLR <- unlist(args["deltaLR"])
+    tauLR <- unlist(args["tauLR"])
 
     # Ensure arguments specified
     if(is.null(ncpLR) || is.null(tauLR)) {
@@ -54,7 +58,8 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
     }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
-    ghostDesign <- list("dist" = distDelta, "ncpLR" = ncpLR, "tauLR" = tauLR)
+    ghostDesign <- list("likelihoodRatioDistribution" = distDelta, "deltaLR" = ncpLR, "tauLR" = tauLR,
+                        "firstStageInformation" = design$firstStageInformation)
 
     # Calculate likelihood ratio
     likelihoodRatio <- getLikelihoodRatio(
@@ -64,7 +69,7 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
   # Exponential prior for effect
   else if(distDelta == "exp") {
 
-    kap0 <- unlist(args["kap0Delta"])
+    kap0 <- unlist(args["kappaLR"])
 
     # Ensure argument specified
     if(is.null(kap0)) {
@@ -72,7 +77,8 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
     }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
-    ghostDesign <- list("dist" = distDelta, "kap0" = kap0)
+    ghostDesign <- list("likelihoodRatioDistribution" = distDelta, "kappaLR" = kap0,
+                        "firstStageInformation" = design$firstStageInformation)
 
     # Calculate likelihood ratio
     likelihoodRatio <- getLikelihoodRatio(
@@ -82,7 +88,7 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
   # Uniform prior for effect
   else if(distDelta == "unif") {
 
-    delMax <- unlist(args["delMaxDelta"])
+    delMax <- unlist(args["deltaMaxLR"])
 
     # Ensure argument specified
     if(is.null(delMax)) {
@@ -90,7 +96,8 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
     }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
-    ghostDesign <- list("dist" = distDelta, "delMax" = delMax)
+    ghostDesign <- list("likelihoodRatioDistribution" = distDelta, "deltaMaxLR" = delMax,
+                        "firstStageInformation" = design$firstStageInformation)
 
     # Calculate likelihood ratio
     likelihoodRatio <- getLikelihoodRatio(
@@ -100,7 +107,7 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
   # Maximum likelihood ratio
   else if(distDelta == "maxlr") {
     # Create a list that acts as a design object to calculate true likelihood ratio
-    ghostDesign <- list("dist" = distDelta)
+    ghostDesign <- list("likelihoodRatioDistribution" = distDelta)
 
     # Calculate likelihood ratio
     likelihoodRatio <- getLikelihoodRatio(

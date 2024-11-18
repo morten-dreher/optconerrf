@@ -24,7 +24,8 @@
 #' # Create a design
 #' design <- getDesignOptimalConditionalErrorFunction(
 #' alpha=0.025, alpha1=0.001, alpha0=0.5, conditionalPower=0.9,
-#' ncp1=1, dist="fixed", ncpLR=1)
+#' delta1=1, firstStageInformation=1,
+#' likelihoodRatioDistribution="fixed", deltaLR=1)
 #'
 #' # Calculate optimal conditional error
 #' getOptimalConditionalError(

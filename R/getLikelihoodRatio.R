@@ -33,11 +33,11 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
   # initialise likelihood ratio, get ... arguments
   likelihoodRatio <- NA
   # Fixed likelihood case
-  if(design$dist == "fixed"){
+  if(design$likelihoodRatioDistribution == "fixed"){
 
     # Get ncp and weights
-    ncp <- design$ncpLR
-    weights <- design$weights
+    ncp <- design$deltaLR * sqrt(design$firstStageInformation)
+    weights <- design$weightsDeltaLR
 
     # Ensure that ncp argument is provided
     if(is.null(ncp)) {
@@ -58,11 +58,11 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
     likelihoodRatio <- exp(qnorm(1-firstStagePValue)*ncp-ncp^2/2) %*% weights
   }
   # Normal prior
-  else if(design$dist == "normal") {
+  else if(design$likelihoodRatioDistribution == "normal") {
 
     # Get ncp and tau
-    ncp <- design$ncpLR
-    tau <- design$tauLR
+    ncp <- design$deltaLR * sqrt(design$firstStageInformation)
+    tau <- design$tauLR * sqrt(design$firstStageInformation)
 
     # Ensure that arguments were specified
     if(is.null(ncp) || is.null(tau)) {
@@ -73,9 +73,9 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
     likelihoodRatio <- (1/sqrt(1+tau^2))*exp(-(ncp/tau)^2/2+(tau*qnorm(1-firstStagePValue)+(ncp/tau))^2/(2*(1+tau^2)))
   }
   # Exponential prior
-  else if(design$dist == "exp"){
+  else if(design$likelihoodRatioDistribution == "exp"){
     # Get kap0
-    kap0 <- design$kap0
+    kap0 <- design$kappaLR * sqrt(design$firstStageInformation)
 
     # Ensure that argument was specified
     if(is.null(kap0)) {
@@ -86,9 +86,9 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
     likelihoodRatio <- sqrt(2*pi)*kap0*exp((qnorm(1-firstStagePValue)-kap0)^2/2)*pnorm(qnorm(1-firstStagePValue)-kap0)
   }
   # Uniform prior
-  else if(design$dist == "unif"){
+  else if(design$likelihoodRatioDistribution == "unif"){
     # Get delMax
-    delMax <- design$delMax
+    delMax <- design$deltaMaxLR * sqrt(design$firstStageInformation)
 
     # Ensure that argument was specified
     if(is.null(delMax)) {
@@ -99,7 +99,7 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
     likelihoodRatio <- sqrt(2*pi)*exp(qnorm(1-firstStagePValue)^2/2)*(pnorm(delMax-qnorm(1-firstStagePValue))-firstStagePValue)/delMax
   }
   # Maximum likelihood ratio case
-  else if(design$dist == "maxlr") {
+  else if(design$likelihoodRatioDistribution == "maxlr") {
     # Calculate likelihood ratio
     likelihoodRatio <- exp(max(0, qnorm(1-firstStagePValue))^2/2)
   }

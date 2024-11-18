@@ -9,9 +9,10 @@ getDesignOptimalConditionalErrorFunction(
   alpha1,
   alpha0,
   conditionalPower,
-  ncp1 = NULL,
-  ncp0 = NULL,
-  dist,
+  delta1,
+  useInterimEstimate = FALSE,
+  firstStageInformation,
+  likelihoodRatioDistribution,
   minimumConditionalError = 0,
   maximumConditionalError = 1,
   levelConstantMinimum = 0,
@@ -28,18 +29,21 @@ getDesignOptimalConditionalErrorFunction(
 
 \item{conditionalPower}{The target conditional power \eqn{CP} of the design. To guarantee that the function \code{getPsi()} can be solved, the conditional power should be between \code{1-pnorm(2)} and \code{pnorm(2)}. Must be a numeric value.}
 
-\item{ncp1}{Fixed effect assumption, expressed as a non-centrality parameter. Must be a numeric value.}
+\item{delta1}{Effect assumption under which the expected sample size should be calculated. Must be a numeric value not equal to 0.}
 
-\item{ncp0}{Minimum value for the interim treatment effect estimate, expressed as a non-centrality parameter. Must be a numeric value.}
+\item{useInterimEstimate}{Logical. Defines whether or not an interim estimate should be used for conditional power.
+If \code{TRUE}, \code{delta1} is used as the lower boundary for the interim estimate.}
 
-\item{dist}{The distribution to be used for the effect size of the likelihood ratio in the optimal conditional error function. Options are \code{"fixed", "normal", "exp", "unif", "maxlr"} for fixed effect size, normally distributed, exponentially distributed, uniformly distributed prior of the effect size and maximum likelihood ratio, respectively.
+\item{firstStageInformation}{Information of the first stage of the trial.}
+
+\item{likelihoodRatioDistribution}{The distribution to be used for the effect size of the likelihood ratio in the optimal conditional error function. Options are \code{"fixed", "normal", "exp", "unif", "maxlr"} for fixed effect size, normally distributed, exponentially distributed, uniformly distributed prior of the effect size and maximum likelihood ratio, respectively.
 Each case requires different additional specifications. \cr
 \itemize{
-\item \code{dist="fixed"} uses one (or more) fixed effect sizes for the likelihood ratio and requires the parameter \code{ncpLR} which provides the non-centrality parameter under which to calculate the likelihood ratio. If \code{ncpLR} contains multiple values, they may be weighted using an additional argument \code{weights}. Omitting \code{weights} automatically leads to equal weighting.
-\item \code{dist="normal"} uses a normal prior for the effect size and requires parameters \code{ncpLR} and \code{tau} for the mean and standard deviation of the normal distribution (both on non-centrality parameter scale).
-\item \code{dist="exp"} uses an exponential prior for the effect size and requires the parameter \code{kap0} which is the mean of the exponential distribution (on the non-centrality parameter scale).
-\item \code{dist="unif"} uses a uniform prior for the effect size and requires the specification of \code{delMax}, which is the maximum of the support for the uniform likelihood ratio distribution (on the non-centrality parameter scale).
-\item \code{dist="maxlr"} estimates the non-centrality parameter to be used for the likelihood ratio from the data. No additional parameters must be specified.
+\item \code{likelihoodRatioDistribution="fixed"} uses one (or more) fixed effect sizes for the likelihood ratio and requires the parameter \code{deltaLR} which provides the non-centrality parameter under which to calculate the likelihood ratio. If \code{deltaLR} contains multiple values, they may be weighted using an additional argument \code{weightsDeltaLR}. Omitting \code{weightsDeltaLR} automatically leads to equal weighting.
+\item \code{likelihoodRatioDistribution="normal"} uses a normal prior for the effect size and requires parameters \code{deltaLR} and \code{tauLR} for the mean and standard deviation of the normal distribution (both on non-centrality parameter scale).
+\item \code{likelihoodRatioDistribution="exp"} uses an exponential prior for the effect size and requires the parameter \code{kappaLR} which is the mean of the exponential distribution (on the non-centrality parameter scale).
+\item \code{likelihoodRatioDistribution="unif"} uses a uniform prior for the effect size and requires the specification of \code{deltaMaxLR}, which is the maximum of the support for the uniform likelihood ratio distribution (on the non-centrality parameter scale).
+\item \code{likelihoodRatioDistribution="maxlr"} estimates the non-centrality parameter to be used for the likelihood ratio from the data. No additional parameters must be specified.
 }}
 
 \item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction).}
@@ -66,6 +70,7 @@ the function\code{getMonotonisationConstants()}. See the respective help pages f
 \examples{
 getDesignOptimalConditionalErrorFunction(
 alpha=0.025, alpha1=0.001, alpha0=0.5, conditionalPower=0.9,
-ncp1=1, dist="fixed", ncpLR=1)
+delta1=0.5, likelihoodRatioDistribution="fixed", deltaLR=1,
+firstStageInformation=2)
 
 }

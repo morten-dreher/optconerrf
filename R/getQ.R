@@ -21,20 +21,14 @@ getQ <- function(firstStagePValue, design) {
   effect <- NA
   likelihoodRatio <- NA
 
-  if(!is.null(design$ncp1)) {
-    effect <- design$ncp1
-  }
-  else if(!is.null(design$ncp0)) {
-    effect <- design$ncp0
-
+  if(design$useInterimEstimate) {
     effect <- stats::qnorm(1-firstStagePValue)
-
-    if(effect < design$ncp0) {
-      effect <- design$ncp0
+    if(effect < design$ncp1) {
+      effect <- design$ncp1
     }
   }
   else {
-    stop("Effect must be specified in design object either via a fixed ncp1 or a minimum ncp0")
+    effect <- design$ncp1
   }
 
   likelihoodRatio <- getLikelihoodRatio(firstStagePValue = firstStagePValue, design = design)

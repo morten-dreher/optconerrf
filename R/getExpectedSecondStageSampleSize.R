@@ -38,10 +38,11 @@
 #' # Get a design
 #' design <- getDesignOptimalConditionalErrorFunction(
 #' alpha=0.025, alpha1=0.001, alpha0=0.5, conditionalPower=0.9,
-#' ncp1=1, dist="fixed", ncpLR=1)
+#' delta1=0.5, likelihoodRatioDistribution="fixed", deltaLR=0.5,
+#' firstStageInformation=2)
 #' # Calculate expected sample size under correct specification
 #' getExpectedSecondStageSampleSize(
-#' design, distDelta="fixed", ncpLRDelta=1, delta1=0.25)
+#' design, distDelta="fixed", deltaLR=0.5, delta1=0.25)
 #'
 #'
 #' @export
@@ -52,7 +53,7 @@ getExpectedSecondStageSampleSize <- function(design, distDelta, allocationRatio 
 
 
   # Integrate over a helper function from alpha1 to alpha0
-  return(stats::integrate(f = integrateExpectedSampleSize, lower = design$alpha1, upper = design$alpha0, dist = design$dist, levelConstant = design$levelConstant,
+  return(stats::integrate(f = integrateExpectedSampleSize, lower = design$alpha1, upper = design$alpha0, dist = design$likelihoodRatioDistribution, levelConstant = design$levelConstant,
                           conditionalPower = design$conditionalPower, alpha0 = design$alpha0, alpha1 = design$alpha1, distDelta = distDelta,
                           monotonisationConstants = design$monotonisationConstants, design = design, ... = ...)$value
          * (allocationRatio + 1) * standardDeviation^2)

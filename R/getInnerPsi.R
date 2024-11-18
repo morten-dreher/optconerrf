@@ -14,7 +14,7 @@
 getInnerPsi <- function(firstStagePValue, constant, design) {
 
   # If monotonisation constants provided, perform non-increasing transformation
-  if(!is.null(design$monotonisationConstants)) {
+  if(length(design$monotonisationConstants) > 0) {
     Q <- getMonotoneFunction(
       x = firstStagePValue, fun = getQ, argument = "firstStagePValue",
       design = design, printConstant = FALSE)
