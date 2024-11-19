@@ -32,15 +32,25 @@ getLevelConstant <- function(design, levelConstantMinimum = 0, levelConstantMaxi
     stop("(alpha1 + conditionalPower*(alpha0-alpha1)) must exceed alpha, otherwise the full level alpha cannot be exhausted.")
   }
 
-  # Get the uniroot of a helper function that calculates the integral over alpha2.
-  # tryCatch({
-    return(stats::uniroot(f = getIntegral, lower = levelConstantMinimum, upper = levelConstantMaximum,
-                          design = design, tol = 1e-15))
-  # },
-  # error = function(cond){
-  #   stop("Root finding for level constant failed. Try changing the search interval via arguments levelConstantMinimum and levelConstantMaximum.")
-  # })
-
+  # Find the level constant.
+  # Expects an error if specified non-centrality parameter is large
+  tryCatch(
+    expr = {
+      stats::uniroot(f = getIntegral, lower = levelConstantMinimum,
+                     upper = levelConstantMaximum, design = design,
+                     tol = 1e-15)
+    },
+    error = function(e){
+      # This specific error may occur if the given non-centrality parameter is too large and is handled separately
+      if(e$message == "f() values at end points not of opposite sign") {
+        stop("Root finding for level constant failed. Try changing the search interval via arguments levelConstantMinimum and levelConstantMaximum.")
+      }
+      # Print all other errors directly
+      else {
+        stop(e)
+      }
+    }
+  )
 
 }
 
