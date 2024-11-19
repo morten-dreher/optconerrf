@@ -8,15 +8,16 @@ getDesignOptimalConditionalErrorFunction(
   alpha,
   alpha1,
   alpha0,
-  conditionalPower,
+  conditionalPower = NA_real_,
   delta1,
-  useInterimEstimate = FALSE,
+  useInterimEstimate = TRUE,
   firstStageInformation,
   likelihoodRatioDistribution,
   minimumConditionalError = 0,
   maximumConditionalError = 1,
   levelConstantMinimum = 0,
   levelConstantMaximum = 10,
+  enforceMonotonicity = TRUE,
   ...
 )
 }
@@ -54,6 +55,8 @@ Each case requires different additional specifications. \cr
 
 \item{levelConstantMaximum}{The maximum of the interval on which the value for the level constant should be searched. Default value is 10.}
 
+\item{enforceMonotonicity}{Logical. Determines whether or not the optimal conditional error function should automatically be modified to be non-increasing. Default is \code{TRUE}.}
+
 \item{...}{Additional arguments required for the specification of the likelihood ratio.}
 }
 \value{
@@ -65,7 +68,7 @@ This function returns a design object in form of a list which contains all impor
 \details{
 From the given user specifications, the constant to achieve level condition for control of the overall type I error rate as well as the constants to ensure a non-increasing optimal CEF are automatically calculated.
 The level constant is calculated via the helper function \code{getLevelConstant()} and the monotonisation constants are calculated via
-the function\code{getMonotonisationConstants()}. See the respective help pages for more details.
+the function \code{getMonotonisationConstants()}. See the respective help pages for more details.
 }
 \examples{
 getDesignOptimalConditionalErrorFunction(

@@ -52,11 +52,15 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
   cat("  Constant:", x$levelConstant, "\n")
   cat("  Searched on interval:", paste("[",x$levelConstantMinimum, ", ", x$levelConstantMaximum, "]", sep=""), "\n")
 
-  if(length(x$monotonisationConstants) > 0) {
+  if(!is.null(unlist(x$monotonisationConstants))) {
     cat("\n")
     cat("Monotonisation constants: \n")
     cat("  Intervals (p-value scale):" , paste("[", apply(X = cbind(x$monotonisationConstants$dls, x$monotonisationConstants$dus), FUN = paste, MARGIN = 1, collapse = ", "), "]", sep = ""), "\n")
     cat("  Constant(s) (Q scale):", x$monotonisationConstants$qs, "\n")
+  }
+  if(!x$enforceMonotonicity) {
+    cat("\n")
+    cat("Monotonicity was not enforced \n")
   }
 
 }

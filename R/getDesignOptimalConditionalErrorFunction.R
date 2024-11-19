@@ -7,13 +7,12 @@
 #' @details
 #' From the given user specifications, the constant to achieve level condition for control of the overall type I error rate as well as the constants to ensure a non-increasing optimal CEF are automatically calculated.
 #' The level constant is calculated via the helper function \code{getLevelConstant()} and the monotonisation constants are calculated via
-#' the function\code{getMonotonisationConstants()}. See the respective help pages for more details.
+#' the function \code{getMonotonisationConstants()}. See the respective help pages for more details.
 #'
 #' @template param_alpha
 #' @template param_alpha1
 #' @template param_alpha0
 #' @template param_conditionalPower
-#' @template param_conditionalPowerFunction
 #' @template param_delta1
 #' @template param_likelihoodRatioDistribution
 #' @template param_firstStageInformation
@@ -22,6 +21,7 @@
 #' @param maximumConditionalError Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power (assuming no early efficacy stop).
 #' @template param_levelConstantMinimum
 #' @template param_levelConstantMaximum
+#' @template param_enforceMonotonicity
 #' @param ... Additional arguments required for the specification of the likelihood ratio.
 #'
 #' @importFrom methods new
@@ -37,9 +37,9 @@
 #' @export
 #'
 getDesignOptimalConditionalErrorFunction <- function(
-    alpha, alpha1, alpha0, conditionalPower = NA_real_, delta1, useInterimEstimate = FALSE,
+    alpha, alpha1, alpha0, conditionalPower = NA_real_, delta1, useInterimEstimate = TRUE,
     firstStageInformation, likelihoodRatioDistribution, minimumConditionalError = 0, maximumConditionalError = 1,
-    levelConstantMinimum = 0, levelConstantMaximum = 10, ...) {
+    levelConstantMinimum = 0, levelConstantMaximum = 10, enforceMonotonicity = TRUE, ...) {
 
   # Get additional arguments (parameters of likelihood ratio distribution)
   additionalArguments <- list(...)
@@ -58,6 +58,7 @@ getDesignOptimalConditionalErrorFunction <- function(
     maximumConditionalError = maximumConditionalError,
     levelConstantMinimum = levelConstantMinimum,
     levelConstantMaximum = levelConstantMaximum,
+    enforceMonotonicity = enforceMonotonicity,
     ... = ...
     )
 

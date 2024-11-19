@@ -33,8 +33,14 @@ getLevelConstant <- function(design, levelConstantMinimum = 0, levelConstantMaxi
   }
 
   # Get the uniroot of a helper function that calculates the integral over alpha2.
-  return(stats::uniroot(f = getIntegral, lower = levelConstantMinimum, upper = levelConstantMaximum,
-                        design = design, tol = 1e-15))
+  # tryCatch({
+    return(stats::uniroot(f = getIntegral, lower = levelConstantMinimum, upper = levelConstantMaximum,
+                          design = design, tol = 1e-15))
+  # },
+  # error = function(cond){
+  #   stop("Root finding for level constant failed. Try changing the search interval via arguments levelConstantMinimum and levelConstantMaximum.")
+  # })
+
 
 }
 

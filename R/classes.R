@@ -1,6 +1,3 @@
-#'
-#' @importFrom methods new
-#'
 TrialDesignOptimalConditionalError <- setRefClass(
   Class = "TrialDesignOptimalConditionalError",
   fields = list(
@@ -24,7 +21,8 @@ TrialDesignOptimalConditionalError <- setRefClass(
     maximumConditionalError = "numeric",
     levelConstantMinimum = "numeric",
     levelConstantMaximum = "numeric",
-    ncp1 = "numeric"
+    ncp1 = "numeric",
+    enforceMonotonicity = "logical"
   ),
   methods = list(
     initialize = function(
@@ -35,7 +33,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
     conditionalPowerFunction = NA,
     delta1 = NA_real_,
     firstStageInformation = NA_real_,
-    useInterimEstimate = FALSE,
+    useInterimEstimate = TRUE,
     likelihoodRatioDistribution = NA,
     deltaLR = NA_real_,
     weightsDeltaLR = NA_real_,
@@ -47,14 +45,14 @@ TrialDesignOptimalConditionalError <- setRefClass(
     minimumConditionalError = 0,
     maximumConditionalError = 1,
     levelConstantMinimum = 0,
-    levelConstantMaximum = 10
+    levelConstantMaximum = 10,
+    enforceMonotonicity = TRUE
     ) {
       # Set initial parameters
       .self$alpha <- alpha
       .self$alpha1 <- alpha1
       .self$alpha0 <- alpha0
       .self$conditionalPower <- conditionalPower
-      .self$conditionalPowerFunction <- conditionalPowerFunction
       .self$delta1 <- delta1
       .self$firstStageInformation <- firstStageInformation
       .self$likelihoodRatioDistribution <- likelihoodRatioDistribution
@@ -66,6 +64,8 @@ TrialDesignOptimalConditionalError <- setRefClass(
 
       .self$minimumConditionalError <- minimumConditionalError
       .self$maximumConditionalError <- maximumConditionalError
+
+      .self$enforceMonotonicity <- enforceMonotonicity
 
       # Identify specific distribution parameters
       if(likelihoodRatioDistribution == "fixed") {

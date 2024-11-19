@@ -156,10 +156,14 @@ getMonotonisationConstants <- function(fun, lower = 0, upper = 1, argument, nSte
     }
   }
 
-  # Return list of length 0 if no entries were made
-  if(is.null(output)) {
+  # If there are no entries, no monotonisation is required
+  if(is.null(unlist(output))) {
     output <- list()
-    message("Function already non-increasing, monotonisation constants are an empty list.")
+  }
+  else {
+    if(!design$enforceMonotonicity) {
+      warning("Monotonisation is required. Set enforceMonotonicity to TRUE in design object for strict type I error control.")
+    }
   }
 
   return(output)

@@ -28,17 +28,11 @@
 getMonotoneFunction <- function(x, fun, lower=NULL, upper=NULL, argument=NULL, nSteps = 10^4, epsilon = 10^(-5), numberOfIterationsQ = 10^4, design, printConstant = TRUE) {
 
   # If monotonisation constants were provided, use them
-  if(!is.null(design$monotonisationConstants)) {
+  if(design$enforceMonotonicity) {
     out <- design$monotonisationConstants
   }
-  # Monotonisation constants were not provided and must be calculated
   else {
-    out <- getMonotonisationConstants(
-      fun = fun, lower = lower, upper = upper, argument = argument, nSteps = nSteps,
-      epsilon = epsilon, numberOfIterationsQ = numberOfIterationsQ, design = design)
-    if(printConstant) {
-      print(out)
-    }
+    out <- list()
   }
 
   # If the length of object out is 0, the function is already non-increasing
