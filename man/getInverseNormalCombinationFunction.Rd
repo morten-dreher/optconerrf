@@ -32,7 +32,7 @@ where \eqn{w_1, w_2} are positive stage-wise weights subject to \eqn{w_1^2+w_2^2
 }
 \examples{
 getInverseNormalCombinationFunction(
-firstStagePValue=0.1, secondStagePValue=0.08)
+firstStagePValue = 0.1, secondStagePValue = 0.08)
 
 }
 \references{

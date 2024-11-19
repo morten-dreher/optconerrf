@@ -29,6 +29,6 @@ For practical use cases, refer to \code{getCircularConditionalError()}, \code{ge
 }
 \examples{
 getShiftedQuadraticConditionalError(
-firstStagePValue=0.1, alpha=0.025, shift=0.5)
+firstStagePValue = 0.1, alpha = 0.025, shift = 0.5)
 
 }

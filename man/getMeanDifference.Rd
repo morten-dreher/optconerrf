@@ -43,6 +43,6 @@ A minimum effect size (non-centrality parameter scale) can be specified via the 
 }
 \examples{
 getMeanDifference(
-ncp=1.768, firstStageSampleSize=100)
+ncp = 1.768, firstStageSampleSize = 100)
 
 }

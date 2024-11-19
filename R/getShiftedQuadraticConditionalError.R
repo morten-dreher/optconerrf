@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' getShiftedQuadraticConditionalError(
-#' firstStagePValue=0.1, alpha=0.025, shift=0.5)
+#' firstStagePValue = 0.1, alpha = 0.025, shift = 0.5)
 #'
 #' @return Shifted quadratic conditional error.
 #' @export

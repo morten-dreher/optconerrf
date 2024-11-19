@@ -61,12 +61,12 @@ If the argument is omitted, the expected sample size of the second stage is calc
 \examples{
 # Get a design
 design <- getDesignOptimalConditionalErrorFunction(
-alpha=0.025, alpha1=0.001, alpha0=0.5, conditionalPower=0.9,
-delta1=0.5, likelihoodRatioDistribution="fixed", deltaLR=0.5,
-firstStageInformation=2)
+alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
+delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 0.5,
+firstStageInformation = 2)
 # Calculate expected sample size under correct specification
 getExpectedSecondStageSampleSize(
-design, distDelta="fixed", deltaLR=0.5, delta1=0.25)
+design, distDelta = "fixed", deltaLR = 0.5, delta1 = 0.25)
 
 
 }

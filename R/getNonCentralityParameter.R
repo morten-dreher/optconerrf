@@ -25,7 +25,7 @@
 #'
 #' @examples
 #' getNonCentralityParameter(
-#' delta=0.25, firstStageSampleSize=100)
+#' delta = 0.25, firstStageSampleSize = 100)
 #'
 #' @export
 getNonCentralityParameter <- function(delta, firstStageSampleSize, standardDeviation = 1, allocationRatio = 1, delta0 =-Inf) {

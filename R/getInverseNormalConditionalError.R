@@ -25,7 +25,7 @@
 #'
 #' @examples
 #' getInverseNormalConditionalError(
-#' alpha=0.025, alpha0=0.5, alpha1=0.001, firstStagePValue=0.09)
+#' alpha = 0.025, alpha0 = 0.5, alpha1 = 0.001, firstStagePValue = 0.09)
 #'
 #' @references Wassmer, G. & Brannath, W. (2016). Group sequential and confirmatory adaptive designs in clinical trials. Springer. https://doi.org/https://doi.org/10.1007/978-3-319-32562-0
 #'

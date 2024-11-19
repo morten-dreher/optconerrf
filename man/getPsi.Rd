@@ -23,5 +23,5 @@ The function \eqn{psi} is the inverse of:
 It can only be found if the conditional power \eqn{CP} is restricted to values \eqn{1-\Phi(2) \leq CP \leq \Phi(2)}.
 }
 \examples{
-getPsi(getNuPrime(alpha=0.05, conditionalPower=0.9), conditionalPower=0.9)
+getPsi(getNuPrime(alpha = 0.05, conditionalPower = 0.9), conditionalPower = 0.9)
 }

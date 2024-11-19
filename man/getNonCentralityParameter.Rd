@@ -43,6 +43,6 @@ A minimum effect size (mean difference scale) can be specified via the argument 
 }
 \examples{
 getNonCentralityParameter(
-delta=0.25, firstStageSampleSize=100)
+delta = 0.25, firstStageSampleSize = 100)
 
 }

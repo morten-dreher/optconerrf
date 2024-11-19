@@ -72,8 +72,13 @@ the function \code{getMonotonisationConstants()}. See the respective help pages 
 }
 \examples{
 getDesignOptimalConditionalErrorFunction(
-alpha=0.025, alpha1=0.001, alpha0=0.5, conditionalPower=0.9,
-delta1=0.5, likelihoodRatioDistribution="fixed", deltaLR=1,
-firstStageInformation=2)
+alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
+delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 1,
+firstStageInformation = 2, useInterimEstimate = FALSE)
+
+getDesignOptimalConditionalErrorFunction(
+alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
+delta1 = 0.5, likelihoodRatioDistribution = "maxlr",
+firstStageInformation = 2, useInterimEstimate = TRUE)
 
 }

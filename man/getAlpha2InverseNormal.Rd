@@ -22,6 +22,6 @@ Second-stage significance level of the inverse normal test.
 Find second-stage significance level for inverse normal test (\code{getInverseNormalCombinationFunction()}) and inverse normal conditional error (\code{getInverseNormalConditionalError()}).
 }
 \examples{
-getAlpha2InverseNormal(alpha=0.025, alpha1=0.001, alpha0=0.5)
+getAlpha2InverseNormal(alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5)
 
 }

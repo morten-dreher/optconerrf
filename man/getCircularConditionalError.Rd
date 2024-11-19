@@ -25,7 +25,7 @@ For specified early decision boundaries \eqn{\alpha_0, \alpha_1}, the circular c
 For a tabulation of early decision boundaries, refer to Wassmer & Brannath (2016).
 }
 \examples{
-getCircularConditionalError(firstStagePValue=0.1, alpha1=0.01170, alpha0=0.5)
+getCircularConditionalError(firstStagePValue = 0.1, alpha1 = 0.01170, alpha0 = 0.5)
 
 }
 \references{

@@ -32,13 +32,13 @@ Note that the argument \code{constant} must be calibrated accordingly, i.e., wit
 \examples{
 # Create a design
 design <- getDesignOptimalConditionalErrorFunction(
-alpha=0.025, alpha1=0.001, alpha0=0.5, conditionalPower=0.9,
-delta1=1, firstStageInformation=1,
-likelihoodRatioDistribution="fixed", deltaLR=1)
+alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
+delta1 = 1, firstStageInformation = 1,
+likelihoodRatioDistribution = "fixed", deltaLR = 1)
 
 # Calculate optimal conditional error
 getOptimalConditionalError(
-firstStagePValue=c(0.1,0.2,0.3), design=design
+firstStagePValue = c(0.1, 0.2, 0.3), design = design
 )
 
 }

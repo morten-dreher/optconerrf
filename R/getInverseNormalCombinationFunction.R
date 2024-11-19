@@ -22,7 +22,7 @@
 #'
 #' @examples
 #' getInverseNormalCombinationFunction(
-#' firstStagePValue=0.1, secondStagePValue=0.08)
+#' firstStagePValue = 0.1, secondStagePValue = 0.08)
 #'
 getInverseNormalCombinationFunction <- function(firstStagePValue, secondStagePValue, weights = 1/sqrt(c(2, 2))) {
   return(1-pnorm(weights[1]*qnorm(1-firstStagePValue) + weights[2]*qnorm(1-secondStagePValue)))

@@ -23,7 +23,7 @@ The function \eqn{\nu'} is defined as
 Note that in this implementation, the the factor -2 is used instead of -4, which is used in by Brannath & Bauer (2004), as the allocation ratio is not explicitly fixed at r=1.
 }
 \examples{
-getNuPrime(alpha=0.05, conditionalPower=0.9)
+getNuPrime(alpha = 0.05, conditionalPower = 0.9)
 
 }
 \references{

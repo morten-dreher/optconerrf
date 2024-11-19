@@ -26,7 +26,7 @@
 #'
 #' @examples
 #' getMeanDifference(
-#' ncp=1.768, firstStageSampleSize=100)
+#' ncp = 1.768, firstStageSampleSize = 100)
 #'
 getMeanDifference <- function(ncp, firstStageSampleSize, standardDeviation = 1, allocationRatio = 1, ncp0 = -Inf) {
   ncp <- pmax(ncp0, ncp)

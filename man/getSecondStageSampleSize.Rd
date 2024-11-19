@@ -43,7 +43,7 @@ where
 }
 \examples{
 getSecondStageSampleSize(
-conditionalError=0.05, conditionalPower=0.9, delta1=0.25)
+conditionalError = 0.05, conditionalPower = 0.9, delta1 = 0.25)
 
 
 }

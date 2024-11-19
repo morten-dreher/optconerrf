@@ -43,7 +43,7 @@ where
 }
 \examples{
 getInverseNormalConditionalError(
-alpha=0.025, alpha0=0.5, alpha1=0.001, firstStagePValue=0.09)
+alpha = 0.025, alpha0 = 0.5, alpha1 = 0.001, firstStagePValue = 0.09)
 
 }
 \references{

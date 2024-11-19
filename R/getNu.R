@@ -13,17 +13,17 @@
 #' @export
 #'
 #' @examples
-#' getNu(alpha=0.05, conditionalPower=0.9)
+#' getNu(alpha = 0.05, conditionalPower = 0.9)
 #'
 #' # Returns 0 if alpha exceeds conditionalPower
-#' getNu(alpha=0.8, conditionalPower=0.7)
+#' getNu(alpha = 0.8, conditionalPower = 0.7)
 #'
 #' @references Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
 
 getNu <- function(alpha, conditionalPower) {
   nu <- 0
   if(alpha > conditionalPower) {
-    warning("alpha should not exceed conditionalPower. Second-stage sample size is otherwise 0")
+    warning("alpha should not exceed conditionalPower. Sample size is otherwise 0")
   }
   else{
     nu <- (qnorm(1-alpha)+qnorm(conditionalPower))^2

@@ -23,10 +23,10 @@ The calculation is:
 \deqn{\nu(\alpha_2(p_1)) = (\Phi^{-1}(1-\alpha_2(p_1)) + \Phi^{-1}(CP))^2.}
 }
 \examples{
-getNu(alpha=0.05, conditionalPower=0.9)
+getNu(alpha = 0.05, conditionalPower = 0.9)
 
 # Returns 0 if alpha exceeds conditionalPower
-getNu(alpha=0.8, conditionalPower=0.7)
+getNu(alpha = 0.8, conditionalPower = 0.7)
 
 }
 \references{

@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-#' getAlpha2InverseNormal(alpha=0.025, alpha1=0.001, alpha0=0.5)
+#' getAlpha2InverseNormal(alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5)
 #'
 
 getAlpha2InverseNormal <- function(alpha, alpha1, alpha0, weights = 1/sqrt(c(2, 2))) {
