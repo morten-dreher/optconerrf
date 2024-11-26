@@ -27,7 +27,7 @@
 
 getMonotoneFunction <- function(x, fun, lower=NULL, upper=NULL, argument=NULL, nSteps = 10^4, epsilon = 10^(-5), numberOfIterationsQ = 10^4, design, printConstant = TRUE) {
 
-  # If monotonisation constants were provided, use them
+  # If monotonisation is enforced, do it
   if(design$enforceMonotonicity) {
     out <- design$monotonisationConstants
   }
