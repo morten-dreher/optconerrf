@@ -4,14 +4,10 @@
 \alias{getLevelConstant}
 \title{Get Level Constant for Optimal Conditional Error Function}
 \usage{
-getLevelConstant(design, levelConstantMinimum = 0, levelConstantMaximum = 10)
+getLevelConstant(design)
 }
 \arguments{
 \item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
-
-\item{levelConstantMinimum}{The minimum of the interval on which the value for the level constant should be searched. Default value is 0.}
-
-\item{levelConstantMaximum}{The maximum of the interval on which the value for the level constant should be searched. Default value is 10.}
 }
 \value{
 A list that contains the constant (element \code{$root}) and other components provided by \code{uniroot()}.
