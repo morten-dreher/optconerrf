@@ -34,7 +34,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
     delta1 = NA_real_,
     firstStageInformation = NA_real_,
     useInterimEstimate = TRUE,
-    likelihoodRatioDistribution = NA,
+    likelihoodRatioDistribution = "",
     deltaLR = NA_real_,
     weightsDeltaLR = NA_real_,
     tauLR = NA_real_,
@@ -46,8 +46,29 @@ TrialDesignOptimalConditionalError <- setRefClass(
     maximumConditionalError = 1,
     levelConstantMinimum = 0,
     levelConstantMaximum = 10,
+    ncp1 = NA,
     enforceMonotonicity = TRUE
     ) {
+
+      # Range checks for numeric variables
+      rangeCheck(variable = alpha, range = c(0, 1), allowedEqual = FALSE)
+      rangeCheck(variable = alpha1, range = c(0, alpha), allowedEqual = TRUE)
+      rangeCheck(variable = alpha0, range = c(alpha1, 1), allowedEqual = TRUE)
+
+      if(is.na(conditionalPower) && is.na(conditionalPowerFunction)) {
+        stop("Must specify either conditionalPower or conditionalPowerFunction")
+      }
+      else {
+        if(!is.na(conditionalPower)) {
+          rangeCheck(variable = conditionalPower, range = c(0, 1), allowedEqual = FALSE)
+        }
+      }
+
+      rangeCheck(variable = delta1, range = c(0, Inf), allowedEqual = FALSE)
+      rangeCheck(variable = firstStageInformation, range = c(0, Inf), allowedEqual = FALSE)
+      rangeCheck(variable = minimumConditionalError, range = c(0, 1), allowedEqual = TRUE)
+      rangeCheck(variable = maximumConditionalError, range = c(0, 1), allowedEqual = TRUE)
+
       # Set initial parameters
       .self$alpha <- alpha
       .self$alpha1 <- alpha1
@@ -60,7 +81,14 @@ TrialDesignOptimalConditionalError <- setRefClass(
       .self$levelConstantMinimum <- levelConstantMinimum
       .self$levelConstantMaximum <- levelConstantMaximum
 
-      .self$ncp1 <- delta1*sqrt(firstStageInformation)
+      # If non-centrality parameter was not specified, calculate it
+      if(is.na(ncp1)) {
+        .self$ncp1 <- delta1*sqrt(firstStageInformation)
+      }
+      else {
+        rangeCheck(variable = ncp1, range = c(0, Inf), allowedEqual = FALSE)
+        .self$ncp1 <- ncp1
+      }
 
       .self$minimumConditionalError <- minimumConditionalError
       .self$maximumConditionalError <- maximumConditionalError
@@ -84,6 +112,9 @@ TrialDesignOptimalConditionalError <- setRefClass(
           stop("Must provide deltaLR and tauLR for normal prior in likelihood ratio")
         }
         else {
+
+          rangeCheck(variable = tauLR, range = c(0, Inf), allowedEqual = FALSE)
+
           .self$deltaLR <- deltaLR
           .self$tauLR <- tauLR
         }
@@ -93,6 +124,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
           stop("Must provide kappaLR for exponential prior in likelihood ratio")
         }
         else {
+          rangeCheck(variable = kappaLR, range = c(0, Inf), allowedEqual = FALSE)
           .self$kappaLR <- kappaLR
         }
       }
@@ -101,6 +133,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
           stop("Must provide deltaMaxLR for uniform prior in likelihood ratio")
         }
         else {
+          rangeCheck(variable = deltaMaxLR, range = c(0, Inf), allowedEqual = FALSE)
           .self$deltaMaxLR <- deltaMaxLR
         }
       }
