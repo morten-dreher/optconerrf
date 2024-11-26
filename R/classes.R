@@ -119,8 +119,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
 
       # Calculate level constant
       .self$levelConstant <- getLevelConstant(
-        design = .self, levelConstantMinimum = levelConstantMinimum,
-        levelConstantMaximum = levelConstantMaximum
+        design = .self
       )$root
     }
   )
