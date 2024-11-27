@@ -14,11 +14,9 @@ getIntegralWithConstants <- function(constant, design) {
     constant = constant, design = design)$value
 
   # Manually calculate integral over the constant part of function
-  # The first-stage p-value to be used is slightly shifted from the lower bound
-  # (the shifting might not be necessary)
-  part2 <- min(max(getPsi(nuPrime = -exp(constant)/getQ(
-    firstStagePValue = design$monotonisationConstants$dls[1]+1e-6,
-    design = design), conditionalPower = design$conditionalPower), design$minimumConditionalError),
+  # For this, the q provided in the monotonisation constants can simply be used
+  part2 <- min(max(getPsi(nuPrime = -exp(constant)/design$monotonisationConstants$qs[1],
+                          conditionalPower = design$conditionalPower), design$minimumConditionalError),
     design$maximumConditionalError)*
     (design$monotonisationConstants$dus[1] - design$monotonisationConstants$dls[1])
 
