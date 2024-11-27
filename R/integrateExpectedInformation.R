@@ -1,20 +1,17 @@
-#' Integrate over sample size
+#' Integrate over information
 #'
-#' @description Internal function used by \code{getExpectedSecondStageSampleSize()} to calculate the integral over the sample size.
+#' @description Internal function used by \code{getExpectedSecondStageInformation()} to calculate the integral over the information.
 #'
 #' @template param_firstStagePValue
 #' @template param_distDelta
 #' @template param_design
-#' @template param_allocationRatio
-#' @template param_standardDeviation
 #' @param ... Additional arguments needed for \code{getOptimalConditionalError()} and \code{getLikelihoodRatio()}.
 #'
-#' @return Integral over the sample size
+#' @return Integral over the information of the second stage
 #'
 #' @keywords internal
 
-integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
-                                        allocationRatio = 1, standardDeviation = 1, ...) {
+integrateExpectedInformation <- function(firstStagePValue, design, distDelta, ...) {
 
   # Calculate optimal conditional error function
   optimalCondErr <- getOptimalConditionalError(
@@ -23,7 +20,6 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
   # Identify how the likelihood ratio should be calculated
   likelihoodRatio <- NA
   args <- list(...)
-
 
   # Fixed effect
   if(distDelta == "fixed") {
@@ -119,26 +115,18 @@ integrateExpectedSampleSize <- function(firstStagePValue, design, distDelta,
     stop("Distribution not matched.")
   }
 
-  # Identify effect size to calculate second-stage sample size
-  # -----
+  # Identify effect size to calculate second-stage information
   # The effect is the same as the one specified in the design object.
-  # In the current implementation, this means that it is provided on the non-centrality parameter scale.
-  # -----
 
   # Fixed effect case
-  if("delta1" %in% names(args)) {
-    delta1 <- unlist(args["delta1"])
+  if(!design$useInterimEstimate) {
+    delta1 <- design$delta1
   }
-  # Interim estimate (specified via minimum cut-off)
-  else if("delta0" %in% names(args)) {
-    delta0 <- unlist(args["ncp0"])
-
-    # Use maximum of estimated effect and minimum effect
-    delta1 <- pmax(qnorm(1-firstStagePValue), delta0)
-  }
-  # Unknown effect specification given
+  # Interim estimate
   else {
-    stop("Effect size for which to calculate the expected second-stage sample size must be specified via delta1 for a fixed effect or via delta0 for the minimum effect size of an interim estimate.")
+    # Use maximum of estimated effect and minimum effect
+    delta1 <- pmax(qnorm(1-firstStagePValue)/sqrt(design$firstStageInformation),
+                   design$ncp1/sqrt(design$firstStageInformation))
   }
 
   return((getNu(alpha=optimalCondErr,  conditionalPower = design$conditionalPower)*likelihoodRatio) / (delta1^2))

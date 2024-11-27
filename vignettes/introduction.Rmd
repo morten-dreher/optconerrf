@@ -237,7 +237,7 @@ For example, one may wish to investigate the expected sample size under the null
 The calculation of the expected second-stage sample size of the treatment group for the above design, assuming $\vartheta$ was correctly specified, can be calculated as:
 
 ```{r}
-getExpectedSecondStageSampleSize(
+getExpectedSecondStageInformation(
   design = design, distDelta = "fixed", deltaLR = 0.5,
   allocationRatio = 1, standardDeviation = 1, delta1 = 0.5
 )
@@ -251,7 +251,7 @@ The standard deviation $\sigma$ and the allocation ratio $r$ may be explicitly s
 The expected second-stage sample size of the above design under the null hypothesis (for `ncpLRDelta = 0`) can be calculated as:
 
 ```{r}
-getExpectedSecondStageSampleSize(
+getExpectedSecondStageInformation(
   design = design, distDelta = "fixed", deltaLR = 0, delta1 = 0.5
 )
 ```
