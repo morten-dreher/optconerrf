@@ -43,29 +43,8 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
     return(0)
   }
 
-  # Identify effect size for conditional power
-  # Fixed effect
-
-  if(!is.null(design$ncp1)) {
-    effect <- design$ncp1
-  }
-  else if(!is.null(design$ncp0)) {
-    effect <- design$ncp0
-
-    effect <- stats::qnorm(1-firstStagePValue)
-
-    if(effect < design$ncp0) {
-      effect <- design$ncp0
-    }
-  }
-  else {
-    stop("Effect must be specified in design object either via a fixed ncp1 or a minimum ncp0")
-  }
-
-  # Calculate Q
-
-  # If monotonisation constants specified, perform non-increasing transformation
-  if(!is.null(design$monotonisationConstants)) {
+  # If monotonisation constants specified and monotonisation enforced, perform non-increasing transformation
+  if(design$enforceMonotonicity && !is.null(unlist(design$monotonisationConstants))) {
     Q <- getMonotoneFunction(
       x = firstStagePValue, fun = getQ, design = design,
       printConstant = FALSE)
