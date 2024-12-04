@@ -38,7 +38,7 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
             cat("  Normally distributed prior in Likelihood Ratio with mean ", x$deltaLR, " and standard deviation ", x$tauLR, "\n")
          },
          unif = {
-            cat("  Uniformly distributed prior in Likelihood Ratio with maximum ", x$maxDeltaLR, "\n")
+            cat("  Uniformly distributed prior in Likelihood Ratio with maximum ", x$deltaMaxLR, "\n")
          },
          exp = {
             cat("  Exponentially distributed prior in Likelihood Ratio with mean ", x$kappaLR, "\n")
