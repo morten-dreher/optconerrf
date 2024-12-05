@@ -37,7 +37,8 @@ test_that("Simple level constant correct", {
   # This is expected to cause a warning that is not informative in this case and thus suppressed
   design <- suppressWarnings(getDesignOptimalConditionalErrorFunction(
       alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5,
-      conditionalPower = 0.9, delta1 = 0.25, useInterimEstimate = TRUE,
+      conditionalPower = 0.9, useInterimEstimate = TRUE,
+      delta1Min = 0.2, delta1Max = 0.4,
       firstStageInformation = 4, likelihoodRatioDistribution = "maxlr",
       enforceMonotonicity = FALSE
   ))

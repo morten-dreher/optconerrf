@@ -22,10 +22,7 @@ getQ <- function(firstStagePValue, design) {
   likelihoodRatio <- NA
 
   if(design$useInterimEstimate) {
-    effect <- stats::qnorm(1-firstStagePValue)
-    if(effect < design$ncp1) {
-      effect <- design$ncp1
-    }
+    effect <- min(max(design$ncp1Min, stats::qnorm(1-firstStagePValue)), design$ncp1Max)
   }
   else {
     effect <- design$ncp1

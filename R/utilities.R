@@ -19,13 +19,14 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
     cat("  Target conditional power:", x$conditionalPower, "\n")
   }
   if(x$useInterimEstimate) {
-    cat("  Alternative: interim estimate truncated for values <=", x$delta1, "\n")
+    cat("  Alternative: interim estimate restricted to", paste("[", x$delta1Min, ", ", x$delta1Max,"]", sep=""), "\n")
+    cat("  First-stage non-centrality parameter restricted to", paste("[", x$ncp1Min, ", ", x$ncp1Max,"]", sep=""), "\n")
   }
   else{
     cat("  Alternative:", x$delta1, "\n")
+    cat("  First-stage non-centrality parameter:", x$ncp1, "\n")
   }
   cat("  First-stage information:", x$firstStageInformation, "\n")
-  cat("  First-stage non-centrality parameter:", x$ncp1, "\n")
   cat("\n")
 
   cat("Likelihood ratio specification: \n")

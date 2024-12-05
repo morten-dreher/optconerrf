@@ -7,6 +7,8 @@ TrialDesignOptimalConditionalError <- setRefClass(
     conditionalPower = "numeric",
     conditionalPowerFunction = "function",
     delta1 = "numeric",
+    delta1Min = "numeric",
+    delta1Max = "numeric",
     firstStageInformation = "numeric",
     useInterimEstimate = "logical",
     likelihoodRatioDistribution = "character",
@@ -22,6 +24,8 @@ TrialDesignOptimalConditionalError <- setRefClass(
     levelConstantMinimum = "numeric",
     levelConstantMaximum = "numeric",
     ncp1 = "numeric",
+    ncp1Min = "numeric",
+    ncp1Max = "numeric",
     enforceMonotonicity = "logical"
   ),
   methods = list(
@@ -32,6 +36,8 @@ TrialDesignOptimalConditionalError <- setRefClass(
     conditionalPower = NA_real_,
     conditionalPowerFunction = NA,
     delta1 = NA_real_,
+    delta1Min = NA_real_,
+    delta1Max = NA_real_,
     firstStageInformation = NA_real_,
     useInterimEstimate = TRUE,
     likelihoodRatioDistribution = "",
@@ -46,7 +52,9 @@ TrialDesignOptimalConditionalError <- setRefClass(
     maximumConditionalError = 1,
     levelConstantMinimum = 0,
     levelConstantMaximum = 10,
-    ncp1 = NA,
+    ncp1 = NA_real_,
+    ncp1Min = NA_real_,
+    ncp1Max = NA_real_,
     enforceMonotonicity = TRUE
     ) {
 
@@ -64,7 +72,6 @@ TrialDesignOptimalConditionalError <- setRefClass(
         }
       }
 
-      rangeCheck(variable = delta1, range = c(0, Inf), allowedEqual = FALSE)
       rangeCheck(variable = firstStageInformation, range = c(0, Inf), allowedEqual = FALSE)
       rangeCheck(variable = minimumConditionalError, range = c(0, 1), allowedEqual = TRUE)
       rangeCheck(variable = maximumConditionalError, range = c(0, 1), allowedEqual = TRUE)
@@ -74,20 +81,55 @@ TrialDesignOptimalConditionalError <- setRefClass(
       .self$alpha1 <- alpha1
       .self$alpha0 <- alpha0
       .self$conditionalPower <- conditionalPower
-      .self$delta1 <- delta1
       .self$firstStageInformation <- firstStageInformation
       .self$likelihoodRatioDistribution <- likelihoodRatioDistribution
       .self$useInterimEstimate <- useInterimEstimate
       .self$levelConstantMinimum <- levelConstantMinimum
       .self$levelConstantMaximum <- levelConstantMaximum
 
-      # If non-centrality parameter was not specified, calculate it
-      if(is.na(ncp1)) {
-        .self$ncp1 <- delta1*sqrt(firstStageInformation)
+      # Derive effect sizes for conditional power
+      # When using an interim estimate, derive minimal or maximal effects
+      if(useInterimEstimate) {
+        if((is.na(ncp1Min) && is.na(ncp1Max)) &&  (is.na(delta1Min) && is.na(delta1Max))) {
+          stop("Must provide a range for the interim estimate by using ncp1Min and ncp1Max or delta1Min and delta1Max.")
+        }
+        else if(!is.na(delta1Min) && !is.na(delta1Max)) {
+          .self$delta1Min <- delta1Min
+          .self$delta1Max <- delta1Max
+
+          .self$ncp1Min <- delta1Min * sqrt(firstStageInformation)
+          .self$ncp1Max <- delta1Max * sqrt(firstStageInformation)
+        }
+        else if(!is.na(ncp1Min) && !is.na(ncp1Max)) {
+          .self$ncp1Min <- ncp1Min
+          .self$ncp1Max <- ncp1Max
+
+          .self$delta1Min <- ncp1Min / sqrt(firstStageInformation)
+          .self$delta1Max <- ncp1Max / sqrt(firstStageInformation)
+        }
+        else {
+          stop("Unexpected error occured during determination of restrictions for interim estimate.")
+        }
+
       }
+      # When not using an interim estimate, derive fixed effects
       else {
-        rangeCheck(variable = ncp1, range = c(0, Inf), allowedEqual = FALSE)
-        .self$ncp1 <- ncp1
+        # If non-centrality parameter was not specified, calculate it from delta1
+        if(is.na(ncp1) && !is.na(delta1)) {
+          rangeCheck(variable = delta1, range = c(0, Inf), allowedEqual = FALSE)
+          .self$delta1 <- delta1
+          .self$ncp1 <- delta1*sqrt(firstStageInformation)
+        }
+        # If delta1 was not specified, calculate it from ncp1
+        else if(is.na(delta1) && !is.na(ncp1)) {
+          rangeCheck(variable = ncp1, range = c(0, Inf), allowedEqual = FALSE)
+          .self$ncp1 <- ncp1
+          .self$delta1 <- ncp1/sqrt(firstStageInformation)
+        }
+        # Else, either none of or both of ncp1 and delta1 were specified
+        else {
+          stop("Must specify exactly one of delta1 and ncp1 when using a fixed effect for conditional power.")
+        }
       }
 
       .self$minimumConditionalError <- minimumConditionalError
