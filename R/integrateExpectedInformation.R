@@ -23,19 +23,19 @@ integrateExpectedInformation <- function(firstStagePValue, design, distDelta, ..
 
   # Fixed effect
   if(distDelta == "fixed") {
-    ncpLR <- unlist(args["deltaLR"])
+    deltaLR <- unlist(args["deltaLR"])
     weights <- unlist(args["weightsDeltaLR"])
 
     # Ensure argument specified
-    if(is.null(ncpLR)) {
-      stop("Argument ncpLRDelta must be provided for fixed likelihood ratio case.")
+    if(is.null(deltaLR)) {
+      stop("Argument deltaLR must be provided for fixed likelihood ratio case.")
     }
     if(is.null(weights)) {
-      weights <- rep(1/length(ncpLR), length(ncpLR))
+      weights <- rep(1/length(deltaLR), length(deltaLR))
     }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
-    ghostDesign <- list("likelihoodRatioDistribution" = distDelta, "deltaLR" = ncpLR, "weightsDeltaLR" = weights,
+    ghostDesign <- list("likelihoodRatioDistribution" = distDelta, "deltaLR" = deltaLR, "weightsDeltaLR" = weights,
                         "firstStageInformation" = design$firstStageInformation)
 
     # Calculate likelihood ratio
@@ -50,11 +50,11 @@ integrateExpectedInformation <- function(firstStagePValue, design, distDelta, ..
 
     # Ensure arguments specified
     if(is.null(ncpLR) || is.null(tauLR)) {
-      stop("Arguments ncpLRDelta and tauLRDelta must be provided for fixed likelihood ratio case.")
+      stop("Arguments deltaLR and tauLR must be provided for fixed likelihood ratio case.")
     }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
-    ghostDesign <- list("likelihoodRatioDistribution" = distDelta, "deltaLR" = ncpLR, "tauLR" = tauLR,
+    ghostDesign <- list("likelihoodRatioDistribution" = distDelta, "deltaLR" = deltaLR, "tauLR" = tauLR,
                         "firstStageInformation" = design$firstStageInformation)
 
     # Calculate likelihood ratio
@@ -69,7 +69,7 @@ integrateExpectedInformation <- function(firstStagePValue, design, distDelta, ..
 
     # Ensure argument specified
     if(is.null(kap0)) {
-      stop("Argument kap0Delta must be specified for exponential likelihood case.")
+      stop("Argument kappaLR must be specified for exponential likelihood case.")
     }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
@@ -88,7 +88,7 @@ integrateExpectedInformation <- function(firstStagePValue, design, distDelta, ..
 
     # Ensure argument specified
     if(is.null(delMax)) {
-      stop("Argument delMaxDelta must be specified for uniform likelihood case.")
+      stop("Argument deltaMaxLR must be specified for uniform likelihood case.")
     }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
@@ -124,9 +124,8 @@ integrateExpectedInformation <- function(firstStagePValue, design, distDelta, ..
   }
   # Interim estimate
   else {
-    # Use maximum of estimated effect and minimum effect
-    delta1 <- pmax(qnorm(1-firstStagePValue)/sqrt(design$firstStageInformation),
-                   design$ncp1/sqrt(design$firstStageInformation))
+    # Apply restrictions that are given in the design object
+    delta1 <- pmin(pmax(design$delta1Min, qnorm(1-firstStagePValue)), design$delta1Max)
   }
 
   return((getNu(alpha=optimalCondErr,  conditionalPower = design$conditionalPower)*likelihoodRatio) / (delta1^2))
