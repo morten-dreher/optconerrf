@@ -42,12 +42,13 @@
 #' @export
 #'
 getDesignOptimalConditionalErrorFunction <- function(
-    alpha, alpha1, alpha0, conditionalPower = NA_real_, delta1, useInterimEstimate = TRUE,
-    firstStageInformation, likelihoodRatioDistribution, minimumConditionalError = 0, maximumConditionalError = 1,
-    levelConstantMinimum = 0, levelConstantMaximum = 10, enforceMonotonicity = TRUE, ...) {
-
-  # Get additional arguments (parameters of likelihood ratio distribution)
-  additionalArguments <- list(...)
+    alpha, alpha1, alpha0, conditionalPower = NA_real_, delta1 = NA_real_,
+    delta1Min = NA_real_, delta1Max = NA_real_, ncp1 = NA_real_,
+    ncp1Min = NA_real_, ncp1Max = NA_real_, useInterimEstimate = TRUE,
+    firstStageInformation, likelihoodRatioDistribution,
+    minimumConditionalError = 0, maximumConditionalError = 1,
+    levelConstantMinimum = 0, levelConstantMaximum = 10,
+    enforceMonotonicity = TRUE, ...) {
 
   design <- new(
     "TrialDesignOptimalConditionalError",
@@ -56,6 +57,11 @@ getDesignOptimalConditionalErrorFunction <- function(
     alpha0 = alpha0,
     conditionalPower = conditionalPower,
     delta1 = delta1,
+    delta1Min = delta1Min,
+    delta1Max = delta1Max,
+    ncp1 = ncp1,
+    ncp1Min = ncp1Min,
+    ncp1Max = ncp1Max,
     firstStageInformation = firstStageInformation,
     useInterimEstimate = useInterimEstimate,
     likelihoodRatioDistribution = likelihoodRatioDistribution,
