@@ -43,8 +43,8 @@
 #'
 getDesignOptimalConditionalErrorFunction <- function(
     alpha, alpha1, alpha0, conditionalPower = NA_real_, delta1 = NA_real_,
-    delta1Min = NA_real_, delta1Max = NA_real_, ncp1 = NA_real_,
-    ncp1Min = NA_real_, ncp1Max = NA_real_, useInterimEstimate = TRUE,
+    delta1Min = NA_real_, delta1Max = Inf, ncp1 = NA_real_,
+    ncp1Min = NA_real_, ncp1Max = Inf, useInterimEstimate = TRUE,
     firstStageInformation, likelihoodRatioDistribution,
     minimumConditionalError = 0, maximumConditionalError = 1,
     levelConstantMinimum = 0, levelConstantMaximum = 10,
