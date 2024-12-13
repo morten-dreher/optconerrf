@@ -21,9 +21,9 @@
 getNuPrime <- function(alpha, conditionalPower) {
 
   # Check range of conditional power
-  if(conditionalPower < 1-pnorm(2) || conditionalPower > pnorm(2)) {
-    warning("conditionalPower should be between 1-pnorm(2) and pnorm(2), otherwise, the solution for getPsi() may not exist.")
-  }
+  #if(conditionalPower < 1-pnorm(2) || conditionalPower > pnorm(2)) {
+  #  warning("conditionalPower should be between 1-pnorm(2) and pnorm(2), otherwise, the solution for getPsi() may not exist.")
+  #}
     return(-2*(qnorm(1-alpha)+qnorm(conditionalPower))/dnorm(qnorm(1-alpha)))
 }
 
