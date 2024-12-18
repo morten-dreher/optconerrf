@@ -25,3 +25,45 @@ getPsi <- function(nuPrime, conditionalPower) {
 }
 
 getPsi <- Vectorize(FUN = getPsi, vectorize.args = c("nuPrime"))
+
+#
+# getPsi <- function(nuPrime, design){
+#
+# if(design$conditionalPower > pnorm(2) | design$conditionalPower < 1 - pnorm(2)){
+#  u_01 <- 1-pnorm(-qnorm(design$conditionalPower)/2+sqrt(qnorm(design$conditionalPower)^2/4-1))
+#  u_02 <- 1-pnorm(-qnorm(design$conditionalPower)/2-sqrt(qnorm(design$conditionalPower)^2/4-1))
+#  x <- exp(design$levelConstant)/Q
+#  if(-x < getNuPrime(alpha = u_02, conditionalPower = design$conditionalPower)){
+#
+#    rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+#            lower = 0, upper = u_01, tol = 1e-16)
+#    return(rootlist$root)
+#
+#  } else if (-x > getNuPrime(alpha = u_01, conditionalPower = design$conditionalPower)){
+#
+#    rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+#            lower = u_02, upper = design$conditionalPower, tol = 1e-16)
+#    return(rootlist$root)
+#
+#  }
+#  else{
+#    #Berechne Aopt_1 und Aopt_2
+#    rootlist1 <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+#    lower = 0, upper = u_01, tol = 1e-16)
+#    psi_lower <- rootlist1$root
+#    rootlist2 <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+#                         lower = u_02, upper = design$conditionalPower, tol = 1e-16)
+#    psi_upper <- rootlist2$root
+#    quotient <- getNu(alpha = psi_lower, conditionalPower = conditionalPower) - getNu(alpha = psi_upper, conditionalPower = conditionalPower)/(psi_upper - psi_lower)
+#    if (quotient > x){
+#      return(psi_lower)
+#    } else {
+#      return(psi_upper)
+#    }
+#  }
+# } else {
+#    rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+#                       lower = 0, upper = design$conditionalPower, tol = 1e-16)
+#    return(rootlist$root)
+# }
+# }

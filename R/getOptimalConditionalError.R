@@ -53,24 +53,8 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
     Q <- getQ(firstStagePValue = firstStagePValue, design = design)
   }
 
-  if(design$conditionalPower > pnorm(2) | design$conditionalPower < 1 - pnorm(2)){
-    u_01<-1-pnorm(-qnorm(design$conditionalPower)/2+sqrt(qnorm(design$conditionalPower)^2/4-1))
-    u_02<-1-pnorm(-qnorm(design$conditionalPower)/2-sqrt(qnorm(design$conditionalPower)^2/4-1))
+  return(max(design$minimumConditionalError, min(design$maximumConditionalError, getPsi(nuPrime = (-exp(design$levelConstant)/Q), conditionalPower = design$conditionalPower))))
 
-    if(-exp(design$levelConstant)/Q < getNuPrime(alpha = u_02, conditionalPower = design$conditionalPower) |
-       -exp(design$levelConstant)/Q > getNuPrime(alpha = u_01, conditionalPower = design$conditionalPower)){
-      #Um die Rechenzeit zu verkürzen, uniroot woanders starten
-      return(max(design$minimumConditionalError, min(design$maximumConditionalError, getPsi(nuPrime = (-exp(design$levelConstant)/Q), conditionalPower = design$conditionalPower))))
-    }
-    else{
-      #Berechne Aopt_1 und Aopt_2
-      #Nutze dann Funktion getGd
-      return("Fall c")
-    }
-  }
-  else{
-    return(max(design$minimumConditionalError, min(design$maximumConditionalError, getPsi(nuPrime = (-exp(design$levelConstant)/Q), conditionalPower = design$conditionalPower))))
-  }
 }
 
 getOptimalConditionalError <- Vectorize(FUN = getOptimalConditionalError, vectorize.args = c("firstStagePValue"))
