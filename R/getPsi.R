@@ -17,53 +17,63 @@
 #' @examples
 #' getPsi(getNuPrime(alpha = 0.05, conditionalPower = 0.9), conditionalPower = 0.9)
 
-getPsi <- function(nuPrime, conditionalPower) {
+# getPsi <- function(nuPrime, conditionalPower) {
+#
+#  rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+#                      lower = 0, upper = conditionalPower, tol = 1e-16)
+#  return(rootlist$root)
+# }
+#
+# getPsi <- Vectorize(FUN = getPsi, vectorize.args = c("nuPrime"))
 
- rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
-                     lower = 0, upper = conditionalPower, tol = 1e-16)
- return(rootlist$root)
+#NEU
+
+getPsi <- function(nuPrime, conditionalPower){
+
+ #If the conditional power is between 1-pnorm(2) and pnorm(2) nu prime is monotone and we can build the inverse directly
+ if(pnorm(-2) <= conditionalPower && conditionalPower <= pnorm(2)){
+   rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+                       lower = 0, upper = conditionalPower, tol = 1e-16)
+   return(rootlist$root)
+
+ #If the conditional power is not between 1-pnorm(2) and pnorm(2) nu prime is not monotone and we need to build the inverse differently
+ } else {
+   #Calculate the minimum and the maximum of NuPrime(u)
+   u_max <- 1-pnorm(-qnorm(conditionalPower)/2+sqrt(qnorm(conditionalPower)^2/4-1))
+   u_min <- 1-pnorm(-qnorm(conditionalPower)/2-sqrt(qnorm(conditionalPower)^2/4-1))
+   NuPrime_u_max <- getNuPrime(alpha = u_max, conditionalPower = conditionalPower)
+   NuPrime_u_min <- getNuPrime(alpha = u_min, conditionalPower = conditionalPower)
+
+   if(nuPrime > NuPrime_u_max){
+
+     rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+                         lower = u_min, upper = conditionalPower, tol = 1e-16)
+     return(rootlist$root)
+
+   } else if (nuPrime < NuPrime_u_min){
+
+     rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+                         lower = 0, upper = u_max, tol = 1e-16)
+     return(rootlist$root)
+
+   } else {
+
+     #Calculate psi_lower and psi_upper
+     rootlist1 <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+                          lower = 0, upper = u_max, tol = 1e-16)
+     psi_lower <- rootlist1$root
+     rootlist2 <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
+                          lower = u_min, upper = conditionalPower, tol = 1e-16)
+     psi_upper <- rootlist2$root
+     #Calculate the quotient that is needed to decide if psi_lower or psi_upper is used
+     quotient <- getNu(alpha = min(conditionalPower, psi_upper), conditionalPower = conditionalPower) - getNu(alpha = psi_lower, conditionalPower = conditionalPower)/(min(psi_upper, conditionalPower)- psi_lower)
+     if (quotient <= nuPrime){
+       return(psi_upper)
+     } else {
+       return(psi_lower)
+     }
+   }
+ }
 }
 
 getPsi <- Vectorize(FUN = getPsi, vectorize.args = c("nuPrime"))
-
-#
-# getPsi <- function(nuPrime, design){
-#
-# if(design$conditionalPower > pnorm(2) | design$conditionalPower < 1 - pnorm(2)){
-#  u_01 <- 1-pnorm(-qnorm(design$conditionalPower)/2+sqrt(qnorm(design$conditionalPower)^2/4-1))
-#  u_02 <- 1-pnorm(-qnorm(design$conditionalPower)/2-sqrt(qnorm(design$conditionalPower)^2/4-1))
-#  x <- exp(design$levelConstant)/Q
-#  if(-x < getNuPrime(alpha = u_02, conditionalPower = design$conditionalPower)){
-#
-#    rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
-#            lower = 0, upper = u_01, tol = 1e-16)
-#    return(rootlist$root)
-#
-#  } else if (-x > getNuPrime(alpha = u_01, conditionalPower = design$conditionalPower)){
-#
-#    rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
-#            lower = u_02, upper = design$conditionalPower, tol = 1e-16)
-#    return(rootlist$root)
-#
-#  }
-#  else{
-#    #Berechne Aopt_1 und Aopt_2
-#    rootlist1 <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
-#    lower = 0, upper = u_01, tol = 1e-16)
-#    psi_lower <- rootlist1$root
-#    rootlist2 <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
-#                         lower = u_02, upper = design$conditionalPower, tol = 1e-16)
-#    psi_upper <- rootlist2$root
-#    quotient <- getNu(alpha = psi_lower, conditionalPower = conditionalPower) - getNu(alpha = psi_upper, conditionalPower = conditionalPower)/(psi_upper - psi_lower)
-#    if (quotient > x){
-#      return(psi_lower)
-#    } else {
-#      return(psi_upper)
-#    }
-#  }
-# } else {
-#    rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
-#                       lower = 0, upper = design$conditionalPower, tol = 1e-16)
-#    return(rootlist$root)
-# }
-# }
