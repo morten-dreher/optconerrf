@@ -17,16 +17,6 @@
 #' @examples
 #' getPsi(getNuPrime(alpha = 0.05, conditionalPower = 0.9), conditionalPower = 0.9)
 
-# getPsi <- function(nuPrime, conditionalPower) {
-#
-#  rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
-#                      lower = 0, upper = conditionalPower, tol = 1e-16)
-#  return(rootlist$root)
-# }
-#
-# getPsi <- Vectorize(FUN = getPsi, vectorize.args = c("nuPrime"))
-
-#NEU
 
 getPsi <- function(nuPrime, conditionalPower){
 
