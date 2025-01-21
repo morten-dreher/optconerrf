@@ -9,7 +9,12 @@ getDesignOptimalConditionalErrorFunction(
   alpha1,
   alpha0,
   conditionalPower = NA_real_,
-  delta1,
+  delta1 = NA_real_,
+  delta1Min = NA_real_,
+  delta1Max = Inf,
+  ncp1 = NA_real_,
+  ncp1Min = NA_real_,
+  ncp1Max = Inf,
   useInterimEstimate = TRUE,
   firstStageInformation,
   likelihoodRatioDistribution,
@@ -31,6 +36,16 @@ getDesignOptimalConditionalErrorFunction(
 \item{conditionalPower}{The target conditional power \eqn{CP} of the design. To guarantee that the function \code{getPsi()} can be solved, the conditional power should be between \code{1-pnorm(2)} and \code{pnorm(2)}. Must be a numeric value.}
 
 \item{delta1}{Effect assumption under which the expected sample size should be calculated. Must be a numeric value not equal to 0.}
+
+\item{delta1Min}{The minimum for an interim estimate of the treatment effect, specified on the mean difference scale. Must be a numeric value.}
+
+\item{delta1Max}{The maximum for an interim estimate of the treatment effect, specified on the mean difference scale. Must be a numeric value.}
+
+\item{ncp1}{Fixed effect assumption, expressed as a non-centrality parameter. Must be a numeric value.}
+
+\item{ncp1Min}{The minimum for an interim estimate of the treatment effect, specified on the non-centrality parameter scale. Must be a numeric value.}
+
+\item{ncp1Max}{The maximum for an interim estimate of the treatment effect, specified on the non-centrality parameter scale. Must be a numeric value.}
 
 \item{useInterimEstimate}{Logical. Defines whether or not an interim estimate should be used for conditional power.
 If \code{TRUE}, \code{delta1} is used as the lower boundary for the interim estimate.}
@@ -78,7 +93,7 @@ firstStageInformation = 2, useInterimEstimate = FALSE)
 
 getDesignOptimalConditionalErrorFunction(
 alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
-delta1 = 0.5, likelihoodRatioDistribution = "maxlr",
+delta1Min = 0.5, likelihoodRatioDistribution = "maxlr",
 firstStageInformation = 2, useInterimEstimate = TRUE)
 
 }

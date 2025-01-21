@@ -3,7 +3,9 @@
 #'
 #' @description Calculate the minimum and maximum information
 #'
-#'
+#' @template param_design
+#' @param delta_min Minimum for treatment effect.
+#' @param delta_max Maximum for treatment effect.
 #'
 
 #Achtung Formel nochmal checken!
@@ -44,7 +46,7 @@ getMinMaxInformation<-function(design, delta_min = NULL, delta_max = NULL){
     )
     print(paste0("maxInfo_alpha ", maxInfo_alpha))
   }
-  if(design$maximumConditionalError < design$conditionalPower && !is.null(delta_max)){
+  if((design$maximumConditionalError < design$conditionalPower) && !is.null(delta_max)){
     minInfo_cond_error <-
       getSecondStageInformation(
         conditionalError = design$maximumConditionalError,

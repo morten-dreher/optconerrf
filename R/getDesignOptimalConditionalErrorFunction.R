@@ -13,7 +13,12 @@
 #' @template param_alpha1
 #' @template param_alpha0
 #' @template param_conditionalPower
+#' @template param_ncp1
+#' @template param_ncp1Min
+#' @template param_ncp1Max
 #' @template param_delta1
+#' @template param_delta1Min
+#' @template param_delta1Max
 #' @template param_likelihoodRatioDistribution
 #' @template param_firstStageInformation
 #' @template param_useInterimEstimate
@@ -36,7 +41,7 @@
 #'
 #' getDesignOptimalConditionalErrorFunction(
 #' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
-#' delta1 = 0.5, likelihoodRatioDistribution = "maxlr",
+#' delta1Min = 0.5, likelihoodRatioDistribution = "maxlr",
 #' firstStageInformation = 2, useInterimEstimate = TRUE)
 #'
 #' @export

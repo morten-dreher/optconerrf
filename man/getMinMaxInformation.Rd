@@ -4,7 +4,14 @@
 \alias{getMinMaxInformation}
 \title{Calculate Expected Second-stage Information}
 \usage{
-getMinMaxInformation(design, delta_min = 0.001, delta_max = NULL)
+getMinMaxInformation(design, delta_min = NULL, delta_max = NULL)
+}
+\arguments{
+\item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+
+\item{delta_min}{Minimum for treatment effect.}
+
+\item{delta_max}{Maximum for treatment effect.}
 }
 \description{
 Calculate the minimum and maximum information

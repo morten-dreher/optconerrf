@@ -30,7 +30,7 @@ These are:
 * `getDesignOptimalConditionalErrorFunction()` to create a design which facilitates the use of the remaining functions 
 * `getOptimalConditionalErrorFunction()` to calculate the optimal conditional error
 * `getMonotonisationConstants()` to ensure the optimal conditional error function is non-increasing
-* `getExpectedSecondStageSampleSize()` to calculate the expected second-stage sample size for a specification of the optimal conditional error function
+* `getExpectedSecondStageInformation()` to calculate the expected second-stage information for a specification of the optimal conditional error function
 
 # Prerequisites to computing the optimal conditional error function
 \label{section_ocef}
@@ -49,15 +49,16 @@ The individual parameters and functions are the following:
 * $Q(p_1)=l(p_1)/\vartheta_1^2$ is the ratio of the likelihood ratio of $p_1$ and an effect assumption $\vartheta_1$ for the conditional power $CP$. The likelihood ratio requires an assumption about the true treatment effect, denoted $\vartheta$.
 
 Note that $\vartheta$ and $\vartheta_1$ are specified as non-centrality parameters rather than the corresponding mean differences $\Delta$ and $\Delta_1$.
-The non-centrality parameter $\vartheta$ (respectively, $\vartheta_1$) is proportional to $\Delta$ (respectively, $\Delta_1$) and additionally takes into account the sample size $n_t$ (of the treatment group), allocation ratio $r=n_t/n_c$ between the treatment groups and variance $\sigma^2$.
+The non-centrality parameter $\vartheta$ (respectively, $\vartheta_1$) is proportional to $\Delta$ (respectively, $\Delta_1$) and additionally takes into account the first-stage information $I_1$ of the trial.
 It is calculated as:
 
 $$
-\vartheta = \frac{\Delta}{\sigma}\cdot\sqrt{\frac{n_t}{r+1}}.
+\vartheta = \Delta\cdot I_1.
 $$
 
 The non-centrality parameter $\vartheta$ has a convenient relationship to a normally distributed test statistic $Z$, namely $\vartheta=Z$.
-It also has a one-to-one relationship to the corresponding p-value, i.e. $\vartheta = \Phi^{-1}(1-p)$.
+It also has a one-to-one relationship to the corresponding p-value, i.e., $\vartheta = \Phi^{-1}(1-p)$.
+In `optconerrf`, the treatment effect for the conditional power can be specified either as the mean difference `delta1` or the non-centrality parameter `ncp1`.
 
 The `optconerrf` package is based on a design object which contains the required specifications of the optimal conditional error functions.
 This object is created by the function `getDesignOptimalConditionalErrorFunction()` and can be simply passed to other functions instead of specifying each argument separately.
@@ -75,8 +76,8 @@ For the creation of a design object, the following parameters are required and d
 
 In addition to these arguments, which must be specified by the user, the following fields are automatically calculated and added to the design object:
 
-* Level constant.
-* Monotonisation constants to ensure a non-increasing conditional error function.
+* Level constant
+* Monotonisation constants to ensure a non-increasing conditional error function
 
 ## Overall type I error rate and early stopping boundaries
 
@@ -91,7 +92,6 @@ Note that $\alpha_0$ is a binding futility boundary, i.e., it is not permitted t
 ## Conditional power
 
 The conditional power to be achieved at a certain planning alternative is provided to `getDesignOptimalConditionalErrorFunction()` by the argument `conditionalPower`.
-
 
 ## Effect for likelihood ratio
 
@@ -129,12 +129,10 @@ In this case, no additional parameters must be specified.
 
 ## Effect for conditional power
 
-The optimal conditional error function controls for the conditional power of a design at a point alternative `ncp1` or an interim estimate with minimum `ncp0`.
-The mode of action is determined by specifying either (and never both) of the aforementioned arguments to `getDesignOptimalConditionalErrorFunction()`.
+The optimal conditional error function controls for the conditional power of a design at a point alternative `ncp1` or an interim estimate restricted by a minimum `ncp1Min` and possibly a maximum `ncp1Max`.
+The mode of action is determined by specifying the logical argument `useInterimEstimate` in addition to the effect size `ncp1` or the restrictions `ncp1Min` and `ncp1Max` to `getDesignOptimalConditionalErrorFunction()`.
 For the case of calculating the conditional power at a fixed effect, `ncp1` must be specified.
 A side note is that the actual size of the fixed effect does not matter (provided it is not 0), as the level constant $c_0$ will account for it.
-
-For the use of an interim estimate, the cut-off `ncp0` must be provided.
 
 ## Optional: Minimum and maximum conditional error
 
@@ -167,7 +165,7 @@ The design object is an instance of the class `TrialDesignOptimalConditionalErro
 design <- getDesignOptimalConditionalErrorFunction(
   alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
   delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 0.5,
-  firstStageInformation = 4
+  firstStageInformation = 4, useInterimEstimate = FALSE
 )
 print(design)
 ```
@@ -179,7 +177,7 @@ plot(design)
 
 To access individual fields of the object, e.g., the overall type I error rate (`alpha`) or the level constant (`levelConstant`) the following code can be used:
 
-```{r}
+```{r} 
 design$alpha
 design$levelConstant
 ```
@@ -207,17 +205,6 @@ getOptimalConditionalError(
 )
 ```
 
-Plotting the optimal conditional error function for a grid $p_1 \in [0,1]$ can also be done for this design:
-
-```{r, fig.dim=c(6,4)}
-p <- seq(0, 1, 0.001)
-optConErr <- getOptimalConditionalError(
-  firstStagePValue = p, design = design
-)
-
-plot(p, optConErr, type = "l", xlab = "First-stage p-value", ylab = "Optimal Conditional Error")
-```
-
 # Calculation of expected second-stage sample size
 \label{section_exp}
 
@@ -238,8 +225,7 @@ The calculation of the expected second-stage sample size of the treatment group 
 
 ```{r}
 getExpectedSecondStageInformation(
-  design = design, distDelta = "fixed", deltaLR = 0.5,
-  allocationRatio = 1, standardDeviation = 1, delta1 = 0.5
+  design = design, distDelta = "fixed", deltaLR = 0.5, delta1 = 0.5
 )
 ```
 
