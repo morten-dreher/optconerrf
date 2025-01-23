@@ -9,7 +9,7 @@ getPsi(nuPrime, conditionalPower)
 \arguments{
 \item{nuPrime}{The function value to be inverted.}
 
-\item{conditionalPower}{The target conditional power \eqn{CP} of the design. To guarantee that the function \code{getPsi()} can be solved, the conditional power should be between \code{1-pnorm(2)} and \code{pnorm(2)}. Must be a numeric value.}
+\item{conditionalPower}{The target conditional power \eqn{CP} of the design. Must be a numeric value.}
 }
 \value{
 The value of alpha which corresponds to nuPrime and lies between 0 and conditionalPower.

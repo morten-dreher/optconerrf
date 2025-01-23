@@ -9,7 +9,7 @@ getNu(alpha, conditionalPower)
 \arguments{
 \item{alpha}{The (conditional) type I error rate of the design. Must be a numeric vector with values between 0 and 1.}
 
-\item{conditionalPower}{The target conditional power \eqn{CP} of the design. To guarantee that the function \code{getPsi()} can be solved, the conditional power should be between \code{1-pnorm(2)} and \code{pnorm(2)}. Must be a numeric value.}
+\item{conditionalPower}{The target conditional power \eqn{CP} of the design. Must be a numeric value.}
 }
 \value{
 Factor linking sample size and \eqn{\alpha_2}.

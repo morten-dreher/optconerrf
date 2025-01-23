@@ -1,1 +1,1 @@
-#' @param delta1 Effect assumption under which the expected sample size should be calculated. Must be a numeric value not equal to 0.
+#' @param delta1 Fixed effect assumption at which the conditional power should be achieved, expressed on the mean difference scale. Must be a numeric value greater than 0.

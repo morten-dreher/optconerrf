@@ -9,7 +9,7 @@ getSecondStageInformation(conditionalError, conditionalPower, delta1)
 \arguments{
 \item{conditionalError}{Conditional error rate of the design.}
 
-\item{conditionalPower}{The target conditional power \eqn{CP} of the design. To guarantee that the function \code{getPsi()} can be solved, the conditional power should be between \code{1-pnorm(2)} and \code{pnorm(2)}. Must be a numeric value.}
+\item{conditionalPower}{The target conditional power \eqn{CP} of the design. Must be a numeric value.}
 
 \item{delta1}{The effect size to power for.}
 }
