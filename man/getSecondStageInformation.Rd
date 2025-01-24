@@ -4,35 +4,42 @@
 \alias{getSecondStageInformation}
 \title{Calculate the Second-stage Information}
 \usage{
-getSecondStageInformation(conditionalError, conditionalPower, delta1)
+getSecondStageInformation(firstStagePValue, design)
 }
 \arguments{
-\item{conditionalError}{Conditional error rate of the design.}
+\item{firstStagePValue}{First-stage p-value or p-values. Must be a numeric vector between 0 and 1.}
 
-\item{conditionalPower}{The target conditional power \eqn{CP} of the design. Must be a numeric value.}
-
-\item{delta1}{The effect size to power for.}
+\item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 }
 \value{
 The second-stage information.
 }
 \description{
-Calculate second-stage information for given alpha, conditional power and effect size
+Calculate second-stage information for given first-stage p-value and design.
 }
 \details{
 The second-stage information \eqn{I_{2}} is calculated given a first-stage p-value \eqn{p_1} as:
 \deqn{I_{2}(p_1) = \frac{(\Phi^{-1}(1-\alpha_2(p_1)) + \Phi^{-1}(CP))^2}{\Delta_1^2} = \frac{\nu(\alpha_2(p_1))}{\Delta_1^2},}
 where
 \itemize{
-\item \eqn{\alpha_2(p_1)} is the second-stage significance level (e.g., a conditional error)
+\item \eqn{\alpha_2(p_1)} is the conditional error function
 \item \eqn{CP} is the target conditional power
 \item \eqn{\Delta_1} is the assumed treatment effect (expressed as a mean difference).
 }
+The conditional error is calculated according to the specification provided in the \code{design} argument.
+For p-values smaller or equal to the first-stage efficacy boundary as well as p-values greater than the first-stage futility boundary,
+the returned information is 0.
 }
 \examples{
-getSecondStageInformation(
-conditionalError = 0.05, conditionalPower = 0.9, delta1 = 0.25)
+design <- getDesignOptimalConditionalErrorFunction(
+  alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5,
+  conditionalPower = 0.9, delta1 = 0.25, useInterimEstimate = FALSE,
+  firstStageInformation = 4, likelihoodRatioDistribution = "maxlr"
+)
 
+getSecondStageInformation(
+  firstStagePValue = c(0.05, 0.1, 0.2), design = design
+)
 
 }
 \references{
