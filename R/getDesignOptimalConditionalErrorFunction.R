@@ -14,7 +14,7 @@
 #' Various options are available and specified via the argument \code{likelihoodRatioDistribution}:
 #' \itemize{
 #'    \item \code{likelihoodRatioDistribution="fixed"}: calculates the likelihood ratio for a fixed \eqn{\Delta}. The non-centrality parameter of the likelihood ratio \eqn{\vartheta} is then computed as \code{deltaLR*firstStageInformation} and the likelihood ratio is calculated as:
-#'          \deqn{l(p_1) = e^{\Phi^{-1}(1-p_1)\vartheta - \vartheta^2/2}}. \code{deltaLR} may also contain multiple elements, in which case a weighted likelihood ratio is calculated for the given non-centrality parameters. Unless positive weights that sum to 1 are provided by the argument \code{weightsDeltaLR}, equal weights are assumed.
+#'          \deqn{l(p_1) = e^{\Phi^{-1}(1-p_1)\vartheta - \vartheta^2/2}.} \code{deltaLR} may also contain multiple elements, in which case a weighted likelihood ratio is calculated for the given non-centrality parameters. Unless positive weights that sum to 1 are provided by the argument \code{weightsDeltaLR}, equal weights are assumed.
 #'    \item \code{likelihoodRatioDistribution="normal"}: calculates the likelihood ratio for a normally distributed prior of \eqn{\vartheta} with mean \code{deltaLR} (\eqn{\Delta}) and standard deviation \code{tauLR} (\eqn{\tau}). Both parameters must be specified on the mean difference scale.
 #'          \deqn{l(p_1) = (1+\tau^2)^{-\frac{1}{2}}\cdot e^{-(\vartheta/\tau)^2/2 + (\tau\Phi^{-1}(1-p_1) + \vartheta/\tau)^2 / (2\cdot (1+\tau^2))}}
 #'    \item \code{likelihoodRatioDistribution="exp"}: calculates the likelihood ratio for an exponentially distributed prior of \eqn{\vartheta} with parameter \code{kappaLR} (\eqn{\kappa}), which is the mean of the exponential distribution, calculated as \eqn{1/\vartheta} as:
@@ -43,7 +43,7 @@
 #'
 #' @section Generic functions:
 #' The \code{print()} and \code{plot()} functions are available for objects of class \code{TrialDesignOptimalConditionalError}.
-#'
+#' For details, see \code{?print.TrialDesignOptimalConditionalError} and \code{?plot.TrialDesignOptimalConditionalError}.
 #'
 #' @template param_alpha
 #' @template param_alpha1
