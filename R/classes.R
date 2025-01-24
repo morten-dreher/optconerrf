@@ -199,3 +199,14 @@ TrialDesignOptimalConditionalError <- setRefClass(
     }
   )
 )
+
+SimulationResultsOptimalConditionalError <- setRefClass(
+  Class = "SimulationResultsOptimalConditionalError",
+  fields = list(
+    alternative = "numeric",
+    firstStageFutility = "numeric",
+    firstStageEfficacy = "numeric",
+    overallPower = "numeric",
+    maxNumberOfIterations = "numeric"
+  )
+)

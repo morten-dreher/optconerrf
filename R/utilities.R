@@ -65,6 +65,16 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
   }
 }
 
+#'
+#' @export
+print.SimulationResultsOptimalConditionalError <- function(x, ...) {
+  cat("Simulation results \n \n")
+  cat(" Alternative: ", paste(format(x$alternative, trim = TRUE), collapse = ", "), "\n")
+  cat(" First-stage futility: ", paste(format(x$firstStageFutility, trim = TRUE), collapse = ", "), "\n")
+  cat(" First-stage efficacy: ", paste(format(x$firstStageEfficacy, trim = TRUE), collapse = ", "), "\n")
+  cat(" Overall power: ", paste(format(x$overallPower, trim = TRUE), collapse = ", "), "\n")
+  cat(" Simulated trials per scenario: ", x$maxNumberOfIterations)
+}
 
 #' Plot the optimal conditional error function
 #' @name plot.TrialDesignOptimalConditionalError
@@ -228,12 +238,14 @@ plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1
     }
   }
   # Plot type 3: likelihood ratio
-  else if(type == 3) {
+  else if (type == 3) {
     # Calculate likelihood ratio values
     likelihoodRatios <- getLikelihoodRatio(
-      firstStagePValue = firstStagePValues, design = x)
+      firstStagePValue = firstStagePValues, design = x
+    )
 
-    likelihoodRatioPlot <- ggplot2::ggplot() + ggplot2::geom_line(mapping = ggplot2::aes(x = firstStagePValues, y = likelihoodRatios), colour = "black", linetype = "solid", linewidth = 1.1) +
+    likelihoodRatioPlot <- ggplot2::ggplot() +
+      ggplot2::geom_line(mapping = ggplot2::aes(x = firstStagePValues, y = likelihoodRatios), colour = "black", linetype = "solid", linewidth = 1.1) +
       ggplot2::labs(x = "First-stage p-value", y = "Likelihood ratio") +
       ggplot2::theme_bw() +
       ggplot2::geom_vline(xintercept = x$alpha0, linetype = "dotted", col = "red", linewidth = 0.8) +
@@ -243,28 +255,30 @@ plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1
     likelihoodRatioPlot
   }
   # Plot type 4: Q
-  else if(type == 4) {
+  else if (type == 4) {
     # Calculate Q values
     Q <- getMonotoneFunction(
       x = firstStagePValues, fun = getQ, lower = x$alpha1, upper = x$alpha0, design = x
     )
-    QPlot <- ggplot2::ggplot() + ggplot2::geom_line(mapping = ggplot2::aes(x = firstStagePValues, y = Q), colour = "black", linetype = "solid", linewidth = 1.1) +
+    QPlot <- ggplot2::ggplot() +
+      ggplot2::geom_line(mapping = ggplot2::aes(x = firstStagePValues, y = Q), colour = "black", linetype = "solid", linewidth = 1.1) +
       ggplot2::labs(x = "First-stage p-value", y = "Q") +
       ggplot2::theme_bw() +
       ggplot2::geom_vline(xintercept = x$alpha0, linetype = "dotted", col = "red", linewidth = 0.8) +
       ggplot2::geom_vline(xintercept = x$alpha1, linetype = "dotted", col = "blue", linewidth = 0.8) +
       ggplot2::xlim(c(x$alpha1, x$alpha0))
 
-    if(plotNonMonotoneFunction) {
+    if (plotNonMonotoneFunction) {
       nonMonoQ <- getQ(
         firstStagePValue = firstStagePValues, design = x
       )
-    }
 
-    QPlot + ggplot2::geom_line(mapping = ggplot2::aes(
-      x = firstStagePValues, y = nonMonoQ), colour = "gray", linetype = "dashed", linewidth = 1.1)
 
+      QPlot + ggplot2::geom_line(mapping = ggplot2::aes(
+        x = firstStagePValues, y = nonMonoQ
+      ), colour = "gray", linetype = "dashed", linewidth = 1.1)
     }
+  }
 }
 
 
