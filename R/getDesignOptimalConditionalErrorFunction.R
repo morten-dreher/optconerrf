@@ -1,13 +1,49 @@
 #' Create a design object for the optimal conditional error function.
 #' @name getDesignOptimalConditionalErrorFunction
 #'
-#' @description This function returns a design object in form of a list which contains all important parameters for the optimal CEF.
+#' @description This function returns a design object which contains all important parameters for the specification of the optimal CEF.
+#' The returned object can be passed to other package functions.
 #'
 #'
 #' @details
+#' The design object contains the information required to determine the specific setting of the optimal conditional error function and can be passed to other package functions.
 #' From the given user specifications, the constant to achieve level condition for control of the overall type I error rate as well as the constants to ensure a non-increasing optimal CEF are automatically calculated.
-#' The level constant is calculated via the helper function \code{getLevelConstant()} and the monotonisation constants are calculated via
-#' the function \code{getMonotonisationConstants()}. See the respective help pages for more details.
+#'
+#' @section Likelihood ratio distribution:
+#' To calculate the optimal conditional error function, an assumption about the true parameter under which the second-stage information is to be minimised is required.
+#' Various options are available and specified via the argument \code{likelihoodRatioDistribution}:
+#' \itemize{
+#'    \item \code{likelihoodRatioDistribution="fixed"}: calculates the likelihood ratio for a fixed \eqn{\Delta}. The non-centrality parameter of the likelihood ratio \eqn{\vartheta} is then computed as \code{deltaLR*firstStageInformation} and the likelihood ratio is calculated as:
+#'          \deqn{l(p_1) = e^{\Phi^{-1}(1-p_1)\vartheta - \vartheta^2/2}}. \code{deltaLR} may also contain multiple elements, in which case a weighted likelihood ratio is calculated for the given non-centrality parameters. Unless positive weights that sum to 1 are provided by the argument \code{weightsDeltaLR}, equal weights are assumed.
+#'    \item \code{likelihoodRatioDistribution="normal"}: calculates the likelihood ratio for a normally distributed prior of \eqn{\vartheta} with mean \code{deltaLR} (\eqn{\Delta}) and standard deviation \code{tauLR} (\eqn{\tau}). Both parameters must be specified on the mean difference scale.
+#'          \deqn{l(p_1) = (1+\tau^2)^{-\frac{1}{2}}\cdot e^{-(\vartheta/\tau)^2/2 + (\tau\Phi^{-1}(1-p_1) + \vartheta/\tau)^2 / (2\cdot (1+\tau^2))}}
+#'    \item \code{likelihoodRatioDistribution="exp"}: calculates the likelihood ratio for an exponentially distributed prior of \eqn{\vartheta} with parameter \code{kappaLR} (\eqn{\kappa}), which is the mean of the exponential distribution, calculated as \eqn{1/\vartheta} as:
+#'          \deqn{l(p_1) = \kappa \cdot \sqrt{2\pi} \cdot e^{(\Phi^{-1}(1-p_1)-\kappa)^2/2} \cdot \Phi(\Phi^{-1}(1-p_1)-\kappa)}
+#'    \item \code{likelihoodRatioDistribution="unif"}: calculates the likelihood ratio for a uniformly distributed prior of \eqn{\vartheta} on the support \eqn{[0, \Delta]}, where \eqn{\Delta} is specified as \code{deltaMaxLR}.
+#'          \deqn{l(p_1) = \frac{\sqrt{2\pi}}{\Delta} \cdot e^{\Phi^{-1}(1-p_1)^2/2} \cdot (\Phi(\Delta - \Phi^{-1}(1-p_1))-p_1)}
+#'    \item \code{likelihoodRatioDistribution="maxlr"}: the non-centrality parameter \eqn{\vartheta} is estimated from the data and no additional parameters must be specified. The likelihood ratio is estimated from the data as:
+#'          \deqn{l(p_1) = e^{max(0, \Phi^{-1}(1-p_1))^2/2}}
+#'          The maximum likelihood ratio is always restricted to effect sizes \eqn{\vartheta \geq 0}. (respectively \eqn{p_1 \leq 0.5}).
+#' }
+#'
+#' @section Effect for conditional power:
+#' For the treatment effect at which the target conditional power should be achieved, either a fixed effect or an interim estimate can be used.
+#' The usage of a fixed effect is indicated by setting \code{useInterimEstimate=FALSE} and the effect can be provided by \code{delta1} on the mean difference scale or by \code{ncp1} on the non-centrality parameter scale (i.e., \code{delta1*firstStageInformation}).
+#' For an interim estimate, specified by \code{useInterimEstimate=TRUE}, a lower cut-off for the interim estimate must be provided, either by \code{delta1Min} on the mean difference scale, or \code{ncp1Min} on the non-centrality parameter scale.
+#' In addition, upper limits of the estimate may be analogously provided by \code{delta1Max} and \code{ncp1Max}.
+#'
+#' @section Monotonicity:
+#' By default, the optimal conditional error function returned by \code{getDesignOptimalConditionalErrorFunction()} is transformed to be non-increasing in the first-stage p-value \eqn{p_1}.
+#' The necessary intervals and constants for the transformation are calculated by \code{getMonotonisationConstants()}.
+#' Although not recommended for the operating characteristics of the design, the transformation may be omitted by setting \code{enforceMonotonicity=FALSE}.
+#'
+#' @section Level constant:
+#' The level constant is determined by the helper function \code{getLevelConstant()}. It is identified using the \code{uniroot()} function and by default, the interval between 0 and 10 is searched.
+#' In specific settings, the level constant may lie outside of this interval. In such cases, the search interval can be changed by altering the parameters \code{levelConstantMinimum} and \code{levelConstantMaximum}.
+#'
+#' @section Generic functions:
+#' The \code{print()} and \code{plot()} functions are available for objects of class \code{TrialDesignOptimalConditionalError}.
+#'
 #'
 #' @template param_alpha
 #' @template param_alpha1
@@ -23,7 +59,7 @@
 #' @template param_firstStageInformation
 #' @template param_useInterimEstimate
 #' @param minimumConditionalError Lower boundary for the optimal conditional error function. Default 0 (no restriction).
-#' @param maximumConditionalError Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power (assuming no early efficacy stop).
+#' @param maximumConditionalError Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power.
 #' @template param_levelConstantMinimum
 #' @template param_levelConstantMaximum
 #' @template param_enforceMonotonicity
@@ -31,7 +67,7 @@
 #'
 #' @importFrom methods new
 #'
-#' @return A list of the optimal conditional error design which can be passed on to other package functions.
+#' @return An object of class \code{TrialDesignOptimalConditionalError}, which can be passed to other package functions.
 #'
 #' @examples
 #' getDesignOptimalConditionalErrorFunction(

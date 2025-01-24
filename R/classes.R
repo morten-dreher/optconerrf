@@ -90,8 +90,8 @@ TrialDesignOptimalConditionalError <- setRefClass(
       # Derive effect sizes for conditional power
       # When using an interim estimate, derive minimal or maximal effects
       if(useInterimEstimate) {
-        if((is.na(ncp1Min) && is.na(ncp1Max)) &&  (is.na(delta1Min) && is.na(delta1Max))) {
-          stop("Must provide a range for the interim estimate by using ncp1Min and ncp1Max or delta1Min and delta1Max.")
+        if((is.na(ncp1Min) && (is.na(delta1Min)))) {
+          stop("Must provide a lower limit for the interim estimate by using ncp1Min or delta1Min.")
         }
         else if(!is.na(delta1Min) && !is.na(delta1Max)) {
           .self$delta1Min <- delta1Min

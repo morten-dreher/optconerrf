@@ -7,15 +7,15 @@
 #' @details The calculation of the likelihood ratio for a first-stage p-value \eqn{p_1} is done based on a distributional assumption, specified via the argment \code{dist}.
 #' The different options require different parameters, elaborated in the following.
 #' \itemize{
-#'    \item \code{dist="fixed"}: calculates the likelihood ratio for a fixed \eqn{\vartheta}. The non-centrality parameter of the likelihood ratio \eqn{\vartheta} must then be specified via \code{ncpLR} to calculate the likelihood ratio as:
+#'    \item \code{likelihoodRatioDistribution="fixed"}: calculates the likelihood ratio for a fixed \eqn{\vartheta}. The non-centrality parameter of the likelihood ratio \eqn{\vartheta} must then be specified via \code{ncpLR} to calculate the likelihood ratio as:
 #'          \deqn{l(p_1) = e^{\Phi^{-1}(1-p_1)\vartheta - \vartheta^2/2}}
-#'    \item \code{dist="normal"}: calculates the likelihood ratio for a normally distributed prior of \eqn{\vartheta} with mean \code{ncpLR} (\eqn{\vartheta}) and standard deviation \code{tauLR} (\eqn{\tau}). Both parameters must be specified on the non-centrality parameter scale.
+#'    \item \code{likelihoodRatioDistribution="normal"}: calculates the likelihood ratio for a normally distributed prior of \eqn{\vartheta} with mean \code{ncpLR} (\eqn{\vartheta}) and standard deviation \code{tauLR} (\eqn{\tau}). Both parameters must be specified on the non-centrality parameter scale.
 #'          \deqn{l(p_1) = (1+\tau^2)^{-\frac{1}{2}}\cdot e^{-(\vartheta/\tau)^2/2 + (\tau\Phi^{-1}(1-p_1) + \vartheta/\tau)^2 / (2\cdot (1+\tau^2))}}
-#'    \item \code{dist="exp"}: calculates the likelihood ratio for an exponentially distributed prior of \eqn{\vartheta} with parameter \code{kap0} (\eqn{\kappa}), which is the mean of the exponential distribution, calculated as \eqn{1/\vartheta} as:
+#'    \item \code{likelihoodRatioDistribution="exp"}: calculates the likelihood ratio for an exponentially distributed prior of \eqn{\vartheta} with parameter \code{kap0} (\eqn{\kappa}), which is the mean of the exponential distribution, calculated as \eqn{1/\vartheta} as:
 #'          \deqn{l(p_1) = \kappa \cdot \sqrt{2\pi} \cdot e^{(\Phi^{-1}(1-p_1)-\kappa)^2/2} \cdot \Phi(\Phi^{-1}(1-p_1)-\kappa)}
-#'    \item \code{dist="unif"}: calculates the likelihood ratio for a uniformly distributed prior of \eqn{\vartheta} on the support \eqn{[0, \Delta]}, where \eqn{\Delta} is specified as \code{delMax}.
+#'    \item \code{likelihoodRatioDistribution="unif"}: calculates the likelihood ratio for a uniformly distributed prior of \eqn{\vartheta} on the support \eqn{[0, \Delta]}, where \eqn{\Delta} is specified as \code{delMax}.
 #'          \deqn{l(p_1) = \frac{\sqrt{2\pi}}{\Delta} \cdot e^{\Phi^{-1}(1-p_1)^2/2} \cdot (\Phi(\Delta - \Phi^{-1}(1-p_1))-p_1)}
-#'    \item \code{dist="maxlr"}: the non-centrality parameter \eqn{\vartheta} is estimated from the data and no additional parameters must be specified. The likelihood ratio is estimated from the data as:
+#'    \item \code{likelihoodRatioDistribution="maxlr"}: the non-centrality parameter \eqn{\vartheta} is estimated from the data and no additional parameters must be specified. The likelihood ratio is estimated from the data as:
 #'          \deqn{l(p_1) = e^{max(0, \Phi^{-1}(1-p_1))^2/2}}
 #'          The maximum likelihood ratio is always restricted to effect sizes \eqn{\vartheta \geq 0}. (respectively \eqn{p_1 \leq 0.5}).
 #' }

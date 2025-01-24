@@ -1,1 +1,1 @@
-#' @param conditionalPower The target conditional power \eqn{CP} of the design. To guarantee that the function \code{getPsi()} can be solved, the conditional power should be between \code{1-pnorm(2)} and \code{pnorm(2)}. Must be a numeric value.
+#' @param conditionalPower The target conditional power \eqn{CP} of the design. Must be a numeric value.

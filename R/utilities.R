@@ -121,7 +121,8 @@ plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), plotNonM
           maximumConditionalError = x$maximumConditionalError,
           levelConstantMinimum = x$levelConstantMinimum,
           levelConstantMaximum = x$levelConstantMaximum,
-          ncp1 = x$ncp1,
+          ncp1Min = x$ncp1Min,
+          ncp1Max = x$ncp1Max,
           enforceMonotonicity = FALSE
           ))
 
