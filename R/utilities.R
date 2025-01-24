@@ -1,3 +1,12 @@
+#' Print optimal conditional error trial design
+#'
+#' @description
+#' Print an overview of the specified design parameters.
+#'
+#' @param x Design object of class \code{TrialDesignOptimalConditionalError}
+#' @param ... Additional arguments
+#'
+#'
 #' @export
 print.TrialDesignOptimalConditionalError <- function(x, ...) {
   cat("Optimal Conditional Error Function Design: \n \n")
@@ -65,6 +74,13 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
   }
 }
 
+#' Print simulation results
+#'
+#' @description
+#' Print an overview of simulation results.
+#'
+#' @param x Simulation results object of class \code{SimulationResultsOptimalConditionalError}
+#' @param ... Additional arguments
 #'
 #' @export
 print.SimulationResultsOptimalConditionalError <- function(x, ...) {
@@ -88,7 +104,7 @@ print.SimulationResultsOptimalConditionalError <- function(x, ...) {
 #' \item \code{type = 4}: Plot the function Q of the given specification of the optimal conditional error function against the first-stage p-value.
 #' }
 #' @param plotNonMonotoneFunction Logical. Should the non-monotone version of the plot be drawn? Not applicable for plot type 3. Default: \code{FALSE}.
-#'
+#' @param ... Additional arguments.
 #'
 #' @export
 plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1, plotNonMonotoneFunction = FALSE, ...) {
@@ -256,9 +272,10 @@ plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1
   }
   # Plot type 4: Q
   else if (type == 4) {
+    firstStagePValues <- seq(from = max(range[1], x$alpha1), to = min(range[2], x$alpha0), length.out = 1e3)
     # Calculate Q values
     Q <- getMonotoneFunction(
-      x = firstStagePValues, fun = getQ, lower = x$alpha1, upper = x$alpha0, design = x
+      x = firstStagePValues, fun = getQ, design = x
     )
     QPlot <- ggplot2::ggplot() +
       ggplot2::geom_line(mapping = ggplot2::aes(x = firstStagePValues, y = Q), colour = "black", linetype = "solid", linewidth = 1.1) +
@@ -266,9 +283,9 @@ plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1
       ggplot2::theme_bw() +
       ggplot2::geom_vline(xintercept = x$alpha0, linetype = "dotted", col = "red", linewidth = 0.8) +
       ggplot2::geom_vline(xintercept = x$alpha1, linetype = "dotted", col = "blue", linewidth = 0.8) +
-      ggplot2::xlim(c(x$alpha1, x$alpha0))
+      ggplot2::xlim(c(max(range[1], x$alpha1), min(x$alpha0, range[2])))
 
-    if (plotNonMonotoneFunction) {
+    if (plotNonMonotoneFunction && x$enforceMonotonicity && !is.null(unlist(x$monotonisationConstants))) {
       nonMonoQ <- getQ(
         firstStagePValue = firstStagePValues, design = x
       )

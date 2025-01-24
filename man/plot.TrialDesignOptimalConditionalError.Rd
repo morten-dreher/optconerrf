@@ -19,6 +19,8 @@
 }}
 
 \item{plotNonMonotoneFunction}{Logical. Should the non-monotone version of the plot be drawn? Not applicable for plot type 3. Default: \code{FALSE}.}
+
+\item{...}{Additional arguments.}
 }
 \description{
 Plot the optimal conditional error function
