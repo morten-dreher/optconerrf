@@ -273,11 +273,11 @@ plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1
         firstStagePValue = firstStagePValues, design = x
       )
 
-
-      QPlot + ggplot2::geom_line(mapping = ggplot2::aes(
+      QPlot <- QPlot + ggplot2::geom_line(mapping = ggplot2::aes(
         x = firstStagePValues, y = nonMonoQ
       ), colour = "gray", linetype = "dashed", linewidth = 1.1)
     }
+    QPlot
   }
 }
 
