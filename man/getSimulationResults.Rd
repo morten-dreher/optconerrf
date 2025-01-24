@@ -17,10 +17,29 @@ getSimulationResults(
 \item{maxNumberOfIterations}{Number of trials to be simulated.}
 
 \item{alternative}{Assumed relative effect size.}
+
+\item{seed}{An optional seed for reproducibility.}
 }
 \value{
-Proportion of rejections for the given scenario
+An object of class \code{SimulationResultsOptimalConditionalError} containing the simulation results.
 }
 \description{
 Simulate the rejection probability for a given design and alternative.
+}
+\details{
+Simulates the probabilities of overall rejection as well as early futility and early efficacy for the provided scenario and design.
+}
+\examples{
+design <- getDesignOptimalConditionalErrorFunction(
+ alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, delta1 = 0.25,
+ useInterimEstimate = FALSE,
+ conditionalPower = 0.9, likelihoodRatioDistribution = "maxlr",
+ firstStageInformation = 10
+)
+
+# Simulate under the null hypothesis (type I error rate)
+getSimulationResults(
+ design = design, maxNumberOfIterations = 100, alternative = 0
+)
+
 }
