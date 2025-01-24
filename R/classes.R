@@ -147,6 +147,9 @@ TrialDesignOptimalConditionalError <- setRefClass(
           if(is.na(weightsDeltaLR)) {
             .self$weightsDeltaLR <- rep(1/length(deltaLR), length(deltaLR))
           }
+          else {
+            .self$weightsDeltaLR <- weightsDeltaLR
+          }
         }
       }
       else if(likelihoodRatioDistribution == "normal") {
