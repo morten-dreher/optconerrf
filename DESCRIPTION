@@ -1,10 +1,11 @@
 Package: optconerrf
 Title: Optimal Monotone Conditional Error Functions
-Version: 0.0.9.0001
+Version: 0.1.0.0001
 Authors@R: 
   c(person(given = "Morten", family = "Dreher", email = "morten.dreher@outlook.de", role = c("aut", "cre")),
     person(given = "Werner", family = "Brannath", role = "aut", comment = c(ORCID = "0000-0002-8622-3904")),
-    person(given = "Cornelia Ursula", family = "Kunz", role = "ctb", comment = c(ORCID = "0000-0002-8900-9401")))
+    person(given = "Cornelia Ursula", family = "Kunz", role = "ctb", comment = c(ORCID = "0000-0002-8900-9401")),
+    person(given = "Johanna", family = "zur Verth", role = "aut"))
 Description: Calculate and monotonise the optimal conditional error function.
 Imports: mvtnorm, ggplot2, methods
 License: GPL (>= 3)

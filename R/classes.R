@@ -19,6 +19,8 @@ TrialDesignOptimalConditionalError <- setRefClass(
     deltaMaxLR = "numeric",
     levelConstant = "numeric",
     monotonisationConstants = "list",
+    minimumSecondStageInformation = "numeric",
+    maximumSecondStageInformation = "numeric",
     minimumConditionalError = "numeric",
     maximumConditionalError = "numeric",
     levelConstantMinimum = "numeric",
@@ -48,6 +50,8 @@ TrialDesignOptimalConditionalError <- setRefClass(
     deltaMaxLR = NA_real_,
     levelConstant = NA_real_,
     monotonisationConstants,
+    minimumSecondStageInformation = 0,
+    maximumSecondStageInformation = Inf,
     minimumConditionalError = 0,
     maximumConditionalError = 1,
     levelConstantMinimum = 0,
@@ -132,8 +136,33 @@ TrialDesignOptimalConditionalError <- setRefClass(
         }
       }
 
-      .self$minimumConditionalError <- minimumConditionalError
-      .self$maximumConditionalError <- maximumConditionalError
+      # Identify minimum conditional error
+      if(minimumConditionalError == 0 && maximumSecondStageInformation < Inf) {
+        .self$minimumConditionalError <- getConditionalErrorFromSecondStageInformation(
+          firstStagePValue = alpha0, secondStageInformation = maximumSecondStageInformation,
+          design = .self
+        )
+        .self$maximumSecondStageInformation <- maximumSecondStageInformation
+      }
+      else {
+        .self$minimumConditionalError <- minimumConditionalError
+        .self$maximumSecondStageInformation <- maximumSecondStageInformation
+      }
+
+      # Identify maximum conditional error
+      if(maximumConditionalError == 1 && minimumSecondStageInformation > 0) {
+        .self$maximumConditionalError <- getConditionalErrorFromSecondStageInformation(
+          firstStagePValue = alpha1 + 1e-17, secondStageInformation = minimumSecondStageInformation,
+          design = .self
+        )
+        .self$minimumSecondStageInformation <- minimumSecondStageInformation
+      }
+      else {
+        .self$maximumConditionalError <- maximumConditionalError
+        .self$minimumSecondStageInformation <- minimumSecondStageInformation
+      }
+
+
 
       .self$enforceMonotonicity <- enforceMonotonicity
 

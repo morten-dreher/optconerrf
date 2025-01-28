@@ -18,6 +18,8 @@ getDesignOptimalConditionalErrorFunction(
   useInterimEstimate = TRUE,
   firstStageInformation,
   likelihoodRatioDistribution,
+  minimumSecondStageInformation = 0,
+  maximumSecondStageInformation = Inf,
   minimumConditionalError = 0,
   maximumConditionalError = 1,
   levelConstantMinimum = 0,
@@ -62,6 +64,10 @@ Each case requires different additional specifications. \cr
 \item \code{likelihoodRatioDistribution="unif"} uses a uniform prior for the effect size and requires the specification of \code{deltaMaxLR}, which is the maximum of the support for the uniform likelihood ratio distribution (on the non-centrality parameter scale).
 \item \code{likelihoodRatioDistribution="maxlr"} estimates the non-centrality parameter to be used for the likelihood ratio from the data. No additional parameters must be specified.
 }}
+
+\item{minimumSecondStageInformation}{The minimum information allowed in the second stage of the trial. Must be a numeric value.}
+
+\item{maximumSecondStageInformation}{The maximum information allowed in the second stage of the trial. Must be a numeric value.}
 
 \item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction).}
 
@@ -136,7 +142,8 @@ For details, see \code{?print.TrialDesignOptimalConditionalError} and \code{?plo
 getDesignOptimalConditionalErrorFunction(
 alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
 delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 1,
-firstStageInformation = 2, useInterimEstimate = FALSE)
+firstStageInformation = 2, useInterimEstimate = FALSE,
+minimumSecondStageInformation = 2, maximumSecondStageInformation = 40)
 
 getDesignOptimalConditionalErrorFunction(
 alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,

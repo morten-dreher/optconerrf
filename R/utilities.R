@@ -15,9 +15,12 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
   cat("  First-stage efficacy boundary (p-value scale):", x$alpha1, "\n")
   cat("  Binding first-stage futility boundary (p-value scale):", x$alpha0, "\n")
   cat(
-    "  Specified constraints on optimal conditional error:",
+    "  Constraints on optimal conditional error:",
     paste("[", x$minimumConditionalError, ", ", x$maximumConditionalError, "]", sep = ""), "\n"
   )
+  cat("  Constraints on second-stage information:",
+      paste("[", x$minimumSecondStageInformation, ", ", x$maximumSecondStageInformation, "]", sep = ""), "\n"
+      )
 
   cat("\n")
 

@@ -58,8 +58,10 @@
 #' @template param_likelihoodRatioDistribution
 #' @template param_firstStageInformation
 #' @template param_useInterimEstimate
-#' @param minimumConditionalError Lower boundary for the optimal conditional error function. Default 0 (no restriction).
-#' @param maximumConditionalError Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power.
+#' @template param_minimumSecondStageInformation
+#' @template param_maximumSecondStageInformation
+#' @template param_minimumConditionalError
+#' @template param_maximumConditionalError
 #' @template param_levelConstantMinimum
 #' @template param_levelConstantMaximum
 #' @template param_enforceMonotonicity
@@ -73,7 +75,8 @@
 #' getDesignOptimalConditionalErrorFunction(
 #' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
 #' delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 1,
-#' firstStageInformation = 2, useInterimEstimate = FALSE)
+#' firstStageInformation = 2, useInterimEstimate = FALSE,
+#' minimumSecondStageInformation = 2, maximumSecondStageInformation = 40)
 #'
 #' getDesignOptimalConditionalErrorFunction(
 #' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -87,6 +90,7 @@ getDesignOptimalConditionalErrorFunction <- function(
     delta1Min = NA_real_, delta1Max = Inf, ncp1 = NA_real_,
     ncp1Min = NA_real_, ncp1Max = Inf, useInterimEstimate = TRUE,
     firstStageInformation, likelihoodRatioDistribution,
+    minimumSecondStageInformation = 0, maximumSecondStageInformation = Inf,
     minimumConditionalError = 0, maximumConditionalError = 1,
     levelConstantMinimum = 0, levelConstantMaximum = 10,
     enforceMonotonicity = TRUE, ...) {
@@ -106,6 +110,8 @@ getDesignOptimalConditionalErrorFunction <- function(
     firstStageInformation = firstStageInformation,
     useInterimEstimate = useInterimEstimate,
     likelihoodRatioDistribution = likelihoodRatioDistribution,
+    minimumSecondStageInformation = minimumSecondStageInformation,
+    maximumSecondStageInformation = maximumSecondStageInformation,
     minimumConditionalError = minimumConditionalError,
     maximumConditionalError = maximumConditionalError,
     levelConstantMinimum = levelConstantMinimum,
