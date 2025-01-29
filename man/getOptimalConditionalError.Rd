@@ -20,14 +20,10 @@ Calculate the Optimal Conditional Error
 \details{
 The optimal conditional error \eqn{\alpha_2} given a first-stage p-value \eqn{p_1} is calculated as:
 \deqn{\alpha_2(p_1)=\psi(-e^{c_0} \cdot \frac{\vartheta_1^2}{l(p_1)}).}
-The level constant \eqn{c_0} ensures that the optimal conditional error function meets level condition to maintain the overall type I error rate and can be found using \code{getLevelConstant()}. Specifying it via the argument \code{constant} accelerates calculations. \cr
-By \eqn{\vartheta_1}, an assumed effect size is specified. A fixed effect choice (specified via \code{ncp1}) will be absorbed in the level constant. When using an interim estimate, a lower cut-off \eqn{\vartheta_0} (on the non-centrality parameter scale) must be specified via the argument \code{ncp0}. \cr
-Several distributional assumptions can be used for the likelihood ratio \eqn{l(p_1)}, for details see the documentation of \code{getLikelihoodRatio()}. \cr
-The function \eqn{\psi} is the inverse of \eqn{\nu'(\alpha) = -2 \cdot(\Phi^{-1}(1-\alpha) + \Phi^{-1}(1-CP)) / \phi(\Phi^{-1}(1-\alpha))}.
-The function \eqn{\nu'} can only be inverted if the conditional power \eqn{CP} is restricted to values \eqn{1-\Phi(2) \leq CP \leq \Phi(2)}. \cr
-The argument \code{monotonisationConstants} can be calculated beforehand using the function \code{getMonotonisationConstants()} and provided to \code{getOptimalConditionalError()}
-to calculate the monotone (non-increasing) optimal conditional error function. If this argument is omitted, the resulting optimal conditional error function may not be non-increasing.
-Note that the argument \code{constant} must be calibrated accordingly, i.e., with or without monotone transformation, by \code{getLevelConstant()}.
+
+The level constant \eqn{c_0} as well as the specification of the effect size \eqn{\vartheta_1} and the likelihood ratio \eqn{l(p_1)}
+must be contained in the \code{design} object (see \code{?getDesignOptimalConditionalErrorFunction}).
+For \eqn{p_1 \leq \alpha_1}, the returned conditional error is 1 and for \eqn{p_1 > \alpha_0}, the returned conditional error is 0.
 }
 \examples{
 # Create a design
