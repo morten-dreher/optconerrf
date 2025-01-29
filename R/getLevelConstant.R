@@ -41,7 +41,7 @@ getLevelConstant <- function(design) {
     error = function(e){
       # This specific error may occur if the given non-centrality parameter is too large and is handled separately
       if(e$message == "f() values at end points not of opposite sign") {
-        stop("Root finding for level constant failed. Try changing the search interval via arguments levelConstantMinimum and levelConstantMaximum.")
+        stop("Root finding for level constant failed. Try changing the search interval via arguments levelConstantMinimum and levelConstantMaximum. \n Alternatively, the constraints on the optimal conditional error function or second-stage information may not be appropriate.")
       }
       # Print all other errors directly
       else {
