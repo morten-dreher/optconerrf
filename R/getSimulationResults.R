@@ -48,7 +48,7 @@ getSimulationResults <- function(design, maxNumberOfIterations = 10000, alternat
   for(i in 1:length(alternative)) {
 
     # Generate first-stage p-values with desired effect size
-    firstStagePValues <- 1-stats::pnorm(stats::rnorm(n = maxNumberOfIterations, mean = alternative[i]*design$firstStageInformation))
+    firstStagePValues <- 1-stats::pnorm(stats::rnorm(n = maxNumberOfIterations, mean = alternative[i]*sqrt(design$firstStageInformation)))
 
     # Proportion of early rejections
     firstStageRejections <- c(firstStageRejections, sum(firstStagePValues <= design$alpha1)/length(firstStagePValues))
@@ -59,7 +59,7 @@ getSimulationResults <- function(design, maxNumberOfIterations = 10000, alternat
       firstStagePValue = firstStagePValues, design = design)
 
     # Generate second-stage p-values with desired effect size
-    secondStagePValues <- 1-pnorm(rnorm(n = maxNumberOfIterations, mean = alternative[i]*design$firstStageInformation))
+    secondStagePValues <- 1-pnorm(rnorm(n = maxNumberOfIterations, mean = alternative[i]*sqrt(design$firstStageInformation)))
 
     # Proportion of overall rejections
     overallRejections <- c(overallRejections, sum(secondStagePValues <= optimalConditionalErrors)/length(secondStagePValues))
