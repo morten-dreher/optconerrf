@@ -4,17 +4,18 @@
 \alias{getExpectedSecondStageInformation}
 \title{Calculate Expected Second-stage Information}
 \usage{
-getExpectedSecondStageInformation(design, distDelta, ...)
+getExpectedSecondStageInformation(design, distDelta = NULL, ...)
 }
 \arguments{
 \item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 
-\item{distDelta}{Distribution under which to calculate the expected sample size, passed to \code{getLikelihoodRatio()}. Specified in the same way as \code{dist}, but values are allowed to be different. \cr
-Options are \code{"fixed", "normal", "exp", "unif", "maxlr"} for fixed, normally distributed, exponentially distributed, uniformly distributed and maximum likelihood ratio, respectively.
-Each case requires different additional specifications. \code{"fixed"} requires the parameter \code{ncpDelta} which provides the non-centrality parameter under which to calculate the likelihood ratio.
-If \code{ncpLR} contains multiple values, they can be weighted using an additional argument \code{weightsDelta}. \code{"normal"} requires parameters \code{ncpDelta} and \code{tauDelta} for the mean and standard deviation of the normal distribution (both on non-centrality parameter scale).
-\code{"exp"} requires the parameter \code{kap0Delta} which is the mean of the exponential distribution (on the non-centrality parameter scale).
-\code{"unif"} requires the specification of \code{delMaxDelta}, which is the maximum of the support for the uniform likelihood ratio distribution (on the non-centrality parameter scale).}
+\item{distDelta}{Distribution under which to calculate the expected sample size, passed to \code{getLikelihoodRatio()}. Specified in the same way as \code{likelihoodRatioDistribution}, but values are allowed to be different. \cr
+Options are \code{"fixed", "normal", "exp", "unif", "maxlr"} for fixed, normally distributed, exponentially distributed, uniformly distributed prior in the likelihood ratio and maximum likelihood ratio, respectively.
+Each case requires different additional specifications. \code{"fixed"} requires the parameter \code{deltaLR} which provides the mean difference under which to calculate the likelihood ratio.
+If \code{deltaLR} contains multiple values, they can be weighted using an additional argument \code{weightsDeltaLR}. \code{"normal"} requires parameters \code{deltaLR} and \code{tauLR} for the mean and standard deviation of the normal distribution (both on mean difference scale).
+\code{"exp"} requires the parameter \code{kappaLR} which is the mean of the exponential distribution (on the mean difference scale).
+\code{"unif"} requires the specification of \code{deltaMaxLR}, which is the maximum of the support for the uniform likelihood ratio distribution (on the mean difference scale).
+By default, \code{distDelta = NULL}, in which case the likelihood ratio specification of \code{design} is used to calculate the expected second-stage information.}
 
 \item{...}{{Additional parameters required for the specification of \code{distDelta}}.}
 }
@@ -43,8 +44,12 @@ alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
 delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 0.5,
 firstStageInformation = 2, useInterimEstimate = FALSE)
 # Calculate expected information under correct specification
+getExpectedSecondStageInformation(design)
+
+# Calculate expected information under the null hypothesis
 getExpectedSecondStageInformation(
-design, distDelta = "fixed", deltaLR = 0.5)
+ design = design, distDelta = "fixed", deltaLR = 0
+)
 
 
 }

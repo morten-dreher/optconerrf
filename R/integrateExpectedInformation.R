@@ -22,7 +22,14 @@ integrateExpectedInformation <- function(firstStagePValue, design, distDelta, ..
   args <- list(...)
 
   # Fixed effect
-  if(distDelta == "fixed") {
+  # If NULL, use specification in design object
+  if(is.null(distDelta)) {
+    ghostDesign <- design
+    likelihoodRatio <- getLikelihoodRatio(
+      firstStagePValue = firstStagePValue, design = ghostDesign
+    )
+  }
+  else if(distDelta == "fixed") {
     deltaLR <- unlist(args["deltaLR"])
     weights <- unlist(args["weightsDeltaLR"])
 

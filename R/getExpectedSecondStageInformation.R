@@ -27,15 +27,19 @@
 #' delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 0.5,
 #' firstStageInformation = 2, useInterimEstimate = FALSE)
 #' # Calculate expected information under correct specification
+#' getExpectedSecondStageInformation(design)
+#'
+#' # Calculate expected information under the null hypothesis
 #' getExpectedSecondStageInformation(
-#' design, distDelta = "fixed", deltaLR = 0.5)
+#'  design = design, distDelta = "fixed", deltaLR = 0
+#' )
 #'
 #'
 #' @export
 #'
 #' @references Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
 
-getExpectedSecondStageInformation <- function(design, distDelta, ...) {
+getExpectedSecondStageInformation <- function(design, distDelta = NULL, ...) {
 
 
   # Integrate over a helper function from alpha1 to alpha0
