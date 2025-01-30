@@ -174,7 +174,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
         }
         else {
           .self$deltaLR <- deltaLR
-          if(is.na(weightsDeltaLR)) {
+          if(any(is.na(weightsDeltaLR))) {
             .self$weightsDeltaLR <- rep(1/length(deltaLR), length(deltaLR))
           }
           else {
