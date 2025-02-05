@@ -1,1 +1,1 @@
-#' @param ncp1Min The minimum for an interim estimate of the treatment effect, specified on the non-centrality parameter scale. Must be a numeric value.
+#' @param ncp1Min The minimum for an interim estimate of the treatment effect, specified on the non-centrality parameter scale. If the interim estimate (on the non-centrality parameter scale) yields a value smaller than \code{ncp1Min}, \code{ncp1Min} is used for it. Is only used if \code{useInterimEstimate=TRUE}. Alternatively, \code{delta1Min} can be specified. Must be a numeric value.

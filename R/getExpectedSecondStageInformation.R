@@ -43,7 +43,6 @@ getExpectedSecondStageInformation <- function(design, distDelta = NULL, ...) {
 
 
   # Integrate over a helper function from alpha1 to alpha0
-  return(stats::integrate(f = integrateExpectedInformation, lower = design$alpha1, upper = design$alpha0, dist = design$likelihoodRatioDistribution, levelConstant = design$levelConstant,
-                          conditionalPower = design$conditionalPower, alpha0 = design$alpha0, alpha1 = design$alpha1, distDelta = distDelta,
-                          monotonisationConstants = design$monotonisationConstants, design = design, ... = ...)$value)
+  return(stats::integrate(f = integrateExpectedInformation, lower = design$alpha1,
+                          upper = design$alpha0, design = design, distDelta = distDelta, ... = ...)$value)
 }

@@ -1,1 +1,1 @@
-#' @param delta1Min The minimum for an interim estimate of the treatment effect, specified on the mean difference scale. Must be a numeric value.
+#' @param delta1Min The minimum for an interim estimate of the treatment effect, specified on the mean difference scale. If the interim estimate (on the mean difference scale) yields a value smaller than \code{delta1Min}, \code{delta1Min} is used for it. Is only used if \code{useInterimEstimate=TRUE}. Alternatively, \code{ncp1Min} can be specified. Must be a numeric value.
