@@ -9,6 +9,7 @@
 #' In case the optimal conditional error function is ever increasing in the first-stage p-value \eqn{p_1}, a monotone transformation of \code{getQ()}
 #' is needed for logical consistency and type I error rate control. See \code{?getMonotonisationConstants()} for more information. \cr
 #'
+#' @importFrom stats qnorm
 #'
 #' @return Ratio of likelihood ratio and squared effect size.
 #' @export

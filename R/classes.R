@@ -138,7 +138,10 @@ TrialDesignOptimalConditionalError <- setRefClass(
       }
 
       # Identify minimum conditional error
-      if(minimumConditionalError == 0 && maximumSecondStageInformation < Inf) {
+      if(maximumSecondStageInformation < Inf) {
+        if(minimumConditionalError > 0) {
+          warning("Both arguments maximumSecondStageInformation and minimumConditionalError were specified. minimumConditionalError will be ignored and calculated from the maximumSecondStageInformation.")
+        }
         .self$minimumConditionalError <- getConditionalErrorFromSecondStageInformation(
           firstStagePValue = alpha0, secondStageInformation = maximumSecondStageInformation,
           design = .self
@@ -151,7 +154,10 @@ TrialDesignOptimalConditionalError <- setRefClass(
       }
 
       # Identify maximum conditional error
-      if(maximumConditionalError == 1 && minimumSecondStageInformation > 0) {
+      if(minimumSecondStageInformation > 0) {
+        if(maximumConditionalError < 1) {
+          warning("Both arguments minimumSecondStageInformation and maximumConditionalError were specified. maximumConditionalError will be ignored and calculated from the minimumSecondStageInformation.")
+        }
         .self$maximumConditionalError <- getConditionalErrorFromSecondStageInformation(
           firstStagePValue = alpha1 + 1e-17, secondStageInformation = minimumSecondStageInformation,
           design = .self

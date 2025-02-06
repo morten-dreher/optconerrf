@@ -1,1 +1,1 @@
-#' @param ncp1 Fixed effect assumption at which the conditional power should be achieved, expressed on the non-centrality parameter scale. Must be a numeric value greater than 0.
+#' @param ncp1 Fixed effect assumption at which the conditional power should be achieved, expressed on the non-centrality parameter scale. Is only used if \code{useInterimEstimate=FALSE}. Alternatively, \code{delta1} can be specified. Must be a numeric value greater than 0.
