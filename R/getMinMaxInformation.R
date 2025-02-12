@@ -24,7 +24,7 @@ getMinMaxInformation <- function(design, delta_min = NULL, delta_max = NULL) {
   minInfo_cond_error <- NULL
 
   if (design$alpha1 != 0) {
-    epsilon <- 1e-6
+    epsilon <- 1e-17
     estimated_delta <- qnorm(1 - (design$alpha1 + epsilon)) * design$firstStageInformation^(-1 / 2)
     # delta <- max(delta_min, estimated_delta)
     delta <- min(delta_max, estimated_delta)
