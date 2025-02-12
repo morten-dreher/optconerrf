@@ -1,1 +1,1 @@
-#' @param delta1Max The maximum for an interim estimate of the treatment effect, specified on the mean difference scale. Must be a numeric value.
+#' @param delta1Max The maximum for an interim estimate of the treatment effect, specified on the mean difference scale. If the interim estimate (on the mean difference scale) yields a value larger than \code{delta1Max}, \code{delta1Max} is used for it. Is only used if \code{useInterimEstimate=TRUE}. Alternatively, \code{ncp1Max} can be specified. Must be a numeric value. Default value is \code{Inf}, i.e., no upper restriction.

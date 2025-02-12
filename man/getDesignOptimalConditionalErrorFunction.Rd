@@ -37,17 +37,17 @@ getDesignOptimalConditionalErrorFunction(
 
 \item{conditionalPower}{The target conditional power \eqn{CP} of the design. Must be a numeric value.}
 
-\item{delta1}{Fixed effect assumption at which the conditional power should be achieved, expressed on the mean difference scale. Must be a numeric value greater than 0.}
+\item{delta1}{Fixed effect assumption at which the conditional power should be achieved, expressed on the mean difference scale. Is only used if \code{useInterimEstimate=FALSE}. Alternatively, \code{ncp1} can be specified. Must be a numeric value greater than 0.}
 
-\item{delta1Min}{The minimum for an interim estimate of the treatment effect, specified on the mean difference scale. Must be a numeric value.}
+\item{delta1Min}{The minimum for an interim estimate of the treatment effect, specified on the mean difference scale. If the interim estimate (on the mean difference scale) yields a value smaller than \code{delta1Min}, \code{delta1Min} is used for it. Is only used if \code{useInterimEstimate=TRUE}. Alternatively, \code{ncp1Min} can be specified. Must be a numeric value.}
 
-\item{delta1Max}{The maximum for an interim estimate of the treatment effect, specified on the mean difference scale. Must be a numeric value.}
+\item{delta1Max}{The maximum for an interim estimate of the treatment effect, specified on the mean difference scale. If the interim estimate (on the mean difference scale) yields a value larger than \code{delta1Max}, \code{delta1Max} is used for it. Is only used if \code{useInterimEstimate=TRUE}. Alternatively, \code{ncp1Max} can be specified. Must be a numeric value. Default value is \code{Inf}, i.e., no upper restriction.}
 
-\item{ncp1}{Fixed effect assumption at which the conditional power should be achieved, expressed on the non-centrality parameter scale. Must be a numeric value greater than 0.}
+\item{ncp1}{Fixed effect assumption at which the conditional power should be achieved, expressed on the non-centrality parameter scale. Is only used if \code{useInterimEstimate=FALSE}. Alternatively, \code{delta1} can be specified. Must be a numeric value greater than 0.}
 
-\item{ncp1Min}{The minimum for an interim estimate of the treatment effect, specified on the non-centrality parameter scale. Must be a numeric value.}
+\item{ncp1Min}{The minimum for an interim estimate of the treatment effect, specified on the non-centrality parameter scale. If the interim estimate (on the non-centrality parameter scale) yields a value smaller than \code{ncp1Min}, \code{ncp1Min} is used for it. Is only used if \code{useInterimEstimate=TRUE}. Alternatively, \code{delta1Min} can be specified. Must be a numeric value.}
 
-\item{ncp1Max}{The maximum for an interim estimate of the treatment effect, specified on the non-centrality parameter scale. Must be a numeric value.}
+\item{ncp1Max}{The maximum for an interim estimate of the treatment effect, specified on the non-centrality parameter scale. If the interim estimate (on the non-centrality parameter scale) yields a value larger than \code{ncp1Max}, \code{ncp1Max} is used for it. Is only used if \code{useInterimEstimate=TRUE}. Alternatively, \code{delta1Max} can be specified. Must be a numeric value. Default value is \code{Inf}, i.e., no upper restriction.}
 
 \item{useInterimEstimate}{Logical. Defines whether or not an interim estimate should be used for conditional power.
 If \code{TRUE}, a lower cut-off for the interim estimate must be specified by \code{delta1Min} or \code{ncp1Min}. An upper cut-off may also
@@ -65,9 +65,9 @@ Each case requires different additional specifications. \cr
 \item \code{likelihoodRatioDistribution="maxlr"} estimates the non-centrality parameter to be used for the likelihood ratio from the data. No additional parameters must be specified.
 }}
 
-\item{minimumSecondStageInformation}{The minimum information allowed in the second stage of the trial. Must be a numeric value.}
+\item{minimumSecondStageInformation}{The minimum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{0}, i.e., no restriction.}
 
-\item{maximumSecondStageInformation}{The maximum information allowed in the second stage of the trial. Must be a numeric value.}
+\item{maximumSecondStageInformation}{The maximum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{Inf}, i.e., no restriction.}
 
 \item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction).}
 
@@ -85,7 +85,7 @@ Each case requires different additional specifications. \cr
 An object of class \code{TrialDesignOptimalConditionalError}, which can be passed to other package functions.
 }
 \description{
-This function returns a design object which contains all important parameters for the specification of the optimal CEF.
+This function returns a design object which contains all important parameters for the specification of the optimal conditional error function.
 The returned object can be passed to other package functions.
 }
 \details{
@@ -124,6 +124,19 @@ In addition, upper limits of the estimate may be analogously provided by \code{d
 By default, the optimal conditional error function returned by \code{getDesignOptimalConditionalErrorFunction()} is transformed to be non-increasing in the first-stage p-value \eqn{p_1}.
 The necessary intervals and constants for the transformation are calculated by \code{getMonotonisationConstants()}.
 Although not recommended for the operating characteristics of the design, the transformation may be omitted by setting \code{enforceMonotonicity=FALSE}.
+}
+
+\section{Constraints}{
+
+In some applications, it may be feasible to restrict the optimal conditional error function by a lower and/or upper limit.
+These constraints can be directly implemented by using the arguments \code{minimumConditionalError} and \code{maximumConditionalError}.
+By default, \code{minimumConditionalError=0} and \code{maximumConditionalError=1}, i.e., no constraints are applied.
+Alternatively, the constraints may also be specified on the second-stage information via \code{minimumSecondStageInformation} and \code{maximumSecondStageInformation}.
+If the constraints are specified on the information scale, \code{minimumConditionalError} is calculated from \code{maximumSecondStageInformation} and \code{maximumConditionalError}
+is calculated from \code{minimumSecondStageInformation}. This is done under the assumptions that the maximum second-stage information occurs for \eqn{p_1 = \alpha_0} and the
+minimum second-stage information is achieved for \eqn{p_1} just above \eqn{\alpha_1} (for the exact calculation, \eqn{p_1 = \alpha_1+1e-17} is used).
+Additional specifications of \code{minimumConditionalError} and \code{maximumConditionalError} will be ignored if \code{maximumSecondStageInformation} and
+\code{minimumSecondStageInformation} are provided.
 }
 
 \section{Level constant}{
