@@ -21,5 +21,5 @@ getConditionalErrorFromSecondStageInformation(
 The conditional error which corresponds to the provided second-stage information.
 }
 \description{
-Calculate conditional error from second-stage information
+This function is used to determine the maximum and minimum conditional error resulting from specified minimum and maximum second-stage information.
 }

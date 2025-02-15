@@ -1,3 +1,10 @@
+#' @name TrialDesignOptimalConditionalError
+#' @title Optimal Conditional Error Design
+#' @description
+#' A class for a trial design object using the optimal conditional error function.
+#' @details
+#' This object should not be created directly; use \code{getDesignOptimalConditionalErrorFunction()} with suitable arguments to create a design.
+#'
 TrialDesignOptimalConditionalError <- setRefClass(
   Class = "TrialDesignOptimalConditionalError",
   fields = list(
@@ -239,6 +246,11 @@ TrialDesignOptimalConditionalError <- setRefClass(
   )
 )
 
+#' @name SimulationResultsOptimalConditionalError
+#' @title Simulation results for optimal conditional error design
+#' @description
+#' A class for simulation results of the optimal conditional error function.
+#'
 SimulationResultsOptimalConditionalError <- setRefClass(
   Class = "SimulationResultsOptimalConditionalError",
   fields = list(

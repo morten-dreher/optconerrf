@@ -23,7 +23,7 @@
 getNu <- function(alpha, conditionalPower) {
   nu <- 0
   if(alpha > conditionalPower) {
-    warning("alpha should not exceed conditionalPower. Sample size is otherwise 0")
+    warning("alpha/conditional error should not exceed conditionalPower. Information is otherwise 0")
   }
   else{
     nu <- (qnorm(1-alpha)+qnorm(conditionalPower))^2

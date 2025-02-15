@@ -7,15 +7,6 @@
 #' @param delta_min Minimum for treatment effect.
 #' @param delta_max Maximum for treatment effect.
 #'
-#' @examples
-#' design <- getDesignOptimalConditionalErrorFunction(
-#'   alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5,
-#'   conditionalPower = 0.9, delta1Min = 0.2, delta1Max = 0.7,
-#'   firstStageInformation = 9, useInterimEstimate = TRUE,
-#'   likelihoodRatioDistribution = "maxlr"
-#' )
-#'
-#' getMinMaxInformation(design, delta_min = 0.2, delta_max = 0.7)
 #'
 getMinMaxInformation <- function(design, delta_min = NULL, delta_max = NULL) {
   minInfo_alpha <- NULL

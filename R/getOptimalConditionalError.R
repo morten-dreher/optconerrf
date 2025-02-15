@@ -43,8 +43,7 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
   # If monotonisation constants specified and monotonisation enforced, perform non-increasing transformation
   if(design$enforceMonotonicity && !is.null(unlist(design$monotonisationConstants))) {
     Q <- getMonotoneFunction(
-      x = firstStagePValue, fun = getQ, design = design,
-      printConstant = FALSE)
+      x = firstStagePValue, fun = getQ, design = design)
   }
   else {
     Q <- getQ(firstStagePValue = firstStagePValue, design = design)

@@ -4,9 +4,9 @@ test_that("Correct results for expected second stage information", {
                                                                likelihoodRatioDistribution = "fixed", ncp1=sqrt(170/2)*0.25, deltaLR=0.25,
                                                                firstStageInformation = 170/2, useInterimEstimate = FALSE)
 
-  res0 <- getExpectedSecondStageInformation(design = design_fixed_delta, distDelta = "fixed", deltaLR=0)
-  res1_15 <- getExpectedSecondStageInformation(design = design_fixed_delta, distDelta = "fixed", deltaLR=0.125)
-  res2_3 <- getExpectedSecondStageInformation(design = design_fixed_delta, distDelta = "fixed", deltaLR=0.25)
+  res0 <- getExpectedSecondStageInformation(design = design_fixed_delta, likelihoodRatioDistribution = "fixed", deltaLR=0)
+  res1_15 <- getExpectedSecondStageInformation(design = design_fixed_delta, likelihoodRatioDistribution = "fixed", deltaLR=0.125)
+  res2_3 <- getExpectedSecondStageInformation(design = design_fixed_delta, likelihoodRatioDistribution = "fixed", deltaLR=0.25)
 
   expect_equal(res0, 95.89078, tolerance = 1e-4)
   expect_equal(res1_15, 115.9472, tolerance = 1e-4)
@@ -16,9 +16,9 @@ test_that("Correct results for expected second stage information", {
                                                                 likelihoodRatioDistribution = "fixed", ncp1=sqrt(170/2)*0.25, deltaLR=0,
                                                                 firstStageInformation = 170/2, useInterimEstimate = FALSE)
 
-  res0 <- getExpectedSecondStageInformation(design = design_fixed_delta0, distDelta = "fixed", deltaLR=0)
-  res1_15 <- getExpectedSecondStageInformation(design = design_fixed_delta0, distDelta = "fixed", deltaLR=0.125)
-  res2_3 <- getExpectedSecondStageInformation(design = design_fixed_delta0, distDelta = "fixed", deltaLR=0.25)
+  res0 <- getExpectedSecondStageInformation(design = design_fixed_delta0, likelihoodRatioDistribution = "fixed", deltaLR=0)
+  res1_15 <- getExpectedSecondStageInformation(design = design_fixed_delta0, likelihoodRatioDistribution = "fixed", deltaLR=0.125)
+  res2_3 <- getExpectedSecondStageInformation(design = design_fixed_delta0, likelihoodRatioDistribution = "fixed", deltaLR=0.25)
 
   expect_equal(res0, 68.62581, tolerance = 1e-4)
   expect_equal(res1_15, 119.2098, tolerance = 1e-4)
@@ -29,9 +29,9 @@ test_that("Correct results for expected second stage information", {
                                                            ncp1=sqrt(170/2)*0.25, deltaMaxLR = 2*sqrt(170/2)*0.25,
                                                            firstStageInformation = 170/2, useInterimEstimate = FALSE)
 
-  res0 <- getExpectedSecondStageInformation(design = design_uniform, distDelta = "fixed", deltaLR=0)
-  res1_15 <- getExpectedSecondStageInformation(design = design_uniform, distDelta = "fixed", deltaLR=0.125)
-  res2_3 <- getExpectedSecondStageInformation(design = design_uniform, distDelta = "fixed", deltaLR=0.25)
+  res0 <- getExpectedSecondStageInformation(design = design_uniform, likelihoodRatioDistribution = "fixed", deltaLR=0)
+  res1_15 <- getExpectedSecondStageInformation(design = design_uniform, likelihoodRatioDistribution = "fixed", deltaLR=0.125)
+  res2_3 <- getExpectedSecondStageInformation(design = design_uniform, likelihoodRatioDistribution = "fixed", deltaLR=0.25)
 
   expect_equal(res0, 81.44857, tolerance = 1e-4)
   expect_equal(res1_15, 107.1427, tolerance = 1e-4)
@@ -42,9 +42,9 @@ test_that("Correct results for expected second stage information", {
                                                           ncp1=sqrt(170/2)*0.25,
                                                           firstStageInformation = 170/2, useInterimEstimate = FALSE)
 
-  res0 <- getExpectedSecondStageInformation(design = design_normal, distDelta = "fixed", deltaLR=0)
-  res1_15 <- getExpectedSecondStageInformation(design = design_normal, distDelta = "fixed", deltaLR=0.125)
-  res2_3 <- getExpectedSecondStageInformation(design = design_normal, distDelta = "fixed", deltaLR=0.25)
+  res0 <- getExpectedSecondStageInformation(design = design_normal, likelihoodRatioDistribution = "fixed", deltaLR=0)
+  res1_15 <- getExpectedSecondStageInformation(design = design_normal, likelihoodRatioDistribution = "fixed", deltaLR=0.125)
+  res2_3 <- getExpectedSecondStageInformation(design = design_normal, likelihoodRatioDistribution = "fixed", deltaLR=0.25)
 
   expect_equal(res0, 83.1371, tolerance = 1e-4)
   expect_equal(res1_15, 107.9471, tolerance = 1e-4)
@@ -55,9 +55,9 @@ test_that("Correct results for expected second stage information", {
                                                                ncp1=sqrt(170/2)*0.25,
                                                                firstStageInformation = 170/2, useInterimEstimate = FALSE)
 
-  res0 <- getExpectedSecondStageInformation(design = design_exponential, distDelta = "fixed", deltaLR=0)
-  res1_15 <- getExpectedSecondStageInformation(design = design_exponential, distDelta = "fixed", deltaLR=0.125)
-  res2_3 <- getExpectedSecondStageInformation(design = design_exponential, distDelta = "fixed", deltaLR=0.25)
+  res0 <- getExpectedSecondStageInformation(design = design_exponential, likelihoodRatioDistribution = "fixed", deltaLR=0)
+  res1_15 <- getExpectedSecondStageInformation(design = design_exponential, likelihoodRatioDistribution = "fixed", deltaLR=0.125)
+  res2_3 <- getExpectedSecondStageInformation(design = design_exponential, likelihoodRatioDistribution = "fixed", deltaLR=0.25)
 
   expect_equal(res0, 77.32785, tolerance = 1e-4)
   expect_equal(res1_15, 105.2796, tolerance = 1e-4)
@@ -68,9 +68,9 @@ test_that("Correct results for expected second stage information", {
                                                          ncp1=sqrt(170/2)*0.25,
                                                          firstStageInformation = 170/2, useInterimEstimate = FALSE)
 
-  res0 <- getExpectedSecondStageInformation(design = design_maxlr, distDelta = "fixed", deltaLR=0)
-  res1_15 <- getExpectedSecondStageInformation(design = design_maxlr, distDelta = "fixed", deltaLR=0.125)
-  res2_3 <- getExpectedSecondStageInformation(design = design_maxlr, distDelta = "fixed", deltaLR=0.25)
+  res0 <- getExpectedSecondStageInformation(design = design_maxlr, likelihoodRatioDistribution = "fixed", deltaLR=0)
+  res1_15 <- getExpectedSecondStageInformation(design = design_maxlr, likelihoodRatioDistribution = "fixed", deltaLR=0.125)
+  res2_3 <- getExpectedSecondStageInformation(design = design_maxlr, likelihoodRatioDistribution = "fixed", deltaLR=0.25)
 
   expect_equal(res0, 78.01145, tolerance = 1e-4)
   expect_equal(res1_15, 106.3943, tolerance = 1e-4)

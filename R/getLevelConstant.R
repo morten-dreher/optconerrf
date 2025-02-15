@@ -9,9 +9,6 @@
 #' For a valid design, the additional following condition must be met to be able to exhaust the level \eqn{\alpha}:
 #' \deqn{\alpha_1 + CP(\alpha_0-\alpha_1)>\alpha.}
 #' This condition is checked by \code{getLevelConstant()} and the execution is terminated if it is not met. \cr
-#' The argument \code{monotonisationConstants} can be calculated beforehand with \code{getMonotonisationConstants()} and be provided
-#' to calculate the level constant for the non-decreasing transformation of the optimal conditional error function. If this argument is omitted,
-#' the constant is calculated for the optimal conditional error function with no transformations.
 #'
 #' @template param_design
 #'
@@ -31,7 +28,7 @@ getLevelConstant <- function(design) {
   }
 
   # Find the level constant.
-  # Expects an error if specified non-centrality parameter is large
+  # Expects an error if specified non-centrality parameter is very large or very small
   tryCatch(
     expr = {
       stats::uniroot(f = getIntegral, lower = design$levelConstantMinimum,
@@ -39,7 +36,8 @@ getLevelConstant <- function(design) {
                      tol = 1e-15)
     },
     error = function(e){
-      # This specific error may occur if the given non-centrality parameter is too large and is handled separately
+      # This specific error may occur if the given non-centrality parameter is too small or too large or if the
+      # provided constraints are not suitable and is handled separately
       if(e$message == "f() values at end points not of opposite sign") {
         stop("Root finding for level constant failed. Try changing the search interval via arguments levelConstantMinimum and levelConstantMaximum. \n Alternatively, the constraints on the optimal conditional error function or second-stage information may not be appropriate.")
       }

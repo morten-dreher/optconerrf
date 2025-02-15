@@ -22,9 +22,6 @@ The constant \eqn{c_0} of the optimal conditional error function is calibrated s
 For a valid design, the additional following condition must be met to be able to exhaust the level \eqn{\alpha}:
 \deqn{\alpha_1 + CP(\alpha_0-\alpha_1)>\alpha.}
 This condition is checked by \code{getLevelConstant()} and the execution is terminated if it is not met. \cr
-The argument \code{monotonisationConstants} can be calculated beforehand with \code{getMonotonisationConstants()} and be provided
-to calculate the level constant for the non-decreasing transformation of the optimal conditional error function. If this argument is omitted,
-the constant is calculated for the optimal conditional error function with no transformations.
 }
 \references{
 Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x

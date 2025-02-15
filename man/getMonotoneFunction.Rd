@@ -13,8 +13,7 @@ getMonotoneFunction(
   nSteps = 10^4,
   epsilon = 10^(-5),
   numberOfIterationsQ = 10^4,
-  design,
-  printConstant = TRUE
+  design
 )
 }
 \arguments{
@@ -35,15 +34,12 @@ getMonotoneFunction(
 \item{numberOfIterationsQ}{Maximum number of iterations allowed to determine each value of q. Must be a numeric value. Default 10^4.}
 
 \item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
-
-\item{printConstant}{Logical. Specifies whether the intervals and constants should be printed.}
 }
 \value{
 Monotone function values.
 }
 \description{
 Applies the provided monotonisation constants to a specified, possibly non-monotone function. The returned function values are non-increasing.
-If the constants are not specified, they are determined automatically.
 }
 \details{
 The exact monotonisation process is outlined in Brannath & Dreher (2024), but specified in terms of the first-stage test statistic \eqn{z_1} rather than the first-stage p-value \eqn{p_1}. \cr

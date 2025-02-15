@@ -7,17 +7,17 @@
 #' @details The calculation of the likelihood ratio for a first-stage p-value \eqn{p_1} is done based on a distributional assumption, specified via the argment \code{dist}.
 #' The different options require different parameters, elaborated in the following.
 #' \itemize{
-#'    \item \code{likelihoodRatioDistribution="fixed"}: calculates the likelihood ratio for a fixed \eqn{\vartheta}. The non-centrality parameter of the likelihood ratio \eqn{\vartheta} must then be specified via \code{ncpLR} to calculate the likelihood ratio as:
-#'          \deqn{l(p_1) = e^{\Phi^{-1}(1-p_1)\vartheta - \vartheta^2/2}}
-#'    \item \code{likelihoodRatioDistribution="normal"}: calculates the likelihood ratio for a normally distributed prior of \eqn{\vartheta} with mean \code{ncpLR} (\eqn{\vartheta}) and standard deviation \code{tauLR} (\eqn{\tau}). Both parameters must be specified on the non-centrality parameter scale.
-#'          \deqn{l(p_1) = (1+\tau^2)^{-\frac{1}{2}}\cdot e^{-(\vartheta/\tau)^2/2 + (\tau\Phi^{-1}(1-p_1) + \vartheta/\tau)^2 / (2\cdot (1+\tau^2))}}
-#'    \item \code{likelihoodRatioDistribution="exp"}: calculates the likelihood ratio for an exponentially distributed prior of \eqn{\vartheta} with parameter \code{kap0} (\eqn{\kappa}), which is the mean of the exponential distribution, calculated as \eqn{1/\vartheta} as:
-#'          \deqn{l(p_1) = \kappa \cdot \sqrt{2\pi} \cdot e^{(\Phi^{-1}(1-p_1)-\kappa)^2/2} \cdot \Phi(\Phi^{-1}(1-p_1)-\kappa)}
-#'    \item \code{likelihoodRatioDistribution="unif"}: calculates the likelihood ratio for a uniformly distributed prior of \eqn{\vartheta} on the support \eqn{[0, \Delta]}, where \eqn{\Delta} is specified as \code{delMax}.
-#'          \deqn{l(p_1) = \frac{\sqrt{2\pi}}{\Delta} \cdot e^{\Phi^{-1}(1-p_1)^2/2} \cdot (\Phi(\Delta - \Phi^{-1}(1-p_1))-p_1)}
+#'    \item \code{likelihoodRatioDistribution="fixed"}: calculates the likelihood ratio for a fixed \eqn{\Delta}. The non-centrality parameter of the likelihood ratio \eqn{\vartheta} is then computed as \code{deltaLR}*\code{sqrt(firstStageInformation)} and the likelihood ratio is calculated as:
+#'          \deqn{l(p_1) = e^{\Phi^{-1}(1-p_1)\vartheta - \vartheta^2/2}.} \code{deltaLR} may also contain multiple elements, in which case a weighted likelihood ratio is calculated for the given values. Unless positive weights that sum to 1 are provided by the argument \code{weightsDeltaLR}, equal weights are assumed.
+#'    \item \code{likelihoodRatioDistribution="normal"}: calculates the likelihood ratio for a normally distributed prior of \eqn{\vartheta} with mean \code{deltaLR}*\code{sqrt(firstStageInformation)} (\eqn{\mu}) and standard deviation \code{tauLR}*\code{sqrt(firstStageInformation)} (\eqn{\sigma}). The parameters \code{deltaLR} and \code{tauLR} must be specified on the mean difference scale.
+#'          \deqn{l(p_1) = (1+\sigma^2)^{-\frac{1}{2}}\cdot e^{-(\mu/\sigma)^2/2 + (\sigma\Phi^{-1}(1-p_1) + \mu/\sigma)^2 / (2\cdot (1+\sigma^2))}}
+#'    \item \code{likelihoodRatioDistribution="exp"}: calculates the likelihood ratio for an exponentially distributed prior of \eqn{\vartheta} with mean \code{kappaLR}*\code{sqrt(firstStageInformation)} (\eqn{\eta}). The likelihood ratio is then calculated as:
+#'          \deqn{l(p_1) = \kappa \cdot \sqrt{2\pi} \cdot e^{(\Phi^{-1}(1-p_1)-\eta)^2/2} \cdot \Phi(\Phi^{-1}(1-p_1)-\eta)}
+#'    \item \code{likelihoodRatioDistribution="unif"}: calculates the likelihood ratio for a uniformly distributed prior of \eqn{\vartheta} on the support \eqn{[0, \Delta\cdot\sqrt{I_1}]}, where \eqn{\Delta} is specified as \code{deltaMaxLR} and \eqn{I_1} is the \code{firstStageInformation}.
+#'          \deqn{l(p_1) = \frac{\sqrt{2\pi}}{\Delta\cdot\sqrt{I_1}} \cdot e^{\Phi^{-1}(1-p_1)^2/2} \cdot (\Phi(\Delta\cdot\sqrt{I_1} - \Phi^{-1}(1-p_1))-p_1)}
 #'    \item \code{likelihoodRatioDistribution="maxlr"}: the non-centrality parameter \eqn{\vartheta} is estimated from the data and no additional parameters must be specified. The likelihood ratio is estimated from the data as:
 #'          \deqn{l(p_1) = e^{max(0, \Phi^{-1}(1-p_1))^2/2}}
-#'          The maximum likelihood ratio is always restricted to effect sizes \eqn{\vartheta \geq 0}. (respectively \eqn{p_1 \leq 0.5}).
+#'          The maximum likelihood ratio is always restricted to effect sizes \eqn{\vartheta \geq 0} (corresponding to \eqn{p_1 \leq 0.5}).
 #' }
 #'
 #' @template param_firstStagePValue
@@ -30,9 +30,9 @@
 #' @references Hung, H. M. J., O’Neill, R. T., Bauer, P. & Kohne, K. (1997). The behavior of the p-value when the alternative hypothesis is true. Biometrics. http://www.jstor.org/stable/2533093
 
 getLikelihoodRatio <- function(firstStagePValue, design) {
-  # initialise likelihood ratio, get ... arguments
+  # Initialise likelihood ratio
   likelihoodRatio <- NA
-  # Fixed likelihood case
+  # Fixed effect case
   if(design$likelihoodRatioDistribution == "fixed"){
 
     # Get ncp and weights
@@ -49,9 +49,9 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
       weights <- rep(1/length(ncp), length(ncp))
     }
 
-    # Ensure that weights sum up to 1
-    if(sum(weights) != 1) {
-      stop("weights must sum up to 1")
+    # Ensure that weights are positive and sum up to 1
+    if(sum(weights) != 1 || any(weights < 0)) {
+      stop("weights must be positive and sum up to 1")
     }
 
     # Calculate likelihood ratio
@@ -66,7 +66,7 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
 
     # Ensure that arguments were specified
     if(is.null(ncp) || is.null(tau)) {
-      stop("Arguments ncpLR and tauLR must be specified for normal likelihood case")
+      stop("Arguments deltaLR and tauLR must be specified for normal likelihood case")
     }
 
     # Calculate likelihood ratio
@@ -79,7 +79,7 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
 
     # Ensure that argument was specified
     if(is.null(kap0)) {
-      stop("Argument kap0 must be specified for exponential likelihood case")
+      stop("Argument kappaLR must be specified for exponential likelihood case")
     }
 
     # Calculate likelihood ratio
@@ -92,7 +92,7 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
 
     # Ensure that argument was specified
     if(is.null(delMax)) {
-      stop("Argument delMax must be specified for uniform likelihood case")
+      stop("Argument deltaMaxLR must be specified for uniform likelihood case")
     }
 
     # Calculate likelihood ratio

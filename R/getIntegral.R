@@ -12,13 +12,13 @@
 #' @keywords internal
 
 getIntegral <- function(constant, design) {
-  # If there are no monotonisation constants, use standard integration
+  # If there are no monotonisation constants or they are not enforced, use standard integration
   if(!design$enforceMonotonicity || is.null(unlist(design$monotonisationConstants))) {
     integral <- stats::integrate(
       f = getInnerPsi, lower = design$alpha1, upper = design$alpha0, constant = constant,
       design = design)$value
   }
-  # If monotonisation constants exist, use alternate integration routine better adapted to constant functions
+  # If monotonisation constants exist, use alternative integration routine better adapted to constant functions
   else {
     integral <- getIntegralWithConstants(
       constant = constant, design = design

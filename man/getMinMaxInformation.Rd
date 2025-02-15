@@ -16,14 +16,3 @@ getMinMaxInformation(design, delta_min = NULL, delta_max = NULL)
 \description{
 Calculate the minimum and maximum information
 }
-\examples{
-design <- getDesignOptimalConditionalErrorFunction(
-  alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5,
-  conditionalPower = 0.9, delta1Min = 0.2, delta1Max = 0.7,
-  firstStageInformation = 9, useInterimEstimate = TRUE,
-  likelihoodRatioDistribution = "maxlr"
-)
-
-getMinMaxInformation(design, delta_min = 0.2, delta_max = 0.7)
-
-}

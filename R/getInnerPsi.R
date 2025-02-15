@@ -17,7 +17,7 @@ getInnerPsi <- function(firstStagePValue, constant, design) {
   if(design$enforceMonotonicity) {
     Q <- getMonotoneFunction(
       x = firstStagePValue, fun = getQ, argument = "firstStagePValue",
-      design = design, printConstant = FALSE)
+      design = design)
   } else {
     Q <- getQ(firstStagePValue = firstStagePValue, design = design)
   }

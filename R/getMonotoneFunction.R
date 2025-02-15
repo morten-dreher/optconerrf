@@ -3,7 +3,6 @@
 #' @name getMonotoneFunction
 #'
 #' @description Applies the provided monotonisation constants to a specified, possibly non-monotone function. The returned function values are non-increasing.
-#' If the constants are not specified, they are determined automatically.
 #'
 #' @details The exact monotonisation process is outlined in Brannath & Dreher (2024), but specified in terms of the first-stage test statistic \eqn{z_1} rather than the first-stage p-value \eqn{p_1}. \cr
 #' The algorithm can easily be translated to the use of p-values by switching the maximum and minimum functions, i.e., replacing \eqn{min\{q, Q(z_1)\}} by \eqn{max\{q, Q(p_1)\}} and \eqn{min\{q, Q(z_1)\}} by \eqn{max\{q, Q(p_1\}}.
@@ -17,7 +16,6 @@
 #' @template param_epsilon_mono
 #' @template param_numberOfIterationsQ
 #' @template param_design
-#' @param printConstant Logical. Specifies whether the intervals and constants should be printed.
 #'
 #' @return Monotone function values.
 #' @export
@@ -25,7 +23,7 @@
 #'
 #' @references Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
 
-getMonotoneFunction <- function(x, fun, lower=NULL, upper=NULL, argument=NULL, nSteps = 10^4, epsilon = 10^(-5), numberOfIterationsQ = 10^4, design, printConstant = TRUE) {
+getMonotoneFunction <- function(x, fun, lower=NULL, upper=NULL, argument=NULL, nSteps = 10^4, epsilon = 10^(-5), numberOfIterationsQ = 10^4, design) {
 
   # If monotonisation is enforced, do it
   if(design$enforceMonotonicity) {
