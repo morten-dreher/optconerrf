@@ -9,7 +9,7 @@ getQ(firstStagePValue, design)
 \arguments{
 \item{firstStagePValue}{First-stage p-value or p-values. Must be a numeric vector between 0 and 1.}
 
-\item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 }
 \value{
 Ratio of likelihood ratio and squared effect size.
@@ -20,7 +20,7 @@ Calculate the ratio of likelihood ratio and squared effect size.
 \details{
 For more information on how to specify the likelihood ratio, see \code{?getLikelihoodRatio()}.
 In case the optimal conditional error function is ever increasing in the first-stage p-value \eqn{p_1}, a monotone transformation of \code{getQ()}
-is needed for logical consistency and type I error rate control. See \code{?getMonotonisationConstants()} for more information. \cr
+is needed for logical consistency and type I error rate control. \cr
 }
 \references{
 Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814

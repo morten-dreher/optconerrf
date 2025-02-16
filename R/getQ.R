@@ -7,7 +7,7 @@
 #'
 #' @details For more information on how to specify the likelihood ratio, see \code{?getLikelihoodRatio()}.
 #' In case the optimal conditional error function is ever increasing in the first-stage p-value \eqn{p_1}, a monotone transformation of \code{getQ()}
-#' is needed for logical consistency and type I error rate control. See \code{?getMonotonisationConstants()} for more information. \cr
+#' is needed for logical consistency and type I error rate control. \cr
 #'
 #' @importFrom stats qnorm
 #'
@@ -19,12 +19,15 @@
 
 getQ <- function(firstStagePValue, design) {
 
+  # Initialise effect and likelihood ratio
   effect <- NA
   likelihoodRatio <- NA
 
+  # When using interim estimate, apply the restrictions given in the design
   if(design$useInterimEstimate) {
     effect <- min(max(design$ncp1Min, stats::qnorm(1-firstStagePValue)), design$ncp1Max)
   }
+  # Fixed effect case
   else {
     effect <- design$ncp1
   }

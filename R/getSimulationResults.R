@@ -5,6 +5,7 @@
 #'
 #' @details
 #' Simulates the probabilities of overall rejection as well as early futility and early efficacy for the provided scenario and design.
+#' This is done by generating random normally distributed test statistics and calculating their p-values.
 #'
 #' @template param_design
 #' @param maxNumberOfIterations Number of trials to be simulated.
@@ -19,6 +20,7 @@
 #'
 #' @export
 #' @examples
+#' \dontrun{
 #' design <- getDesignOptimalConditionalErrorFunction(
 #'  alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, delta1 = 0.25,
 #'  useInterimEstimate = FALSE,
@@ -28,9 +30,13 @@
 #'
 #' # Simulate under the null hypothesis (type I error rate)
 #' getSimulationResults(
-#'  design = design, maxNumberOfIterations = 100, alternative = 0
+#'  design = design, alternative = 0
 #' )
 #'
+#' # Simulate for a mean difference of 0.5 (with variance 1)
+#' getSimulationResults(
+#'  design = design, alternative = 0.5)
+#' }
 
 getSimulationResults <- function(design, maxNumberOfIterations = 10000, alternative, seed = NULL) {
 

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{Simulation results object of class \code{SimulationResultsOptimalConditionalError}}
 
-\item{...}{Additional arguments}
+\item{...}{Additional arguments required for generic compatibility}
 }
 \description{
 Print an overview of simulation results.

@@ -20,7 +20,7 @@ Calculates the derivative of nu for a given conditional error and conditional po
 \details{
 The function \eqn{\nu'} is defined as
 \deqn{\nu'(p_1) = -2 \cdot (\Phi^{-1}(1-\alpha_2(p_1)) + \Phi^{-1}(CP))/\phi(\Phi^{-1}(1-\alpha_2(p_1))).}
-Note that in this implementation, the the factor -2 is used instead of -4, which is used in by Brannath & Bauer (2004), as the allocation ratio is not explicitly fixed at r=1.
+Note that in this implementation, the the factor -2 is used instead of -4, which is used in by Brannath & Bauer (2004), who explicitly investigate the setting of a balanced two-group trial.
 }
 \examples{
 getNuPrime(alpha = 0.05, conditionalPower = 0.9)

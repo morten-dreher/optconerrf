@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{Design object of class \code{TrialDesignOptimalConditionalError}}
 
-\item{...}{Additional arguments}
+\item{...}{Additional arguments required for generic compatibility}
 }
 \description{
 Print an overview of the specified design parameters.

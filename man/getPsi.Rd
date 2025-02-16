@@ -20,7 +20,7 @@ Get point-wise values of psi (inverse of nu prime)
 \details{
 The function \eqn{psi} is the inverse of:
 \deqn{\nu'(\alpha) = -2 \cdot(\Phi^{-1}(1-\alpha) + \Phi^{-1}(1-CP)) / \phi(\Phi^{-1}(1-\alpha))}.
-It can only be found if the conditional power \eqn{CP} is restricted to values \eqn{1-\Phi(2) \leq CP \leq \Phi(2)}.
+If the conditional power \eqn{CP} lies outside of the range \eqn{1-\Phi(2) \leq CP \leq \Phi(2)}, the calculation is slightly more complicated.
 }
 \examples{
 getPsi(getNuPrime(alpha = 0.05, conditionalPower = 0.9), conditionalPower = 0.9)

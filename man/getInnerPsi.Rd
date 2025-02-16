@@ -11,7 +11,7 @@ getInnerPsi(firstStagePValue, constant, design)
 
 \item{constant}{Current value of the level constant for the optimal conditional error function, internally used as integral argument.}
 
-\item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 }
 \value{
 Point value of \code{getPsi()}.

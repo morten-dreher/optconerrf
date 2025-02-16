@@ -12,7 +12,7 @@ getSimulationResults(
 )
 }
 \arguments{
-\item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 
 \item{maxNumberOfIterations}{Number of trials to be simulated.}
 
@@ -28,8 +28,10 @@ Simulate the rejection probability for a given design and alternative.
 }
 \details{
 Simulates the probabilities of overall rejection as well as early futility and early efficacy for the provided scenario and design.
+This is done by generating random normally distributed test statistics and calculating their p-values.
 }
 \examples{
+\dontrun{
 design <- getDesignOptimalConditionalErrorFunction(
  alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, delta1 = 0.25,
  useInterimEstimate = FALSE,
@@ -39,7 +41,11 @@ design <- getDesignOptimalConditionalErrorFunction(
 
 # Simulate under the null hypothesis (type I error rate)
 getSimulationResults(
- design = design, maxNumberOfIterations = 100, alternative = 0
+ design = design, alternative = 0
 )
 
+# Simulate for a mean difference of 0.5 (with variance 1)
+getSimulationResults(
+ design = design, alternative = 0.5)
+}
 }

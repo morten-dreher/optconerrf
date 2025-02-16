@@ -13,7 +13,7 @@
 #' }
 #' The conditional error is calculated according to the specification provided in the \code{design} argument.
 #' For p-values smaller or equal to the first-stage efficacy boundary as well as p-values greater than the first-stage futility boundary,
-#' the returned information is 0.
+#' the returned information is 0 (since the trial is ended early in both cases).
 #'
 #' @template param_firstStagePValue
 #' @template param_design

@@ -15,7 +15,7 @@ getConditionalErrorFromSecondStageInformation(
 
 \item{secondStageInformation}{The second-stage information for which to calculate the corresponding conditional error.}
 
-\item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 }
 \value{
 The conditional error which corresponds to the provided second-stage information.

@@ -1,5 +1,5 @@
 #' @param likelihoodRatioDistribution The distribution to be used for the effect size of the likelihood ratio in the optimal conditional error function. Options are \code{"fixed", "normal", "exp", "unif", "maxlr"} for fixed effect size, normally distributed, exponentially distributed, uniformly distributed prior of the effect size and maximum likelihood ratio, respectively.
-#' Each case requires different additional specifications. \cr
+#' Each case requires different additional specifications: \cr
 #' \itemize{
 #' \item \code{likelihoodRatioDistribution="fixed"} uses one (or more) fixed effect sizes for the likelihood ratio and requires the parameter \code{deltaLR} which provides the mean difference under which to calculate the likelihood ratio. If \code{deltaLR} contains multiple values, they may be weighted using an additional argument \code{weightsDeltaLR}. Omitting \code{weightsDeltaLR} automatically leads to equal weighting.
 #' \item \code{likelihoodRatioDistribution="normal"} uses a normal prior for the effect size and requires parameters \code{deltaLR} and \code{tauLR} for the mean and standard deviation of the normal distribution (both on mean difference scale).

@@ -56,7 +56,7 @@ be specified by \code{delta1Max} or \code{ncp1Max}. If \code{FALSE}, the fixed e
 \item{firstStageInformation}{Information of the first stage of the trial. Must be a positive numeric value.}
 
 \item{likelihoodRatioDistribution}{The distribution to be used for the effect size of the likelihood ratio in the optimal conditional error function. Options are \code{"fixed", "normal", "exp", "unif", "maxlr"} for fixed effect size, normally distributed, exponentially distributed, uniformly distributed prior of the effect size and maximum likelihood ratio, respectively.
-Each case requires different additional specifications. \cr
+Each case requires different additional specifications: \cr
 \itemize{
 \item \code{likelihoodRatioDistribution="fixed"} uses one (or more) fixed effect sizes for the likelihood ratio and requires the parameter \code{deltaLR} which provides the mean difference under which to calculate the likelihood ratio. If \code{deltaLR} contains multiple values, they may be weighted using an additional argument \code{weightsDeltaLR}. Omitting \code{weightsDeltaLR} automatically leads to equal weighting.
 \item \code{likelihoodRatioDistribution="normal"} uses a normal prior for the effect size and requires parameters \code{deltaLR} and \code{tauLR} for the mean and standard deviation of the normal distribution (both on mean difference scale).
@@ -65,13 +65,13 @@ Each case requires different additional specifications. \cr
 \item \code{likelihoodRatioDistribution="maxlr"} estimates the non-centrality parameter to be used for the likelihood ratio from the data. No additional parameters must be specified.
 }}
 
-\item{minimumSecondStageInformation}{The minimum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{0}, i.e., no restriction.}
+\item{minimumSecondStageInformation}{The minimum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{0}, i.e., no restriction. Supersedes restrictions provided by \code{maximumConditionalError}.}
 
-\item{maximumSecondStageInformation}{The maximum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{Inf}, i.e., no restriction.}
+\item{maximumSecondStageInformation}{The maximum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{Inf}, i.e., no restriction. Supersedes restrictions provided by \code{minimumConditionalError}.}
 
-\item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction).}
+\item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction). Is superseded by restrictions provided by \code{maximumSecondStageInformation}.}
 
-\item{maximumConditionalError}{Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power.}
+\item{maximumConditionalError}{Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power. Is superseded by restrictions given by \code{minimumSecondStageInformation}.}
 
 \item{levelConstantMinimum}{The minimum of the interval on which the value for the level constant should be searched. Default value is 0.}
 
@@ -154,6 +154,7 @@ For details, see \code{?print.TrialDesignOptimalConditionalError} and \code{?plo
 }
 
 \examples{
+\dontrun{
 # Create a design with fixed parameter for the likelihood ratio and a
 # fixed effect for conditional power. The second-stage information is
 # restricted by a minimum and maximum.
@@ -171,5 +172,6 @@ getDesignOptimalConditionalErrorFunction(
   delta1Min = 0.5, likelihoodRatioDistribution = "maxlr",
   firstStageInformation = 2, useInterimEstimate = TRUE
 )
+}
 
 }

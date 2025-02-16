@@ -9,7 +9,7 @@ getSecondStageInformation(firstStagePValue, design)
 \arguments{
 \item{firstStagePValue}{First-stage p-value or p-values. Must be a numeric vector between 0 and 1.}
 
-\item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 }
 \value{
 The second-stage information.
@@ -28,7 +28,7 @@ where
 }
 The conditional error is calculated according to the specification provided in the \code{design} argument.
 For p-values smaller or equal to the first-stage efficacy boundary as well as p-values greater than the first-stage futility boundary,
-the returned information is 0.
+the returned information is 0 (since the trial is ended early in both cases).
 }
 \examples{
 design <- getDesignOptimalConditionalErrorFunction(

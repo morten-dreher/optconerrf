@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{Design object of class \code{TrialDesignOptimalConditionalError}.}
 
-\item{range}{Numeric vector with two entries specifying the range of the plot.}
+\item{range}{Numeric vector with two entries specifying the range of the x-axis of the plot.}
 
 \item{type}{Type of plot to be created. Options are: \itemize{
 \item \code{type = 1}: Plot the values of the optimal conditional error function against the first-stage p-value.
@@ -20,8 +20,8 @@
 
 \item{plotNonMonotoneFunction}{Logical. Should the non-monotone version of the plot be drawn? Not applicable for plot type 3. Default: \code{FALSE}.}
 
-\item{...}{Additional arguments.}
+\item{...}{Additional arguments required for generic compatibility}
 }
 \description{
-Plot the optimal conditional error function
+The returned plot is a \code{ggplot2} object and can be supplemented with additional layers using \code{ggplot2} commands.
 }

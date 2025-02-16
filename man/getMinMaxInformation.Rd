@@ -7,7 +7,7 @@
 getMinMaxInformation(design, delta_min = NULL, delta_max = NULL)
 }
 \arguments{
-\item{design}{A list created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 
 \item{delta_min}{Minimum for treatment effect.}
 

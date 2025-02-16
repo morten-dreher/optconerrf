@@ -85,6 +85,7 @@
 #' @return An object of class \code{TrialDesignOptimalConditionalError}, which can be passed to other package functions.
 #'
 #' @examples
+#' \dontrun{
 #' # Create a design with fixed parameter for the likelihood ratio and a
 #' # fixed effect for conditional power. The second-stage information is
 #' # restricted by a minimum and maximum.
@@ -102,6 +103,7 @@
 #'   delta1Min = 0.5, likelihoodRatioDistribution = "maxlr",
 #'   firstStageInformation = 2, useInterimEstimate = TRUE
 #' )
+#' }
 #'
 #' @export
 #'

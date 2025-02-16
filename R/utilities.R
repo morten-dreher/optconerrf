@@ -4,7 +4,7 @@
 #' Print an overview of the specified design parameters.
 #'
 #' @param x Design object of class \code{TrialDesignOptimalConditionalError}
-#' @param ... Additional arguments
+#' @param ... Additional arguments required for generic compatibility
 #'
 #'
 #' @export
@@ -83,7 +83,7 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
 #' Print an overview of simulation results.
 #'
 #' @param x Simulation results object of class \code{SimulationResultsOptimalConditionalError}
-#' @param ... Additional arguments
+#' @param ... Additional arguments required for generic compatibility
 #'
 #' @export
 print.SimulationResultsOptimalConditionalError <- function(x, ...) {
@@ -98,8 +98,11 @@ print.SimulationResultsOptimalConditionalError <- function(x, ...) {
 #' Plot the optimal conditional error function
 #' @name plot.TrialDesignOptimalConditionalError
 #'
+#' @description
+#' The returned plot is a \code{ggplot2} object and can be supplemented with additional layers using \code{ggplot2} commands.
+#'
 #' @param x Design object of class \code{TrialDesignOptimalConditionalError}.
-#' @param range Numeric vector with two entries specifying the range of the plot.
+#' @param range Numeric vector with two entries specifying the range of the x-axis of the plot.
 #' @param type Type of plot to be created. Options are: \itemize{
 #' \item \code{type = 1}: Plot the values of the optimal conditional error function against the first-stage p-value.
 #' \item \code{type = 2}: Plot the second-stage information resulting from the optimal conditional error function against the first-stage p-value.
@@ -107,7 +110,7 @@ print.SimulationResultsOptimalConditionalError <- function(x, ...) {
 #' \item \code{type = 4}: Plot the function Q of the given specification of the optimal conditional error function against the first-stage p-value.
 #' }
 #' @param plotNonMonotoneFunction Logical. Should the non-monotone version of the plot be drawn? Not applicable for plot type 3. Default: \code{FALSE}.
-#' @param ... Additional arguments.
+#' @param ... Additional arguments required for generic compatibility
 #'
 #' @export
 plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1, plotNonMonotoneFunction = FALSE, ...) {
