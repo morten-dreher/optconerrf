@@ -21,7 +21,7 @@
 getPsi <- function(nuPrime, conditionalPower){
 
  # If the conditional power is between 1-pnorm(2) and pnorm(2) nu prime is monotone and we can build the inverse directly
- if(pnorm(-2) <= conditionalPower && conditionalPower <= pnorm(2)){
+ if((pnorm(-2) <= conditionalPower & conditionalPower <= pnorm(2))){
    rootlist <- uniroot(f=function(alpha){getNuPrime(alpha = alpha, conditionalPower = conditionalPower) - nuPrime},
                        lower = 0, upper = conditionalPower, tol = 1e-16)
    return(rootlist$root)
@@ -67,4 +67,4 @@ getPsi <- function(nuPrime, conditionalPower){
  }
 }
 
-getPsi <- Vectorize(FUN = getPsi, vectorize.args = c("nuPrime"))
+getPsi <- Vectorize(FUN = getPsi, vectorize.args = c("nuPrime", "conditionalPower"))

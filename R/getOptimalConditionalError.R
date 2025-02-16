@@ -49,7 +49,15 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
     Q <- getQ(firstStagePValue = firstStagePValue, design = design)
   }
 
-  return(max(design$minimumConditionalError, min(design$maximumConditionalError, getPsi(nuPrime = (-exp(design$levelConstant)/Q), conditionalPower = design$conditionalPower))))
+  # Check if conditional power function should be used
+  if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+    conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
+  }
+  else {
+    conditionalPower <- design$conditionalPower
+  }
+
+  return(max(design$minimumConditionalError, min(design$maximumConditionalError, getPsi(nuPrime = (-exp(design$levelConstant)/Q), conditionalPower = conditionalPower))))
 
 }
 

@@ -12,6 +12,14 @@
 
 getIntegralWithConstants <- function(constant, design) {
 
+  # Check if conditional power function should be used
+  if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+    conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
+  }
+  else {
+    conditionalPower <- design$conditionalPower
+  }
+
   # Number of non-decreasing intervals of the optimal conditional error function
   numberOfIntervals <- length(design$monotonisationConstants$qs)
 
@@ -29,7 +37,7 @@ getIntegralWithConstants <- function(constant, design) {
   constantParts <- 0
   for (x in 1:numberOfIntervals){
     newPart <- min(max(getPsi(nuPrime = -exp(constant)/design$monotonisationConstants$qs[x],
-                   conditionalPower = design$conditionalPower), design$minimumConditionalError),
+                   conditionalPower = conditionalPower), design$minimumConditionalError),
         design$maximumConditionalError)*
       (design$monotonisationConstants$dus[x] - design$monotonisationConstants$dls[x])
     constantParts <- constantParts + newPart

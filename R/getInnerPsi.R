@@ -23,6 +23,15 @@ getInnerPsi <- function(firstStagePValue, constant, design) {
   }
 
   inner <- -exp(constant)/Q
-  return(pmin(pmax(getPsi(nuPrime = inner, conditionalPower = design$conditionalPower),
+
+  # Check if conditional power function should be used
+  if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+    conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
+  }
+  else {
+    conditionalPower <- design$conditionalPower
+  }
+
+  return(pmin(pmax(getPsi(nuPrime = inner, conditionalPower = conditionalPower),
                    design$minimumConditionalError), design$maximumConditionalError))
 }

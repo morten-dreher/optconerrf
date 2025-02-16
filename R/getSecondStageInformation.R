@@ -56,7 +56,15 @@ getSecondStageInformation <- function(firstStagePValue, design) {
       firstStagePValue = firstStagePValue, design = design
     )
 
-    information <- (getNu(alpha = conditionalError, conditionalPower = design$conditionalPower)) / (effect^2)
+    # Check if conditional power function should be used
+    if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+      conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
+    }
+    else {
+      conditionalPower <- design$conditionalPower
+    }
+
+    information <- (getNu(alpha = conditionalError, conditionalPower = conditionalPower)) / (effect^2)
   }
   return(information)
 }

@@ -22,7 +22,7 @@
 
 getNu <- function(alpha, conditionalPower) {
   nu <- 0
-  if(alpha > conditionalPower) {
+  if(any(alpha > conditionalPower)) {
     warning("alpha/conditional error should not exceed conditionalPower. Information is otherwise 0")
   }
   else{

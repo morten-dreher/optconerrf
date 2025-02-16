@@ -19,8 +19,11 @@ getConditionalErrorFromSecondStageInformation <- function(firstStagePValue, seco
     delta1 <- design$delta1
   }
 
-  # This is a setup for the conditional power function
-  if(!is.na(design$conditionalPower)) {
+  # Check if conditional power function should be used
+  if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+    conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
+  }
+  else {
     conditionalPower <- design$conditionalPower
   }
 

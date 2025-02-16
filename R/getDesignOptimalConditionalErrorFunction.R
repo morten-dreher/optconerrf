@@ -114,6 +114,7 @@ getDesignOptimalConditionalErrorFunction <- function(
     firstStageInformation, likelihoodRatioDistribution,
     minimumSecondStageInformation = 0, maximumSecondStageInformation = Inf,
     minimumConditionalError = 0, maximumConditionalError = 1,
+    conditionalPowerFunction = NA,
     levelConstantMinimum = 0, levelConstantMaximum = 10,
     enforceMonotonicity = TRUE, ...) {
   design <- new(
@@ -135,6 +136,7 @@ getDesignOptimalConditionalErrorFunction <- function(
     maximumSecondStageInformation = maximumSecondStageInformation,
     minimumConditionalError = minimumConditionalError,
     maximumConditionalError = maximumConditionalError,
+    conditionalPowerFunction = conditionalPowerFunction,
     levelConstantMinimum = levelConstantMinimum,
     levelConstantMaximum = levelConstantMaximum,
     enforceMonotonicity = enforceMonotonicity,

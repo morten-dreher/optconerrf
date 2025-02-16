@@ -21,24 +21,27 @@
 #' @references Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
 
 getLevelConstant <- function(design) {
-
   # Check basic condition for decision rules
-  if(design$alpha1 + design$conditionalPower*(design$alpha0-design$alpha1)<=design$alpha) {
-    stop("(alpha1 + conditionalPower*(alpha0-alpha1)) must exceed alpha, otherwise the full level alpha cannot be exhausted.")
+  if (!is.na(design$conditionalPower)) {
+    if (design$alpha1 + design$conditionalPower * (design$alpha0 - design$alpha1) <= design$alpha) {
+      stop("(alpha1 + conditionalPower*(alpha0-alpha1)) must exceed alpha, otherwise the full level alpha cannot be exhausted.")
+    }
   }
 
   # Find the level constant.
   # Expects an error if specified non-centrality parameter is very large or very small
   tryCatch(
     expr = {
-      stats::uniroot(f = getIntegral, lower = design$levelConstantMinimum,
-                     upper = design$levelConstantMaximum, design = design,
-                     tol = 1e-15)
+      stats::uniroot(
+        f = getIntegral, lower = design$levelConstantMinimum,
+        upper = design$levelConstantMaximum, design = design,
+        tol = 1e-16
+      )
     },
-    error = function(e){
+    error = function(e) {
       # This specific error may occur if the given non-centrality parameter is too small or too large or if the
       # provided constraints are not suitable and is handled separately
-      if(e$message == "f() values at end points not of opposite sign") {
+      if (e$message == "f() values at end points not of opposite sign") {
         stop("Root finding for level constant failed. Try changing the search interval via arguments levelConstantMinimum and levelConstantMaximum. \n Alternatively, the constraints on the optimal conditional error function or second-stage information may not be appropriate.")
       }
       # Print all other errors directly
@@ -47,6 +50,4 @@ getLevelConstant <- function(design) {
       }
     }
   )
-
 }
-

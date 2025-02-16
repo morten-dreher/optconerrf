@@ -139,6 +139,14 @@ integrateExpectedInformation <- function(firstStagePValue, design, likelihoodRat
     delta1 <- pmin(pmax(design$delta1Min, qnorm(1-firstStagePValue)), design$delta1Max)
   }
 
-  return((getNu(alpha=optimalCondErr,  conditionalPower = design$conditionalPower)*likelihoodRatio) / (delta1^2))
+  # Check if conditional power function should be used
+  if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+    conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
+  }
+  else {
+    conditionalPower <- design$conditionalPower
+  }
+
+  return((getNu(alpha=optimalCondErr,  conditionalPower = conditionalPower)*likelihoodRatio) / (delta1^2))
 
 }

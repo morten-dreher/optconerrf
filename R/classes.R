@@ -74,12 +74,15 @@ TrialDesignOptimalConditionalError <- setRefClass(
       rangeCheck(variable = alpha1, range = c(0, alpha), allowedEqual = TRUE)
       rangeCheck(variable = alpha0, range = c(alpha1, 1), allowedEqual = TRUE)
 
-      if(is.na(conditionalPower) && is.na(conditionalPowerFunction)) {
+      if(is.na(conditionalPower) && is.null(suppressWarnings(body(conditionalPowerFunction)))) {
         stop("Must specify either conditionalPower or conditionalPowerFunction")
       }
       else {
         if(!is.na(conditionalPower)) {
           rangeCheck(variable = conditionalPower, range = c(0, 1), allowedEqual = FALSE)
+        }
+        if(!is.null(suppressWarnings(body(conditionalPowerFunction)))) {
+          .self$conditionalPowerFunction <- conditionalPowerFunction
         }
       }
 
