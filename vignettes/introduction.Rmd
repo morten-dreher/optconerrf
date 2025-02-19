@@ -281,21 +281,21 @@ This can be achieved by the following code:
 
 ```{r}
 getExpectedSecondStageInformation(
-  design = design, distDelta = "fixed", deltaLR = 0
+  design = design, likelihoodRatioDistribution = "fixed", deltaLR = 0
 )
 ```
 
-The specification of the likelihood ratio under which to calculate the expected second-stage information is given by `distDelta="fixed"` and the corresponding treatment effect is specified by `deltaLR = 0`.
+The specification of the likelihood ratio under which to calculate the expected second-stage information is given by `likelihoodRatioDistribution="fixed"` and the corresponding treatment effect is specified by `deltaLR = 0`.
 
 Alternatively, one may calculate the expected second-stage information of the design if it was correctly specified, i.e., for $\Delta=0.5$:
 
 ```{r}
 getExpectedSecondStageInformation(
-  design = design, distDelta = "fixed", deltaLR = 0.5
+  design = design, likelihoodRatioDistribution = "fixed", deltaLR = 0.5
 )
 ```
 
-A shortcut for the calculation of the expected second-stage information under correct specification is also availabel by omitting the arguments `distDelta` and `deltaLR`, in which case the likelihood ratio specification given in the design is extracted and used for the calculation.
+A shortcut for the calculation of the expected second-stage information under correct specification is also available by omitting the arguments `likelihoodRatioDistribution` and `deltaLR`, in which case the likelihood ratio specification given in the design is extracted and used for the calculation.
 
 ```{r}
 getExpectedSecondStageInformation(
