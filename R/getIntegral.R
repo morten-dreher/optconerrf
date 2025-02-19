@@ -13,7 +13,7 @@
 
 getIntegral <- function(constant, design) {
   # If there are no monotonisation constants or they are not enforced, use standard integration
-  if(!design$enforceMonotonicity || is.null(unlist(design$monotonisationConstants))) {
+  if(!design$enforceMonotonicity || is.null(unlist(design$monotonisationConstants)) || !is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
     integral <- stats::integrate(
       f = getInnerPsi, lower = design$alpha1, upper = design$alpha0, constant = constant,
       design = design)$value
