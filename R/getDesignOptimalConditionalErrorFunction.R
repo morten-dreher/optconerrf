@@ -32,6 +32,18 @@
 #' For an interim estimate, specified by \code{useInterimEstimate=TRUE}, a lower cut-off for the interim estimate must be provided, either by \code{delta1Min} on the mean difference scale, or \code{ncp1Min} on the non-centrality parameter scale.
 #' In addition, an upper limit of the estimate may be analogously provided by \code{delta1Max} or \code{ncp1Max}.
 #'
+#' @section Sample size and information:
+#' The first-stage information of the trial design must be specified to allow for calculations between the mean difference and non-centrality parameter scale.
+#' It is provided to the design object via \code{firstStageInformation}. \cr
+#' Listed below are some examples for the calculation between information (\eqn{I_1}) and sample size:
+#' \itemize{
+#'  \item One-sample z-test with \eqn{n} total patients: \eqn{I_1 = \frac{n}{\sigma^2}}, where \eqn{\sigma^2} is the variance of an individual observation
+#'
+#' \item Balanced two-sample z-test with \eqn{n_1} patients per group: \eqn{I_1 = \frac{1}{2}\cdot\frac{n_1}{\sigma^2}}, where \eqn{\sigma^2} is the common variance
+#'
+#' \item General two-sample z-test with \eqn{n_1}, \eqn{n_2} patients per group: \eqn{I_1 = 1/(\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2})}, where \eqn{\sigma_1^2}, \eqn{\sigma_2^2} are the group-wise variances
+#' }
+#'
 #' @section Monotonicity:
 #' By default, the optimal conditional error function returned by \code{getDesignOptimalConditionalErrorFunction()} is transformed to be non-increasing in the first-stage p-value \eqn{p_1} if found to be increasing on any interval.
 #' The necessary intervals and constants for the transformation are calculated by \code{getMonotonisationConstants()}.
@@ -62,6 +74,7 @@
 #' @template param_alpha1
 #' @template param_alpha0
 #' @template param_conditionalPower
+#' @template param_conditionalPowerFunction
 #' @template param_ncp1
 #' @template param_ncp1Min
 #' @template param_ncp1Max

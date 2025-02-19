@@ -22,6 +22,7 @@ getDesignOptimalConditionalErrorFunction(
   maximumSecondStageInformation = Inf,
   minimumConditionalError = 0,
   maximumConditionalError = 1,
+  conditionalPowerFunction = NA,
   levelConstantMinimum = 0,
   levelConstantMaximum = 10,
   enforceMonotonicity = TRUE,
@@ -73,6 +74,8 @@ Each case requires different additional specifications: \cr
 
 \item{maximumConditionalError}{Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power. Is superseded by restrictions given by \code{minimumSecondStageInformation}.}
 
+\item{conditionalPowerFunction}{A user-specified function which calculates the conditional power from the first-stage p-value. This function should not be increasing in the first-stage p-value or monotonicity issues may occur.}
+
 \item{levelConstantMinimum}{The minimum of the interval on which the value for the level constant should be searched. Default value is 0.}
 
 \item{levelConstantMaximum}{The maximum of the interval on which the value for the level constant should be searched. Default value is 10.}
@@ -117,6 +120,20 @@ For the treatment effect at which the target conditional power should be achieve
 The usage of a fixed effect is indicated by setting \code{useInterimEstimate=FALSE}, in which case the fixed effect is provided by \code{delta1} on the mean difference scale or by \code{ncp1} on the non-centrality parameter scale (i.e., \code{delta1*sqrt(firstStageInformation)}).
 For an interim estimate, specified by \code{useInterimEstimate=TRUE}, a lower cut-off for the interim estimate must be provided, either by \code{delta1Min} on the mean difference scale, or \code{ncp1Min} on the non-centrality parameter scale.
 In addition, an upper limit of the estimate may be analogously provided by \code{delta1Max} or \code{ncp1Max}.
+}
+
+\section{Sample size and information}{
+
+The first-stage information of the trial design must be specified to allow for calculations between the mean difference and non-centrality parameter scale.
+It is provided to the design object via \code{firstStageInformation}. \cr
+Listed below are some examples for the calculation between information (\eqn{I_1}) and sample size:
+\itemize{
+\item One-sample z-test with \eqn{n} total patients: \eqn{I_1 = \frac{n}{\sigma^2}}, where \eqn{\sigma^2} is the variance of an individual observation
+
+\item Balanced two-sample z-test with \eqn{n_1} patients per group: \eqn{I_1 = \frac{1}{2}\cdot\frac{n_1}{\sigma^2}}, where \eqn{\sigma^2} is the common variance
+
+\item General two-sample z-test with \eqn{n_1}, \eqn{n_2} patients per group: \eqn{I_1 = 1/(\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2})}, where \eqn{\sigma_1^2}, \eqn{\sigma_2^2} are the group-wise variances
+}
 }
 
 \section{Monotonicity}{

@@ -1,1 +1,1 @@
-#' @param conditionalPowerFunction A function which calculates the conditional power from the first-stage p-value. Not fully implemented yet.
+#' @param conditionalPowerFunction A user-specified function which calculates the conditional power from the first-stage p-value. This function should not be increasing in the first-stage p-value or monotonicity issues may occur.

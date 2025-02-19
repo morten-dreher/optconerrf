@@ -26,6 +26,7 @@ must be contained in the \code{design} object (see \code{?getDesignOptimalCondit
 Early stopping rules are supported, i.e., for \eqn{p_1 \leq \alpha_1}, the returned conditional error is 1 and for \eqn{p_1 > \alpha_0}, the returned conditional error is 0.
 }
 \examples{
+\dontrun{
 # Create a design
 design <- getDesignOptimalConditionalErrorFunction(
 alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -36,7 +37,7 @@ likelihoodRatioDistribution = "fixed", deltaLR = 0.5)
 getOptimalConditionalError(
 firstStagePValue = c(0.1, 0.2, 0.3), design = design
 )
-
+}
 }
 \references{
 Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
