@@ -158,39 +158,21 @@ TrialDesignOptimalConditionalError <- setRefClass(
         }
       }
 
-      # Identify minimum conditional error
-      if(maximumSecondStageInformation < Inf) {
-        if(minimumConditionalError > 0) {
-          warning("Both arguments maximumSecondStageInformation and minimumConditionalError were specified. minimumConditionalError will be ignored and calculated from the maximumSecondStageInformation.")
-        }
-      #  .self$minimumConditionalError <- getConditionalErrorFromSecondStageInformation(
-      #    firstStagePValue = alpha0, secondStageInformation = maximumSecondStageInformation,
-      #    design = .self
-      #  )
-      #  .self$maximumSecondStageInformation <- maximumSecondStageInformation
-      }
-      else {
-        .self$minimumConditionalError <- minimumConditionalError
-        .self$maximumSecondStageInformation <- maximumSecondStageInformation
+      # Identify constraints for minimum conditional error / maximum second-stage information
+      .self$minimumConditionalError <- minimumConditionalError
+      .self$maximumSecondStageInformation <- maximumSecondStageInformation
+
+      if(maximumSecondStageInformation < Inf && minimumConditionalError > 0) {
+        warning("Both arguments maximumSecondStageInformation and minimumConditionalError were specified. minimumConditionalError will be ignored and calculated from the maximumSecondStageInformation.")
       }
 
-      # Identify maximum conditional error
-      if(minimumSecondStageInformation > 0) {
-        if(maximumConditionalError < 1) {
+      # Identify constraints for maximum conditional error / minimum second-stage information
+      .self$maximumConditionalError <- maximumConditionalError
+      .self$minimumSecondStageInformation <- minimumSecondStageInformation
+
+      if(minimumSecondStageInformation > 0 && maximumConditionalError < 1) {
           warning("Both arguments minimumSecondStageInformation and maximumConditionalError were specified. maximumConditionalError will be ignored and calculated from the minimumSecondStageInformation.")
-        }
-      #  .self$maximumConditionalError <- getConditionalErrorFromSecondStageInformation(
-      #    firstStagePValue = alpha1 + 1e-17, secondStageInformation = minimumSecondStageInformation,
-      #    design = .self
-      #  )
-      #  .self$minimumSecondStageInformation <- minimumSecondStageInformation
       }
-      else {
-        .self$maximumConditionalError <- maximumConditionalError
-        .self$minimumSecondStageInformation <- minimumSecondStageInformation
-      }
-
-
 
       .self$enforceMonotonicity <- enforceMonotonicity
 
