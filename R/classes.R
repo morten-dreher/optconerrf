@@ -82,6 +82,17 @@ TrialDesignOptimalConditionalError <- setRefClass(
           rangeCheck(variable = conditionalPower, range = c(0, 1), allowedEqual = FALSE)
         }
         if(!is.null(suppressWarnings(body(conditionalPowerFunction)))) {
+
+          # Check if function is increasing
+          # Grid of values
+          pValueGrid <- seq(from = alpha1, to = alpha0, length.out = 50)
+          condPowerValues <- conditionalPowerFunction(pValueGrid)
+
+          # Any function value larger than previous?
+          if(any(condPowerValues[2:(length(condPowerValues))] > condPowerValues[1:(length(condPowerValues)-1)])) {
+            warning("Conditional power function should not be increasing in the first-stage p-value.")
+          }
+
           .self$conditionalPowerFunction <- conditionalPowerFunction
         }
       }
