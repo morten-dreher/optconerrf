@@ -76,7 +76,7 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
   }
 
   #If maximumSecondStageInformation is given, use this instead of minimumConditionalError
-  if(design$maximumSecondStageInformation != Inf){
+  if(design$maximumSecondStageInformation < Inf){
     C_min <- 1 - pnorm(delta1* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
   }
 
