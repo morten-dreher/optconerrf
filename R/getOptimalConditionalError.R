@@ -50,6 +50,15 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
     Q <- getQ(firstStagePValue = firstStagePValue, design = design)
   }
 
+  #Check if interim estimate is used
+  if(design$useInterimEstimate) {
+    delta1 <- min(max(qnorm(1-firstStagePValue)/sqrt(design$firstStageInformation), design$delta1Min), design$delta1Max)
+  }
+  # Otherwise use fixed effect
+  else {
+    delta1 <- design$delta1
+  }
+
   # Check if conditional power function should be used
   if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
     conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
@@ -58,7 +67,20 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
     conditionalPower <- design$conditionalPower
   }
 
-  return(max(design$minimumConditionalError, min(design$maximumConditionalError, getPsi(nuPrime = (-exp(design$levelConstant)/Q), conditionalPower = conditionalPower))))
+  C_max <- design$maximumConditionalError
+  C_min <- design$minimumConditionalError
+
+  #If minimumSecondStageInformation is given, use this instead of maximumConditionalError
+  if(design$minimumSecondStageInformation > 0){
+    C_max <- 1 - pnorm(delta1* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
+  }
+
+  #If maximumSecondStageInformation is given, use this instead of minimumConditionalError
+  if(design$maximumSecondStageInformation != Inf){
+    C_min <- 1 - pnorm(delta1* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
+  }
+
+  return(max(C_min, min(C_max, getPsi(nuPrime = (-exp(design$levelConstant)/Q), conditionalPower = conditionalPower))))
 
 }
 

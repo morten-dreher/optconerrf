@@ -152,11 +152,11 @@ TrialDesignOptimalConditionalError <- setRefClass(
         if(minimumConditionalError > 0) {
           warning("Both arguments maximumSecondStageInformation and minimumConditionalError were specified. minimumConditionalError will be ignored and calculated from the maximumSecondStageInformation.")
         }
-        .self$minimumConditionalError <- getConditionalErrorFromSecondStageInformation(
-          firstStagePValue = alpha0, secondStageInformation = maximumSecondStageInformation,
-          design = .self
-        )
-        .self$maximumSecondStageInformation <- maximumSecondStageInformation
+      #  .self$minimumConditionalError <- getConditionalErrorFromSecondStageInformation(
+      #    firstStagePValue = alpha0, secondStageInformation = maximumSecondStageInformation,
+      #    design = .self
+      #  )
+      #  .self$maximumSecondStageInformation <- maximumSecondStageInformation
       }
       else {
         .self$minimumConditionalError <- minimumConditionalError
@@ -168,11 +168,11 @@ TrialDesignOptimalConditionalError <- setRefClass(
         if(maximumConditionalError < 1) {
           warning("Both arguments minimumSecondStageInformation and maximumConditionalError were specified. maximumConditionalError will be ignored and calculated from the minimumSecondStageInformation.")
         }
-        .self$maximumConditionalError <- getConditionalErrorFromSecondStageInformation(
-          firstStagePValue = alpha1 + 1e-17, secondStageInformation = minimumSecondStageInformation,
-          design = .self
-        )
-        .self$minimumSecondStageInformation <- minimumSecondStageInformation
+      #  .self$maximumConditionalError <- getConditionalErrorFromSecondStageInformation(
+      #    firstStagePValue = alpha1 + 1e-17, secondStageInformation = minimumSecondStageInformation,
+      #    design = .self
+      #  )
+      #  .self$minimumSecondStageInformation <- minimumSecondStageInformation
       }
       else {
         .self$maximumConditionalError <- maximumConditionalError
