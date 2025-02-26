@@ -1,4 +1,4 @@
-#' Calculate Expected Second-stage Information
+#' Calculate Minimum and Maximum Second-stage Information
 #' @name getMinMaxInformation
 #'
 #' @description Calculate the minimum and maximum information
@@ -8,55 +8,26 @@
 #' @param delta_max Maximum for treatment effect.
 #'
 #'
+
 getMinMaxInformation <- function(design, delta_min = NULL, delta_max = NULL) {
   minInfo_alpha <- NULL
   maxInfo_alpha <- NULL
   maxInfo_cond_error <- NULL
   minInfo_cond_error <- NULL
 
+  #Achtung, hier wird zur Berechnung automatisch
   if (design$alpha1 != 0) {
     epsilon <- 1e-17
-    estimated_delta <- qnorm(1 - (design$alpha1 + epsilon)) * design$firstStageInformation^(-1 / 2)
-    # delta <- max(delta_min, estimated_delta)
-    delta <- min(delta_max, estimated_delta)
-    opti <- getOptimalConditionalError(
-      firstStagePValue = design$alpha1 + epsilon,
-      design = design
-    )
-
-    minInfo_alpha <- getSecondStageInformation(
-      firstStagePValue = design$alpha1 + epsilon,
-      design = design
-    )
+    minInfo_alpha <- getSecondStageInformation(firstStagePValue = design$alpha1 + epsilon, design = design)
   }
-  estimated_delta <- qnorm(1 - design$alpha0) * design$firstStageInformation^(-1 / 2)
-  # delta <- min(delta_max, estimated_delta)
-  delta <- max(delta_min, estimated_delta)
-  opti <- getOptimalConditionalError(
-    firstStagePValue = design$alpha0,
-    design = design
-  )
-  maxInfo_alpha <- getSecondStageInformation(
-    firstStagePValue = design$alpha0,
-    design = design
-  )
-  print(paste0("maxInfo_alpha ", maxInfo_alpha))
+  maxInfo_alpha <- getSecondStageInformation(firstStagePValue = design$alpha0, design = design)
 
+#Hier gibt es Probleme mit der Anpassung
   if ((design$maximumConditionalError < design$conditionalPower) && !is.null(delta_max)) {
-    minInfo_cond_error <-
-      getNu(
-        alpha = design$maximumConditionalError,
-        conditionalPower = design$conditionalPower
-      ) / (delta_max^2)
-    print(paste0("minInfo_cond_error ", minInfo_cond_error))
+    minInfo_cond_error <- getNu(alpha = design$maximumConditionalError,conditionalPower = design$conditionalPower) / (delta_max^2)
   }
   if (design$minimumConditionalError != 0) {
-    maxInfo_cond_error <-
-      getNu(
-        alpha = design$minimumConditionalError,
-        conditionalPower = design$conditionalPower
-      ) / (delta_min^2)
-    print(paste0("maxInfo_cond_error ", maxInfo_cond_error))
+    maxInfo_cond_error <- getNu(alpha = design$minimumConditionalError, conditionalPower = design$conditionalPower) / (delta_min^2)
   }
 
   minInfo <- max(minInfo_alpha, minInfo_cond_error)
