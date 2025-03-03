@@ -171,7 +171,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
       .self$minimumSecondStageInformation <- minimumSecondStageInformation
 
       if(minimumSecondStageInformation > 0 && maximumConditionalError < 1) {
-          warning("Both arguments minimumSecondStageInformation and maximumConditionalError were specified. maximumConditionalError will be ignored and calculated from the minimumSecondStageInformation.")
+        warning("Both arguments minimumSecondStageInformation and maximumConditionalError were specified. maximumConditionalError will be ignored and calculated from the minimumSecondStageInformation.")
       }
 
       .self$enforceMonotonicity <- enforceMonotonicity
