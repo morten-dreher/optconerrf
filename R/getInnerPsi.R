@@ -25,38 +25,61 @@ getInnerPsi <- function(firstStagePValue, constant, design) {
   # Calculate the value to be supplied to getPsi
   inner <- -exp(constant)/Q
 
-  # Identify conditional power to be supplied to getPsi and to be used for (information) constraints
-  # Check if conditional power function should be used
-  if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
-    conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
-  }
-  # Constant conditional power
-  else {
-    conditionalPower <- design$conditionalPower
-  }
-
-  # Calculate possibly data-dependent constraints
-  # Identify effect for constraints
-  if(design$useInterimEstimate) {
-    delta1 <- pmin(pmax(qnorm(1-firstStagePValue)/sqrt(design$firstStageInformation), design$delta1Min), design$delta1Max)
-  }
-  else {
-    delta1 <- design$delta1
-  }
-
   # Constraints on conditional error scale
   C_max <- design$maximumConditionalError
   C_min <- design$minimumConditionalError
 
-  #If minimumSecondStageInformation is given, use this instead of maximumConditionalError
-  if(design$minimumSecondStageInformation > 0){
-    C_max <- 1 - pnorm(delta1* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
+  # Identify conditional power to be supplied to getPsi and to be used for (information) constraints
+  # Check if conditional power function should be used
+  if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+    conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
+
+    #Calculate possibly data-dependent constraints
+    #Identify effect for constraints
+    if(design$useInterimEstimate) {
+      delta1 <- pmin(pmax(qnorm(1-firstStagePValue)/sqrt(design$firstStageInformation), design$delta1Min), design$delta1Max)
+    }
+    else {
+      delta1 <- design$delta1
+    }
+
+    #If minimumSecondStageInformation is given, use this instead of maximumConditionalError
+    if(design$minimumSecondStageInformation > 0){
+      C_max <- 1 - pnorm(delta1* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
+    }
+
+    #If maximumSecondStageInformation is given, use this instead of minimumConditionalError
+    if(design$maximumSecondStageInformation < Inf){
+      C_min <- 1 - pnorm(delta1* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
+    }
+  }
+  # Constant conditional power
+  else {
+    conditionalPower <- design$conditionalPower
+
+    #Check if interim estimate is used
+    if(design$useInterimEstimate) {
+      delta_C_max <- min(qnorm(1-design$alpha1)/sqrt(design$firstStageInformation),design$delta1Max)
+      delta_C_min <- max(qnorm(1-design$alpha0)/sqrt(design$firstStageInformation),design$delta1Min)
+    }
+    # Otherwise use fixed effect
+    else {
+      delta_C_max <- design$delta1
+      delta_C_min <- design$delta1
+    }
+
+    #If minimumSecondStageInformation is given, use this instead of maximumConditionalError
+    if(design$minimumSecondStageInformation > 0){
+      C_max <- 1 - pnorm(delta_C_max* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
+    }
+
+    #If maximumSecondStageInformation is given, use this instead of minimumConditionalError
+    if(design$maximumSecondStageInformation < Inf){
+      C_min <- 1 - pnorm(delta_C_min* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
+    }
   }
 
-  #If maximumSecondStageInformation is given, use this instead of minimumConditionalError
-  if(design$maximumSecondStageInformation < Inf){
-    C_min <- 1 - pnorm(delta1* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
-  }
+
 
   return(pmin(pmax(getPsi(nuPrime = inner, conditionalPower = conditionalPower),
                    C_min), C_max))
