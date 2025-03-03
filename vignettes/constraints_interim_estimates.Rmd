@@ -1,0 +1,222 @@
+---
+title: "Using Constraints and Interim Estimates for the Optimal Conditional Error Function"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using Constraints and Interim Estimates for the Optimal Conditional Error Function}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.dim = c(6,4)
+)
+```
+
+```{r setup}
+library(optconerrf)
+```
+
+# Summary
+
+This vignette provides examples on some slightly more advanced methods which can be applied in the framework of the optimal conditional error function.
+Firstly, the use of constraints for the optimal conditional error function is illustrated and afterwards, the use of an interim estimate for the effect at which the conditional power should be achieved as well as the implementation of a data-dependent conditional power function are discussed.
+
+# Constraints
+
+In the framework of two-stage adaptive designs, it may not be feasible to allow the second-stage information to fall below a certain minimum $I_{2,\min}$, e.g., if more data on safety or secondary endpoints are required.
+Conversely, budgeting considerations may impose an upper limit $I_{2, \max}$ on the information that can be collected in the second-stage.
+Instead of ignoring these constraints in the planning phase and applying them "post-hoc", they can be accounted for in the minimisation procedure of the optimal conditional error function.
+For illustration purposes, we use a trial design with overall type I error rate $\alpha=0.025$, early decision boundaries $\alpha_1 = 0.000158$ and $\alpha_0 = 0.5$ with conditional power $CP=0.9$ at the fixed alternative $\Delta_1 = 0.25$.
+After collecting a first-stage information of $I_1=85$, the information of the second-stage of the trial should lie between $I_{2, \min} = 85/2$ and $I_{2, \max} = 85\cdot 2$.
+To implement this design using the optimal conditional error function with the maximum likelihood ratio, the following code is required:
+
+```{r}
+trialDesignConstraints <- getDesignOptimalConditionalErrorFunction(
+  alpha = 0.025,
+  alpha1 = 0.000158,
+  alpha0 = 0.5,
+  conditionalPower = 0.9,
+  delta1 = 0.25,
+  useInterimEstimate = FALSE,
+  likelihoodRatioDistribution = "maxlr",
+  firstStageInformation = 85,
+  minimumSecondStageInformation = 85/2,
+  maximumSecondStageInformation = 85*2
+)
+```
+
+The constraints are supplied by the arguments `minimumSecondStageInformation` and `maximumSecondStageInformation`.
+Plotting the second-stage information of this design highlights the application of the constraints (represented by the gray dashed lines):
+
+```{r, fig.dim = c(6,4)}
+plot(trialDesignConstraints, type = 2) +
+  ggplot2::geom_hline(yintercept = c(85/2, 85*2), linetype = "dashed", colour = "gray")
+```
+
+Alternatively, the constraints may be directly specified on the conditional error function as $C_{\min}$ and $C_{\max}$ due to
+
+$$
+C_{\min} = \Phi(\Phi^{-1}(CP)- \Delta_1\sqrt{I_{2,\max}})
+$$
+and
+$$
+C_{\max} = \Phi(\Phi^{-1}(CP)- \Delta_1\sqrt{I_{2,\min}}).
+$$
+Note that the *maximum* second-stage information corresponds to the *minimum* conditional error and that the *minimum* second-stage information corresponds to the *maximum* conditional error.
+Plugging in $I_{2, \max} = 85\cdot 2$ and $I_{2,\min} = 85/2$, we get $C_{\min} \approx 0.02396$ and $C_{\max} \approx 0.36382$ and can create the same design, now using `minimumConditionalError` and `maximumConditionalError` for the constraints:
+
+```{r}
+trialDesignConstraintsConditionalError <- getDesignOptimalConditionalErrorFunction(
+  alpha = 0.025,
+  alpha1 = 0.000158,
+  alpha0 = 0.5,
+  conditionalPower = 0.9,
+  delta1 = 0.25,
+  useInterimEstimate = FALSE,
+  likelihoodRatioDistribution = "maxlr",
+  firstStageInformation = 85,
+  minimumConditionalError =  0.02396,
+  maximumConditionalError = 0.36382
+)
+```
+
+Comparing the expected second-stage information of the designs yields essentially the same values, with a minor difference resulting from rounding of $C_{\min}$ and $C_{\max}$. 
+
+```{r}
+getExpectedSecondStageInformation(
+  trialDesignConstraints, 
+  likelihoodRatioDistribution = "fixed", 
+  deltaLR = 0.25
+)
+getExpectedSecondStageInformation(
+  trialDesignConstraintsConditionalError, 
+  likelihoodRatioDistribution = "fixed",
+  deltaLR = 0.25
+)
+```
+
+Internally, the restrictions are always translated to and applied on the conditional error scale, however, the specification of constraints on the information scale may be more convenient to the user.
+If constraints are specified on both information and conditional error scales, the former is used for calculations and the latter is ignored.
+
+
+Note that the specification of inappropriate constraints may make it impossible to fully exhaust (and not exceed) the $\alpha$ level, i.e., find a level constant for the design.
+(As an example, consider a design with $\alpha=0.025$, $\alpha_1=0$ and $\alpha_0=1$. Since the full $\alpha$ level is to be spent in the second stage, it follows from the level condition (see `?getLevelConstant`) that $0.025 = \int_0^1 \alpha_2(p_1)dp_1$. The exemplary constraint $C_{\max}=0.01$ is inappropriate since when applying it, $\int_0^1 \min(0.01, \alpha_2(p_1))dp_1 \leq \int_0^1 0.01 dp_1 = 0.01 \neq 0.025$ and the level condition cannot be fulfilled.)
+
+
+# Interim Estimates
+
+## Interim Estimate for Conditional Power Effect
+
+In certain applications, using a fixed effect $\Delta_1$ at which the conditional power (be it constant or a function) should be achieved may not be appropriate.
+For example, we may wish to estimate this effect from the first-stage data if only little or unreliable evidence regarding the treatment effect is available during trial planning.
+A simple estimate for the interim effect is given by:
+
+$$
+\hat\Delta_1(p_1) = \Phi^{-1}(1-p_1)/ \sqrt{I_1}.
+$$
+An issue with this estimate is the fact that it may become negative for $p_1 > 0.5$.
+However, negative effects are part of the null hypothesis $H_0: \Delta \leq 0$ and cannot be powered for.
+Furthermore, a clinical trial typically operates with a minimally clinically relevant effect size $\Delta_{1, \min} > 0$, which marks the lower boundary of effects considered worthwhile detecting.
+An upper limit $\Delta_{1, \max}$ may also be put in place to deselect overly optimistic interim effects.
+Implementing both cutoffs leads to the truncated interim estimate:
+
+$$
+\tilde\Delta_1(p_1) = \min(\max(\hat\Delta_1(p_1), \, \Delta_{1,\min}),\, \Delta_{1,\max}).
+$$
+When creating a design object with `getDesignOptimalConditionalErrorFunction()`, the use of an interim estimate for the treatment effect at which the conditional power should be achieved is specified by setting `useInterimEstimate = TRUE`.
+When an interim estimate is used, the lower limit $\Delta_{1,\min}$ must be specified by the argument `delta1Min`.
+Optionally, an upper limit can also be specified via `delta1Max`.
+Both arguments may also be specified on the non-centrality parameter scale with $\vartheta_{1,\min} = \Delta_{1, \min}\cdot\sqrt{I_1}$ as `ncp1Min` and $\vartheta_{1,\max} = \Delta_{1, \max}\cdot\sqrt{I_1}$ as `ncp1Max`. 
+
+As an example, consider the same trial setting as above with $\alpha=0.025$, $\alpha_1=0.000158$, $\alpha_0=0.5$, $CP=0.9$, $I_1 = 85$ and the maximum likelihood ratio.
+Now, instead of using a fixed effect $\Delta_1$, we wish to estimate this effect from the data with a minimally clinically relevant effect size of $\Delta_{1, \min}=0.15$.
+Note that for a design with an early efficacy boundary $\alpha_1>0$, an upper limit for the effect is always implicitly given by $\Delta_{1,\max} = \Phi^{-1}(1-\alpha_1)/\sqrt{I_1}$, which is $\Phi^{-1}(1-0.000158)/\sqrt{85}=0.390672$ here.
+We wish to be a little more restrictive by manually setting $\Delta_{1,\max} = 0.35$.
+
+The design object is then created as:
+
+```{r}
+trialDesignInterimEstimate <- 
+  getDesignOptimalConditionalErrorFunction(
+    alpha = 0.025,
+    alpha1 = 0.000158,
+    alpha0 = 0.5,
+    conditionalPower = 0.9,
+    useInterimEstimate = TRUE,
+    delta1Min = 0.15,
+    delta1Max = 0.35,
+    firstStageInformation = 85,
+    likelihoodRatioDistribution = "maxlr"
+  )
+```
+
+```{r}
+plot(trialDesignInterimEstimate, type = 1)
+plot(trialDesignInterimEstimate, type = 2)
+```
+
+
+
+## Using a Conditional Power Function
+
+Using the same value for conditional power regardless of the interim results of the trial may not be intuitive.
+Instead, one may wish to use a conditional power function which depends on the interim data.
+Generally, a small first-stage p-value may warrant a large conditional power, whereas for weaker first-stage evidence, a lower conditional power may be more appropriate.
+Thus, the conditional power function should be decreasing (or at least non-increasing) in the first-stage p-value.
+
+A decreasing conditional power function may impact the second-stage information function in a way that it actually decreases for large first-stage p-values close to the first-stage futility boundary $\alpha_0$.
+In `optconerrf`, the user may freely specify a conditional power function to `getDesignOptimalConditionalErrorFunction()` via the argument `conditionalPowerFunction`.
+Currently, only conditional power functions with a single argument, namely the first-stage p-value, are permitted.
+For illustration purposes, we consider the rather simple conditional power function $CP(p_1) = \Phi(1-p_1)$, which is decreasing in the first-stage p-value $p_1$:
+
+```{r}
+myConditionalPowerFunction <- function(firstStagePValue) {
+  return(pnorm(1 - firstStagePValue))
+}
+```
+
+A simple plot shows the properties of this function:
+
+```{r}
+p1 <- seq(0, 1, 0.01)
+plot(p1, myConditionalPowerFunction(p1))
+abline(h = myConditionalPowerFunction(c(0, 1)), col = "blue")
+```
+
+For small first-stage p-values, the conditional power function leads to value slightly larger than 0.8 and approaches 0.5, as the first-stage p-value becomes larger.
+Considering that the final decision of a trial with conditional power 0.5 effectively equates a coin toss, we wish to implement a futility stop for first-stage p-values that lead to a conditional power below 0.65.
+Inverting the conditional power function thus leads to a futility boundary of $\alpha_0 = 1- \Phi^{-1}(0.65) = 0.6147$.
+Implementing this in a design object is straightforward:
+
+```{r}
+trialDesignConditionalPowerFunction <- 
+  getDesignOptimalConditionalErrorFunction(
+    alpha = 0.025,
+    alpha1 = 0,
+    alpha0 = 0.6147,
+    conditionalPowerFunction = myConditionalPowerFunction,
+    delta1 = 0.25,
+    useInterimEstimate = FALSE,
+    firstStageInformation = 100,
+    likelihoodRatioDistribution = "maxlr"
+  )
+```
+
+Plotting the optimal conditional error function resulting from this design yields a seemingly normal function:
+
+```{r}
+plot(trialDesignConditionalPowerFunction, type = 1)
+```
+
+The merits of using a conditional power function become more apparent when plotting the second-stage information resulting from the design:
+
+```{r}
+plot(trialDesignConditionalPowerFunction, type = 2)
+```
+
+This second plot shows that the second-stage information required to achieve the conditional power (function) first increases in the first-stage p-value, reaches a maximum and then decreases as the first-stage evidence becomes weaker.
+This is in contrast to a design with a constant conditional power, for which the second-stage information function is always non-decreasing (and typically, increasing) in the first-stage p-value.
+Using a decreasing conditional power function thus allows for potential savings in first-stage information in case of weak first-stage evidence.
