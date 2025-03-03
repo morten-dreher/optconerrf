@@ -14,13 +14,17 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
   cat("  Overall significance level:", x$alpha, "\n")
   cat("  First-stage efficacy boundary (p-value scale):", x$alpha1, "\n")
   cat("  Binding first-stage futility boundary (p-value scale):", x$alpha0, "\n")
-  cat(
-    "  Constraints on optimal conditional error:",
-    paste("[", x$minimumConditionalError, ", ", x$maximumConditionalError, "]", sep = ""), "\n"
-  )
-  cat("  Constraints on second-stage information:",
-      paste("[", x$minimumSecondStageInformation, ", ", x$maximumSecondStageInformation, "]", sep = ""), "\n"
-      )
+  if(x$minimumConditionalError > 0 || x$maximumConditionalError < 1) {
+    cat(
+      "  Constraints on optimal conditional error:",
+      paste("[", x$minimumConditionalError, ", ", x$maximumConditionalError, "]", sep = ""), "\n"
+    )
+  }
+  if(x$minimumSecondStageInformation > 0 || x$maximumSecondStageInformation < Inf) {
+    cat("  Constraints on second-stage information:",
+        paste("[", x$minimumSecondStageInformation, ", ", x$maximumSecondStageInformation, "]", sep = ""), "\n"
+        )
+  }
 
   cat("\n")
 
