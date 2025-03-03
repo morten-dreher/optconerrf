@@ -150,8 +150,7 @@ These constraints can be directly implemented on the function by using the argum
 By default, \code{minimumConditionalError=0} and \code{maximumConditionalError=1}, i.e., no constraints are applied.
 Alternatively, the constraints may also be specified on the second-stage information via \code{minimumSecondStageInformation} and \code{maximumSecondStageInformation}.
 If the constraints are specified on the information scale, \code{minimumConditionalError} is calculated from \code{maximumSecondStageInformation} and \code{maximumConditionalError}
-is calculated from \code{minimumSecondStageInformation}. This is done under the assumptions that the maximum second-stage information occurs for \eqn{p_1 = \alpha_0} and the
-minimum second-stage information is achieved for \eqn{p_1} just above \eqn{\alpha_1} (for the exact calculation, \eqn{p_1 = \alpha_1+1e-17} is used).
+is calculated from \code{minimumSecondStageInformation}.
 Additional specifications of \code{minimumConditionalError} and \code{maximumConditionalError} will be ignored if \code{maximumSecondStageInformation} and
 \code{minimumSecondStageInformation} are provided.
 }
