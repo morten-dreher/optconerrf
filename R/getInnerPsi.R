@@ -25,9 +25,12 @@ getInnerPsi <- function(firstStagePValue, constant, design) {
   # Calculate the value to be supplied to getPsi
   inner <- -exp(constant)/Q
 
+  C_max_Info <- NULL
+  C_min_Info <- NULL
+
   # Constraints on conditional error scale
-  C_max <- design$maximumConditionalError
-  C_min <- design$minimumConditionalError
+  C_max_cond_error <- design$maximumConditionalError
+  C_min_cond_error <- design$minimumConditionalError
 
   # Identify conditional power to be supplied to getPsi and to be used for (information) constraints
   # Check if conditional power function should be used
@@ -45,12 +48,12 @@ getInnerPsi <- function(firstStagePValue, constant, design) {
 
     #If minimumSecondStageInformation is given, use this instead of maximumConditionalError
     if(design$minimumSecondStageInformation > 0){
-      C_max <- 1 - pnorm(delta1* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
+      C_max_Info <- 1 - pnorm(delta1* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
     }
 
     #If maximumSecondStageInformation is given, use this instead of minimumConditionalError
     if(design$maximumSecondStageInformation < Inf){
-      C_min <- 1 - pnorm(delta1* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
+      C_min_Info <- 1 - pnorm(delta1* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
     }
   }
   # Constant conditional power
@@ -70,15 +73,18 @@ getInnerPsi <- function(firstStagePValue, constant, design) {
 
     #If minimumSecondStageInformation is given, use this instead of maximumConditionalError
     if(design$minimumSecondStageInformation > 0){
-      C_max <- 1 - pnorm(delta_C_max* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
+      C_max_Info <- 1 - pnorm(delta_C_max* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
     }
 
     #If maximumSecondStageInformation is given, use this instead of minimumConditionalError
     if(design$maximumSecondStageInformation < Inf){
-      C_min <- 1 - pnorm(delta_C_min* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
+      C_min_Info <- 1 - pnorm(delta_C_min* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
     }
   }
 
+  #Use the constraint that is the stronger restriction
+  C_max <- min(C_max_Info, C_max_cond_error)
+  C_min <- max(C_min_Info, C_min_cond_error)
 
 
   return(pmin(pmax(getPsi(nuPrime = inner, conditionalPower = conditionalPower),
