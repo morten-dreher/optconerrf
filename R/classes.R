@@ -93,6 +93,10 @@ TrialDesignOptimalConditionalError <- setRefClass(
             warning("Conditional power function should not be increasing in the first-stage p-value.")
           }
 
+          if(useInterimEstimate && (minimumSecondStageInformation > 0 || maximumSecondStageInformation < Inf)) {
+            warning("Use of conditional power function, interim estimate and information constraints may lead to non-monotone conditional error function.")
+          }
+
           .self$conditionalPowerFunction <- conditionalPowerFunction
         }
       }
