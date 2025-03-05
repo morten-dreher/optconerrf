@@ -153,8 +153,6 @@ In this case, it is necessary that a lower limit for this interim estimate is sp
 Furthermore, one may wish to deselect overly large interim treatment effect estimates by imposing an upper limit on the estimator.
 This can be done by using the arguments `delta1Max` or `ncp1Max`, but is not required.
 
-Note that the used effect specification is always used in the functions that calculate the second-stage information, i.e., `getSecondStageInformation()` and `getExpectedSecondStageInformation()`.
-
 ## First-stage information
 
 The first-stage information of the trial design must be specified to allow for calculations between the mean difference and non-centrality parameter scale.
