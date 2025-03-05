@@ -4,7 +4,7 @@
 #'
 #' @description Calculate the likelihood ratio of a p-value for a given distribution.
 #'
-#' @details The calculation of the likelihood ratio for a first-stage p-value \eqn{p_1} is done based on a distributional assumption, specified via the argment \code{dist}.
+#' @details The calculation of the likelihood ratio for a first-stage p-value \eqn{p_1} is done based on a distributional assumption, specified in the \code{design} object.
 #' The different options require different parameters, elaborated in the following.
 #' \itemize{
 #'    \item \code{likelihoodRatioDistribution="fixed"}: calculates the likelihood ratio for a fixed \eqn{\Delta}. The non-centrality parameter of the likelihood ratio \eqn{\vartheta} is then computed as \code{deltaLR}*\code{sqrt(firstStageInformation)} and the likelihood ratio is calculated as:
