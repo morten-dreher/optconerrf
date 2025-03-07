@@ -3,6 +3,7 @@
 S3method(plot,TrialDesignOptimalConditionalError)
 S3method(print,SimulationResultsOptimalConditionalError)
 S3method(print,TrialDesignOptimalConditionalError)
+S3method(summary,TrialDesignOptimalConditionalError)
 export(getDesignOptimalConditionalErrorFunction)
 export(getExpectedSecondStageInformation)
 export(getLevelConstant)

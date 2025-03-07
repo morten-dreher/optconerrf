@@ -308,6 +308,12 @@ plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1
   }
 }
 
+#'
+#' @export
+summary.TrialDesignOptimalConditionalError <- function(object, ...) {
+  cat("Hallo")
+}
+
 
 #' Simple range check for numeric variables
 #' @description
