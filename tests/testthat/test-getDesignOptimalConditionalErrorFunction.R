@@ -21,8 +21,11 @@ test_that("Class objects correctly created", {
   expect_equal(design_interim$enforceMonotonicity, TRUE)
   expect_equal(design_interim$delta1Min, 0.2)
   expect_equal(design_interim$delta1Max, 1)
-  expect_equal(design_interim$ncp1Min, 0.2*sqrt(4), tolerance = 1e-8)
-  expect_equal(design_interim$ncp1Max, 1*sqrt(4), tolerance = 1e-8)
+  expect_equal(design_interim$ncp1Min, 0.2 * sqrt(4), tolerance = 1e-8)
+  expect_equal(design_interim$ncp1Max, 1 * sqrt(4), tolerance = 1e-8)
+
+  # Skip remaining tests on CRAN
+  skip_on_cran()
 
   # Create a design object using a fixed effect for CP
   design_fixed <- getDesignOptimalConditionalErrorFunction(
@@ -45,5 +48,5 @@ test_that("Class objects correctly created", {
   expect_equal(design_fixed$likelihoodRatioDistribution, "fixed")
   expect_equal(design_fixed$deltaLR, 1)
   expect_equal(design_fixed$enforceMonotonicity, FALSE)
-  expect_equal(design_fixed$ncp1, 0.5*sqrt(4), tolerance = 1e-8)
+  expect_equal(design_fixed$ncp1, 0.5 * sqrt(4), tolerance = 1e-8)
 })
