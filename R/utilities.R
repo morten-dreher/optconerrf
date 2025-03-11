@@ -81,6 +81,7 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
   }
 }
 
+
 #' Print simulation results
 #'
 #' @description
@@ -308,10 +309,89 @@ plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1
   }
 }
 
+#' Summary of the optimal conditional error trial design
+#'
+#' @description
+#' Provide an overview of the optimal conditional error trial design.
+#'
+#' @param x Design object of class \code{TrialDesignOptimalConditionalError}
+#' @param ... Additional arguments required for generic compatibility
+#'
 #'
 #' @export
-summary.TrialDesignOptimalConditionalError <- function(object, ...) {
-  cat("Hallo")
+summary.TrialDesignOptimalConditionalError <- function(x, ...) {
+  cat("Summary of the Optimal Conditional Error Function Design: \n \n")
+  cat("General design parameters: \n")
+  cat("  Overall significance level:", x$alpha, "\n")
+  cat("  First-stage efficacy boundary (p-value scale):", x$alpha1, "\n")
+  cat("  Binding first-stage futility boundary (p-value scale):", x$alpha0, "\n")
+  cat("\n")
+
+  cat("Second Stage Information: \n")
+  cat("  Expected Second Stage Information (delta=0):", getExpectedSecondStageInformation(design = x, likelihoodRatioDistribution = "fixed", deltaLR=0), "\n")
+  if(x$useInterimEstimate == FALSE & length(x$weightsDeltaLR)<=1){
+    cat("  Expected Second Stage Information (delta=delta1=", x$delta1,"): ",getExpectedSecondStageInformation(design = x, likelihoodRatioDistribution = "fixed", deltaLR=x$delta1), "\n", sep= "")
+  }
+  if(x$useInterimEstimate == TRUE){
+    cat("  Expected Second Stage Information (delta=delta1Min=", x$delta1Min,"): ",getExpectedSecondStageInformation(design = x, likelihoodRatioDistribution = "fixed", deltaLR=x$delta1Min), "\n", sep= "")
+  }
+  cat("  Expected Second Stage Information (Given likelihood ratio distr.):", getExpectedSecondStageInformation(design = x), "\n")
+  if(x$likelihoodRatioDistribution != "maxlr"){
+    if(x$likelihoodRatioDistribution == "fixed"){
+      if(length(x$weightsDeltaLR)<=1){
+        delta <- x$deltaLR
+      }else{
+        delta <- x$deltaLR %*% x$weightsDeltaLR
+      }
+    }
+    if(x$likelihoodRatioDistribution == "normal"){
+      delta <- x$deltaLR
+    }
+    if(x$likelihoodRatioDistribution == "exp"){
+      delta <- x$kappaLR
+    }
+    if(x$likelihoodRatioDistribution == "unif"){
+      delta <- x$deltaMaxLR/2
+    }
+    cat("  Expected Second Stage Information (delta=Mean of given likelihood ratio distr.=", delta, "): ",getExpectedSecondStageInformation(design = x, likelihoodRatioDistribution = "fixed", deltaLR=delta), "\n" , sep="")
+  }
+  if(!is.na(x$conditionalPower)){
+    cat("  Maximal Second Stage Information:", getSecondStageInformation(design = x, firstStagePValue = x$alpha0))
+  }
+  cat("\n")
+
+  cat("Power: \n")
+  if (is.na(x$conditionalPower)) {
+    cat("  Conditional power: Data-dependent user-specified function \n")
+  } else if (!is.na(x$conditionalPower)) {
+    cat("  Conditional power:", x$conditionalPower, "\n")
+  }
+  if(x$useInterimEstimate == FALSE & length(x$weightsDeltaLR)<=1){
+    cat("  Overall power (delta=delta1=", x$delta1, "):",getOverallPower(design = x, delta = x$delta1), sep="")
+  }
+  if(x$useInterimEstimate == TRUE){
+    cat("  Overall power (delta=delta1Min= ", x$delta1Min, "):",getOverallPower(design = x, delta = x$delta1Min),"\n",sep="")
+  }
+  if(x$likelihoodRatioDistribution != "maxlr"){
+    if(x$likelihoodRatioDistribution == "fixed"){
+      if(length(x$weightsDeltaLR)<=1){
+        delta <- x$deltaLR
+      }else{
+        delta <- x$deltaLR %*% x$weightsDeltaLR
+      }
+    }
+    if(x$likelihoodRatioDistribution == "normal"){
+      delta <- x$deltaLR
+    }
+    if(x$likelihoodRatioDistribution == "exp"){
+      delta <- x$kappaLR
+    }
+    if(x$likelihoodRatioDistribution == "unif"){
+      delta <- x$deltaMaxLR/2
+    }
+    cat("  Overall power (delta=Mean of given likelihood ratio distr.= ", delta, "): ", getOverallPower(design = x, delta = delta), sep="")
+  }
+  cat("\n")
 }
 
 
