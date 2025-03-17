@@ -71,20 +71,20 @@ TrialDesignOptimalConditionalError <- setRefClass(
 
       # Range checks for numeric variables
       # General range checks
-      rangeCheck(variable = alpha, range = c(0, 1), allowedEqual = FALSE)
-      rangeCheck(variable = alpha1, range = c(0, 1), allowedEqual = TRUE)
-      rangeCheck(variable = alpha0, range = c(0, 1), allowedEqual = TRUE)
+      .rangeCheck(variable = alpha, range = c(0, 1), allowedEqual = FALSE)
+      .rangeCheck(variable = alpha1, range = c(0, 1), allowedEqual = TRUE)
+      .rangeCheck(variable = alpha0, range = c(0, 1), allowedEqual = TRUE)
 
       # Context-related range checks
-      rangeCheck(variable = alpha1, range = c(0, alpha), allowedEqual = TRUE)
-      rangeCheck(variable = alpha0, range = c(alpha1, 1), allowedEqual = TRUE)
+      .rangeCheck(variable = alpha1, range = c(0, alpha), allowedEqual = TRUE)
+      .rangeCheck(variable = alpha0, range = c(alpha1, 1), allowedEqual = TRUE)
 
       if(is.na(conditionalPower) && is.null(suppressWarnings(body(conditionalPowerFunction)))) {
         stop("Must specify either conditionalPower or a valid conditionalPowerFunction.")
       }
       else {
         if(!is.na(conditionalPower)) {
-          rangeCheck(variable = conditionalPower, range = c(0, 1), allowedEqual = FALSE)
+          .rangeCheck(variable = conditionalPower, range = c(0, 1), allowedEqual = FALSE)
 
           if(!is.null(suppressWarnings(body(conditionalPowerFunction)))) {
             warning("Both conditionalPower and conditionalPowerFunction are provided. Using conditionalPower and ignoring conditionalPowerFunction.")
@@ -110,7 +110,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
         }
       }
 
-      rangeCheck(variable = firstStageInformation, range = c(0, Inf), allowedEqual = FALSE)
+      .rangeCheck(variable = firstStageInformation, range = c(0, Inf), allowedEqual = FALSE)
 
       # Set initial parameters
       .self$alpha <- alpha
@@ -148,7 +148,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
           .self$ncp1Max <- delta1Max * sqrt(firstStageInformation)
         }
         else if(!is.na(ncp1Min)) {
-          rangeCheck(variable = ncp1Min, range = c(0, Inf), allowedEqual = FALSE)
+          .rangeCheck(variable = ncp1Min, range = c(0, Inf), allowedEqual = FALSE)
           .self$ncp1Min <- ncp1Min
           .self$ncp1Max <- ncp1Max
 
@@ -164,7 +164,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
       else {
         # If non-centrality parameter was not specified, calculate it from delta1
         if(!is.na(delta1)) {
-          rangeCheck(variable = delta1, range = c(0, Inf), allowedEqual = FALSE)
+          .rangeCheck(variable = delta1, range = c(0, Inf), allowedEqual = FALSE)
           .self$delta1 <- delta1
 
           if(!is.na(ncp1)) {
@@ -174,7 +174,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
         }
         # If delta1 was not specified, calculate it from ncp1
         else if(!is.na(ncp1)) {
-          rangeCheck(variable = ncp1, range = c(0, Inf), allowedEqual = FALSE)
+          .rangeCheck(variable = ncp1, range = c(0, Inf), allowedEqual = FALSE)
           .self$ncp1 <- ncp1
           .self$delta1 <- ncp1/sqrt(firstStageInformation)
         }
@@ -186,25 +186,25 @@ TrialDesignOptimalConditionalError <- setRefClass(
 
       # Range checks for constraints
       # General range checks
-      rangeCheck(variable = minimumConditionalError, range = c(0, 1), allowedEqual = TRUE)
-      rangeCheck(variable = maximumConditionalError, range = c(0, 1), allowedEqual = TRUE)
+      .rangeCheck(variable = minimumConditionalError, range = c(0, 1), allowedEqual = TRUE)
+      .rangeCheck(variable = maximumConditionalError, range = c(0, 1), allowedEqual = TRUE)
 
-      rangeCheck(variable = minimumSecondStageInformation, range = c(0, Inf), allowedEqual = TRUE)
-      rangeCheck(variable = maximumSecondStageInformation, range = c(0, Inf), allowedEqual = TRUE)
+      .rangeCheck(variable = minimumSecondStageInformation, range = c(0, Inf), allowedEqual = TRUE)
+      .rangeCheck(variable = maximumSecondStageInformation, range = c(0, Inf), allowedEqual = TRUE)
 
       if(maximumSecondStageInformation == 0) {
         stop("Maximum second-stage information must be larger than 0.")
       }
 
       # Context-related range checks
-      rangeCheck(variable = minimumConditionalError, range = c(0, maximumConditionalError), allowedEqual = TRUE,
+      .rangeCheck(variable = minimumConditionalError, range = c(0, maximumConditionalError), allowedEqual = TRUE,
                  hint = "It must not exceed maximumConditionalError.")
-      rangeCheck(variable = maximumConditionalError, range = c(minimumConditionalError, 1), allowedEqual = TRUE,
+      .rangeCheck(variable = maximumConditionalError, range = c(minimumConditionalError, 1), allowedEqual = TRUE,
                  hint = "It must not be smaller than minimumConditionalError.")
 
-      rangeCheck(variable = minimumSecondStageInformation, range = c(0, maximumSecondStageInformation),
+      .rangeCheck(variable = minimumSecondStageInformation, range = c(0, maximumSecondStageInformation),
                  allowedEqual = TRUE, hint = "It must not exceed maximumSecondStageInformation.")
-      rangeCheck(variable = maximumSecondStageInformation, range = c(minimumSecondStageInformation, Inf),
+      .rangeCheck(variable = maximumSecondStageInformation, range = c(minimumSecondStageInformation, Inf),
                  allowedEqual = TRUE, hint = "It must not be smaller than minimumSecondStageInformation.")
 
 
@@ -234,7 +234,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
             }
           }
           else {
-            rangeCheck(variable = weightsDeltaLR, range = c(0, 1), allowedEqual = TRUE)
+            .rangeCheck(variable = weightsDeltaLR, range = c(0, 1), allowedEqual = TRUE)
             # Check if weightsDeltaLR and deltaLR are of equal length
             if(length(weightsDeltaLR) != length(deltaLR)) {
               stop("Must provide exactly one weight in weightsDeltaLR per entry of deltaLR.")
@@ -253,7 +253,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
         }
         else {
 
-          rangeCheck(variable = tauLR, range = c(0, Inf), allowedEqual = FALSE)
+          .rangeCheck(variable = tauLR, range = c(0, Inf), allowedEqual = FALSE)
 
           .self$deltaLR <- deltaLR
           .self$tauLR <- tauLR
@@ -264,7 +264,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
           stop("Must provide kappaLR for exponential prior in likelihood ratio.")
         }
         else {
-          rangeCheck(variable = kappaLR, range = c(0, Inf), allowedEqual = FALSE)
+          .rangeCheck(variable = kappaLR, range = c(0, Inf), allowedEqual = FALSE)
           .self$kappaLR <- kappaLR
         }
       }
@@ -273,7 +273,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
           stop("Must provide deltaMaxLR for uniform prior in likelihood ratio.")
         }
         else {
-          rangeCheck(variable = deltaMaxLR, range = c(0, Inf), allowedEqual = FALSE)
+          .rangeCheck(variable = deltaMaxLR, range = c(0, Inf), allowedEqual = FALSE)
           .self$deltaMaxLR <- deltaMaxLR
         }
       }
