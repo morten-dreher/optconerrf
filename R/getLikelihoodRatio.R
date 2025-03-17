@@ -36,13 +36,15 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
   if(design$likelihoodRatioDistribution == "fixed"){
 
     # Get ncp and weights
-    ncp <- design$deltaLR * sqrt(design$firstStageInformation)
-    weights <- design$weightsDeltaLR
 
     # Ensure that ncp argument is provided
-    if(is.null(ncp)) {
-      stop("Argument ncpLR must be provided for fixed likelihood case")
+    # This is a fallback protection, as the design function should already ensure this
+    if(is.null(design$deltaLR)) {
+      stop("Argument deltaLR required for fixed likelihood case, but not found in design object.")
     }
+
+    ncp <- design$deltaLR * sqrt(design$firstStageInformation)
+    weights <- design$weightsDeltaLR
 
     # If weights argument was not specified, automatically use equal weights
     if(is.null(weights)) {
@@ -50,8 +52,9 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
     }
 
     # Ensure that weights are positive and sum up to 1
+    # This is a fallback protection, as the design function should already ensure this
     if(sum(weights) != 1 || any(weights < 0)) {
-      stop("weights must be positive and sum up to 1")
+      stop("weightsDeltaLR must be positive and sum up to 1")
     }
 
     # Calculate likelihood ratio
@@ -61,26 +64,31 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
   else if(design$likelihoodRatioDistribution == "normal") {
 
     # Get ncp and tau
-    ncp <- design$deltaLR * sqrt(design$firstStageInformation)
-    tau <- design$tauLR * sqrt(design$firstStageInformation)
 
     # Ensure that arguments were specified
-    if(is.null(ncp) || is.null(tau)) {
-      stop("Arguments deltaLR and tauLR must be specified for normal likelihood case")
+    # This is a fallback protection, as the design function should already ensure this
+    if(is.null(design$deltaLR) || is.null(design$tauLR)) {
+      stop("Arguments deltaLR and tauLR required for normal likelihood case, but not found in design object.")
     }
+
+    ncp <- design$deltaLR * sqrt(design$firstStageInformation)
+    tau <- design$tauLR * sqrt(design$firstStageInformation)
 
     # Calculate likelihood ratio
     likelihoodRatio <- (1/sqrt(1+tau^2))*exp(-(ncp/tau)^2/2+(tau*qnorm(1-firstStagePValue)+(ncp/tau))^2/(2*(1+tau^2)))
   }
   # Exponential prior
   else if(design$likelihoodRatioDistribution == "exp"){
+
     # Get kap0
-    kap0 <- design$kappaLR * sqrt(design$firstStageInformation)
 
     # Ensure that argument was specified
-    if(is.null(kap0)) {
-      stop("Argument kappaLR must be specified for exponential likelihood case")
+    # This is a fallback protection, as the design function should already ensure this
+    if(is.null(design$kappaLR)) {
+      stop("Argument kappaLR required for exponential likelihood case, but not found in design object.")
     }
+
+    kap0 <- design$kappaLR * sqrt(design$firstStageInformation)
 
     # Calculate likelihood ratio
     likelihoodRatio <- sqrt(2*pi)*kap0*exp((qnorm(1-firstStagePValue)-kap0)^2/2)*pnorm(qnorm(1-firstStagePValue)-kap0)
@@ -88,12 +96,14 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
   # Uniform prior
   else if(design$likelihoodRatioDistribution == "unif"){
     # Get delMax
-    delMax <- design$deltaMaxLR * sqrt(design$firstStageInformation)
 
     # Ensure that argument was specified
-    if(is.null(delMax)) {
-      stop("Argument deltaMaxLR must be specified for uniform likelihood case")
+    # This is a fallback protection, as the design function should already ensure this
+    if(is.null(design$deltaMaxLR)) {
+      stop("Argument deltaMaxLR required for uniform likelihood case, but not found in design object.")
     }
+
+    delMax <- design$deltaMaxLR * sqrt(design$firstStageInformation)
 
     # Calculate likelihood ratio
     likelihoodRatio <- sqrt(2*pi)*exp(qnorm(1-firstStagePValue)^2/2)*(pnorm(delMax-qnorm(1-firstStagePValue))-firstStagePValue)/delMax
