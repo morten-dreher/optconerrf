@@ -367,10 +367,10 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
     cat("  Conditional power:", object$conditionalPower, "\n")
   }
   if(object$useInterimEstimate == FALSE & length(object$weightsDeltaLR)<=1){
-    cat("  Overall power (delta1=", object$delta1, "):",getOverallPower(design = object, delta = object$delta1), "\n", sep="")
+    cat("  Overall power (delta1=", object$delta1, "):",getOverallPower(design = object, delta1 = object$delta1), "\n", sep="")
   }
   if(object$useInterimEstimate == TRUE){
-    cat("  Overall power (delta1=delta1Min= ", object$delta1Min, "):",getOverallPower(design = object, delta = object$delta1Min),"\n",sep="")
+    cat("  Overall power (delta1=delta1Min= ", object$delta1Min, "):",getOverallPower(design = object, delta1 = object$delta1Min),"\n",sep="")
   }
   if(object$likelihoodRatioDistribution != "maxlr"){
     if(object$likelihoodRatioDistribution == "fixed"){
@@ -389,7 +389,7 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
     if(object$likelihoodRatioDistribution == "unif"){
       delta1 <- object$deltaMaxLR/2
     }
-    cat("  Overall power (delta1=Mean of given likelihood ratio distr.= ", delta1, "): ", getOverallPower(design = object, delta = delta1), sep="")
+    cat("  Overall power (delta1=Mean of given likelihood ratio distr.= ", delta1, "): ", getOverallPower(design = object, delta1 = delta1), sep="")
   }
   cat("\n")
 }
