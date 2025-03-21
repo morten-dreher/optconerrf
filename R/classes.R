@@ -294,6 +294,9 @@ TrialDesignOptimalConditionalError <- setRefClass(
       .self$levelConstant <- getLevelConstant(
         design = .self
       )$root
+    },
+    show = function() {
+      print.TrialDesignOptimalConditionalError(.self)
     }
   )
 )
@@ -311,5 +314,30 @@ SimulationResultsOptimalConditionalError <- setRefClass(
     firstStageEfficacy = "numeric",
     overallPower = "numeric",
     maxNumberOfIterations = "numeric"
+  ),
+  methods = list(
+    show = function() {
+      print.SimulationResultsOptimalConditionalError(.self)
+    }
+  )
+)
+
+#' @name PowerResultsOptimalConditionalError
+#' @title Power results for optimal conditional error design
+#' @description
+#' A class for power results of the optimal conditional error function.
+#'
+PowerResultsOptimalConditionalError <- setRefClass(
+  Class = "PowerResultsOptimalConditionalError",
+  fields = list(
+    alternative = "numeric",
+    firstStageFutility = "numeric",
+    firstStageEfficacy = "numeric",
+    overallPower = "numeric"
+  ),
+  methods = list(
+    show = function() {
+      print.PowerResultsOptimalConditionalError(.self)
+    }
   )
 )
