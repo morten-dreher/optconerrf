@@ -13,17 +13,35 @@ getOverallPower <- function(design, alternative) {
 
   ncp1 <- alternative * sqrt(design$firstStageInformation)
 
-  # Calculate probability to reject at the second stage for given delta
-  secondStageRejection <- function(firstStagePValue) {
-    (1-pnorm(qnorm(1 - getOptimalConditionalError(firstStagePValue, design = design))- sqrt(getSecondStageInformation(firstStagePValue, design = design)) * alternative)) *
-    exp(qnorm(1 - firstStagePValue) * ncp1 - ncp1^2 / 2)
+  firstStageFutility <- numeric(length(alternative))
+  firstStageEfficacy <- numeric(length(alternative))
+  overallPower <- numeric(length(alternative))
+
+  for(i in 1:length(alternative)) {
+
+    # Early decision probabilities
+    firstStageFutility[i] <- stats::pnorm(stats::qnorm(1 - design$alpha0) - ncp1[i])
+    firstStageEfficacy[i] <- 1 - stats::pnorm(stats::qnorm(1 - design$alpha1) - ncp1[i])
+
+    # Calculate probability to reject at the second stage for given delta
+    secondStageRejection <- function(firstStagePValue) {
+      (1-stats::pnorm(stats::qnorm(1 - getOptimalConditionalError(firstStagePValue, design = design)) -
+                 sqrt(getSecondStageInformation(firstStagePValue, design = design)) * alternative[i])) * exp(qnorm(1 - firstStagePValue) * ncp1[i] - ncp1[i]^2 / 2)
+    }
+
+    integral <- stats::integrate(f = secondStageRejection, lower = design$alpha1, upper = design$alpha0)$value
+
+    overallPower[i] <- firstStageEfficacy[i] + integral
+
   }
 
-  integral <- stats::integrate(f = secondStageRejection, lower = design$alpha1, upper = design$alpha0)$value
+  powerResults <- new(
+    "PowerResultsOptimalConditionalError",
+    alternative = alternative,
+    firstStageFutility = firstStageFutility,
+    firstStageEfficacy = firstStageEfficacy,
+    overallPower = overallPower
+  )
 
-  overallPower <- 1 - pnorm(qnorm(1 - design$alpha1) - ncp1) + integral
-
-  return(overallPower)
+  return(powerResults)
 }
-
-getOverallPower <- Vectorize(FUN = getOverallPower, vectorize.args = "alternative")
