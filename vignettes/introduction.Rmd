@@ -319,6 +319,34 @@ getExpectedSecondStageInformation(
 
 Multiplying the respective information values by a factor of 2 (approximately) yields the original results of Brannath & Bauer (2004).
 
+# Complementary functions
+
+In addition to the core functions described above, the `optconerrf` package provides additional functions which relate to the operating characteristics of the design.
+An exact calculation of the overall power of a given design can be achieved by using the function `getOverallPower()`:
+
+```{r}
+getOverallPower(
+  design, alternative = c(0, 0.25))
+```
+
+The argument `alternative` may consist of multiple elements and provides the effect sizes for which the overall power should be calculated.
+
+The function `getSimulationResults()` allows for the simulation of the operating characteristics of a design given one or more effect sizes via the argument `alternative`:
+
+```{r}
+getSimulationResults(
+  design, alternative = c(0, 0.25), maxNumberOfIterations = 1000, seed = 1234)
+```
+
+Note that only 1000 iterations are used in this example, as it only serves for demonstration purposes.
+
+The `summary()` function is also implemented for objects of class `TrialDesignOptimalConditionalError` and combines selected results from `getExpectedSecondStageInformation()` and `getOverallPower()` to provide a general overview of the design performance:
+
+```{r}
+summary(design)
+```
+
+
 # References
 
 Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
