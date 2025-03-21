@@ -377,7 +377,7 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
   if(!is.na(object$conditionalPower)){
     cat("  Maximum second-stage information:", getSecondStageInformation(design = object, firstStagePValue = object$alpha0))
   }
-  cat("\n")
+  cat("\n \n")
 
   cat("Power and stopping probabilities: \n")
   if (is.na(object$conditionalPower)) {
