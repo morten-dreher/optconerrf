@@ -47,20 +47,20 @@ print.TrialDesignOptimalConditionalError <- function(x, ...) {
   cat("Likelihood ratio specification: \n")
   switch(x$likelihoodRatioDistribution,
     fixed = {
-      cat("  Fixed Parameter(s) in Likelihood Ratio: ", paste(format(x$deltaLR, trim = TRUE), collapse = ", "), "\n")
+      cat("  Fixed parameter(s) in likelihood ratio: ", paste(format(x$deltaLR, trim = TRUE), collapse = ", "), "\n")
       cat("  Parameter weights: ", paste(format(x$weightsDeltaLR, trim = TRUE), collapse = ", "), "\n")
     },
     normal = {
-      cat("  Normally distributed prior in Likelihood Ratio with mean ", x$deltaLR, " and standard deviation ", x$tauLR, "\n")
+      cat("  Normally distributed prior in likelihood ratio with mean ", x$deltaLR, " and standard deviation ", x$tauLR, "\n")
     },
     unif = {
-      cat("  Uniformly distributed prior in Likelihood Ratio with maximum ", x$deltaMaxLR, "\n")
+      cat("  Uniformly distributed prior in likelihood ratio with maximum ", x$deltaMaxLR, "\n")
     },
     exp = {
-      cat("  Exponentially distributed prior in Likelihood Ratio with mean ", x$kappaLR, "\n")
+      cat("  Exponentially distributed prior in likelihood ratio with mean ", x$kappaLR, "\n")
     },
     maxlr = {
-      cat("  Maximum Likelihood Ratio \n")
+      cat("  Maximum likelihood ratio \n")
     }
   )
 
@@ -99,6 +99,25 @@ print.SimulationResultsOptimalConditionalError <- function(x, ...) {
   cat(" Overall power: ", paste(format(x$overallPower, trim = TRUE), collapse = ", "), "\n")
   cat(" Simulated trials per scenario: ", x$maxNumberOfIterations)
 }
+
+
+#' Print power results
+#'
+#' @description
+#' Print an overview of exact power results.
+#'
+#' @param x Power results object of class \code{PowerResultsOptimalConditionalError}
+#' @param ... Additional arguments required for generic compatibility
+#'
+#' @export
+print.PowerResultsOptimalConditionalError <- function(x, ...) {
+  cat("Power calculation results \n \n")
+  cat(" Alternative: ", paste(format(x$alternative, trim = TRUE), collapse = ", "), "\n")
+  cat(" First-stage futility: ", paste(format(x$firstStageFutility, trim = TRUE), collapse = ", "), "\n")
+  cat(" First-stage efficacy: ", paste(format(x$firstStageEfficacy, trim = TRUE), collapse = ", "), "\n")
+  cat(" Overall power: ", paste(format(x$overallPower, trim = TRUE), collapse = ", "), "\n")
+}
+
 
 #' Plot the optimal conditional error function
 #' @name plot.TrialDesignOptimalConditionalError
@@ -327,15 +346,15 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
   cat("  Binding first-stage futility boundary (p-value scale):", object$alpha0, "\n")
   cat("\n")
 
-  cat("Second Stage Information: \n")
-  cat("  Expected Second Stage Information (delta=0):", getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=0), "\n")
+  cat("Second-stage information: \n")
+  cat("  Expected second-stage information (delta=0):", getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=0), "\n")
   if(object$useInterimEstimate == FALSE & length(object$weightsDeltaLR)<=1){
-    cat("  Expected Second Stage Information (delta=delta1=", object$delta1,"): ",getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=object$delta1), "\n", sep= "")
+    cat("  Expected second-stage information (delta=delta1=", object$delta1,"): ",getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=object$delta1), "\n", sep= "")
   }
   if(object$useInterimEstimate == TRUE){
     cat("  Expected Second Stage Information (delta=delta1Min=", object$delta1Min,"): ",getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=object$delta1Min), "\n", sep= "")
   }
-  cat("  Expected Second Stage Information (Given likelihood ratio distr.):", getExpectedSecondStageInformation(design = object), "\n")
+  cat("  Expected second-stage information (Given likelihood ratio distr.):", getExpectedSecondStageInformation(design = object), "\n")
   if(object$likelihoodRatioDistribution != "maxlr"){
     if(object$likelihoodRatioDistribution == "fixed"){
       if(length(object$weightsDeltaLR)<=1){
@@ -353,24 +372,30 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
     if(object$likelihoodRatioDistribution == "unif"){
       delta <- object$deltaMaxLR/2
     }
-    cat("  Expected Second Stage Information (delta=Mean of given likelihood ratio distr.=", delta, "): ",getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=delta), "\n" , sep="")
+    cat("  Expected second-stage information (delta=Mean of given likelihood ratio distr.=", delta, "): ",getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=delta), "\n" , sep="")
   }
   if(!is.na(object$conditionalPower)){
-    cat("  Maximal Second Stage Information:", getSecondStageInformation(design = object, firstStagePValue = object$alpha0))
+    cat("  Maximum second-stage information:", getSecondStageInformation(design = object, firstStagePValue = object$alpha0))
   }
   cat("\n")
 
-  cat("Power: \n")
+  cat("Power and stopping probabilities: \n")
   if (is.na(object$conditionalPower)) {
     cat("  Conditional power: Data-dependent user-specified function \n")
   } else if (!is.na(object$conditionalPower)) {
-    cat("  Conditional power:", object$conditionalPower, "\n")
+    cat("  Conditional power (fixed):", object$conditionalPower, "\n")
   }
   if(object$useInterimEstimate == FALSE & length(object$weightsDeltaLR)<=1){
-    cat("  Overall power (delta1=", object$delta1, "):",getOverallPower(design = object, alternative = object$delta1), "\n", sep="")
+    powerResults <- getOverallPower(design = object, alternative = object$delta1)
+    cat("  Overall power (delta1=", object$delta1, "): ", powerResults$overallPower, "\n", sep="")
+    cat("  Efficacy stopping probability (delta1=", object$delta1, "): ", powerResults$firstStageEfficacy, "\n", sep="")
+    cat("  Futility stopping probability (delta1=", object$delta1, "): ", powerResults$firstStageFutility, "\n", sep="")
   }
   if(object$useInterimEstimate == TRUE){
-    cat("  Overall power (delta1=delta1Min= ", object$delta1Min, "):",getOverallPower(design = object, alternative = object$delta1Min),"\n",sep="")
+    powerResults <- getOverallPower(design = object, alternative = object$delta1Min)
+    cat("  Overall power (delta1=delta1Min= ", object$delta1Min, "): ", powerResults$overallPower,"\n", sep="")
+    cat("  Efficacy stopping probability (delta1=delta1Min= ", object$delta1Min, "): ", powerResults$firstStageEfficacy, "\n", sep="")
+    cat("  Futility stopping probability (delta1=delta1Min= ", object$delta1Min, "): ", powerResults$firstStageFutility, "\n", sep="")
   }
   if(object$likelihoodRatioDistribution != "maxlr"){
     if(object$likelihoodRatioDistribution == "fixed"){
@@ -389,7 +414,10 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
     if(object$likelihoodRatioDistribution == "unif"){
       delta1 <- object$deltaMaxLR/2
     }
-    cat("  Overall power (delta1=Mean of given likelihood ratio distr.= ", delta1, "): ", getOverallPower(design = object, alternative = delta1), sep="")
+    powerResults <- getOverallPower(design = object, alternative = delta1)
+    cat("  Overall power (delta1=Mean of given likelihood ratio distr.= ", delta1, "): ", powerResults$overallPower, "\n", sep="")
+    cat("  Efficacy stopping probability (delta1=Mean of given likelihood ratio distr.= ", delta1, "): ", powerResults$firstStageEfficacy, "\n", sep="")
+    cat("  Futility stopping probability (delta1=Mean of given likelihood ratio distr.= ", delta1, "): ", powerResults$firstStageFutility, "\n", sep="")
   }
   cat("\n")
 }
