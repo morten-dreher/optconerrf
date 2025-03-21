@@ -4,12 +4,12 @@
 \alias{getOverallPower}
 \title{Calculate the overall power}
 \usage{
-getOverallPower(design, delta1)
+getOverallPower(design, alternative)
 }
 \arguments{
 \item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 
-\item{delta1}{The effect size on the mean difference scale at which the overall power should be calculated.}
+\item{alternative}{Assumed relative effect size.}
 }
 \value{
 The overall power of the design at the provided effect size.

@@ -136,7 +136,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
           stop("Must provide a lower limit for the interim estimate by using ncp1Min or delta1Min.")
         }
         else if(!is.na(delta1Min)) {
-          rangeCheck(variable = delta1Min, range = c(0, Inf), allowedEqual = FALSE)
+          .rangeCheck(variable = delta1Min, range = c(0, Inf), allowedEqual = FALSE)
           .self$delta1Min <- delta1Min
           .self$delta1Max <- delta1Max
 

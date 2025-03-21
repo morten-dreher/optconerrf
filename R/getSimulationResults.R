@@ -9,7 +9,7 @@
 #'
 #' @template param_design
 #' @param maxNumberOfIterations Number of trials to be simulated.
-#' @param alternative Assumed relative effect size.
+#' @template param_alternative
 #' @param seed An optional seed for reproducibility.
 #'
 #' @return An object of class \code{SimulationResultsOptimalConditionalError} containing the simulation results.

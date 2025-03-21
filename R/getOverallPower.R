@@ -4,18 +4,18 @@
 #' @description Calculate the overall power
 #'
 #' @template param_design
-#' @template param_delta1_overallPower
+#' @template param_alternative
 #'
 #' @return The overall power of the design at the provided effect size.
-#'
+#' @export
 
-getOverallPower <- function(design, delta1) {
+getOverallPower <- function(design, alternative) {
 
-  ncp1 <- delta1 * sqrt(design$firstStageInformation)
+  ncp1 <- alternative * sqrt(design$firstStageInformation)
 
   # Calculate probability to reject at the second stage for given delta
   secondStageRejection <- function(firstStagePValue) {
-    (1-pnorm(qnorm(1 - getOptimalConditionalError(firstStagePValue, design = design))- sqrt(getSecondStageInformation(firstStagePValue, design = design)) * delta1)) *
+    (1-pnorm(qnorm(1 - getOptimalConditionalError(firstStagePValue, design = design))- sqrt(getSecondStageInformation(firstStagePValue, design = design)) * alternative)) *
     exp(qnorm(1 - firstStagePValue) * ncp1 - ncp1^2 / 2)
   }
 
@@ -25,3 +25,5 @@ getOverallPower <- function(design, delta1) {
 
   return(overallPower)
 }
+
+getOverallPower <- Vectorize(FUN = getOverallPower, vectorize.args = "alternative")
