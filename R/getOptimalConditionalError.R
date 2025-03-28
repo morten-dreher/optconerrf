@@ -38,7 +38,12 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
     return(1)
   }
   else if (firstStagePValue == 0 && design$alpha1==0){
-    return(design$maximumConditionalError)
+    if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+      conditionalPower_0 <- design$conditionalPowerFunction(0)
+    }else{
+      conditionalPower_0 <- design$conditionalPower
+      }
+    return(min(design$maximumConditionalError, conditionalPower_0))
   }
   else if(firstStagePValue > design$alpha0) {
     return(0)
