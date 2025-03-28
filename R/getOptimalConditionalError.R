@@ -36,16 +36,7 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
   # Check if firstStagePValue lies outside early decision boundaries
   if(firstStagePValue <= design$alpha1 && design$alpha1!=0) {
     return(1)
-  }
-  else if (firstStagePValue == 0 && design$alpha1==0){
-    if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
-      conditionalPower_0 <- design$conditionalPowerFunction(0)
-    }else{
-      conditionalPower_0 <- design$conditionalPower
-      }
-    return(min(design$maximumConditionalError, conditionalPower_0))
-  }
-  else if(firstStagePValue > design$alpha0) {
+  } else if(firstStagePValue > design$alpha0) {
     return(0)
   }
 
@@ -57,6 +48,9 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
   else {
     Q <- getQ(firstStagePValue = firstStagePValue, design = design)
   }
+
+  #Take constraints into account (minimumConditionalError, maximumConditionalError,
+  #minimumSecondStageInformation, maximumSecondStageInformation)
 
   C_max_Info <- NULL
   C_min_Info <- NULL
@@ -76,17 +70,16 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
     else {
       delta1 <- design$delta1
     }
-    #If minimumSecondStageInformation is given, use this instead of maximumConditionalError
+    #Calculate constraint based on minimumSecondStageInformation
     if(design$minimumSecondStageInformation > 0){
       C_max_Info <- 1 - pnorm(delta1* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
     }
 
-    #If maximumSecondStageInformation is given, use this instead of minimumConditionalError
+    #Calculate constraint based on maximumSecondStageInformation
     if(design$maximumSecondStageInformation < Inf){
       C_min_Info <- 1 - pnorm(delta1* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
     }
-  }
-  else {
+  } else {
     conditionalPower <- design$conditionalPower
 
     #Check if interim estimate is used
@@ -100,12 +93,12 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
       delta_C_min <- design$delta1
     }
 
-    #If minimumSecondStageInformation is given, use this instead of maximumConditionalError
+    #Calculate constraint based on minimumSecondStageInformation
     if(design$minimumSecondStageInformation > 0){
       C_max_Info <- 1 - pnorm(delta_C_max* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
     }
 
-    #If maximumSecondStageInformation is given, use this instead of minimumConditionalError
+    #Calculate constraint based on maximumSecondStageInformation
     if(design$maximumSecondStageInformation < Inf){
       C_min_Info <- 1 - pnorm(delta_C_min* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
     }
@@ -114,6 +107,18 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
   #Use the constraint that is the stronger restriction
   C_max <- min(C_max_Info, C_max_cond_error)
   C_min <- max(C_min_Info, C_min_cond_error)
+
+  #Handling of the special case firstStagePValue=0 and no early stopping
+  if (firstStagePValue == 0 && design$alpha1==0){
+    # Calculate the specified conditional power for a firstStagePValue of 0
+    if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+      conditionalPower_0 <- design$conditionalPowerFunction(0)
+    }else{
+      conditionalPower_0 <- design$conditionalPower
+    }
+    return(min(C_max, conditionalPower_0))
+  }
+
 
   return(max(C_min, min(C_max, getPsi(nuPrime = (-exp(design$levelConstant)/Q), conditionalPower = conditionalPower))))
 }
