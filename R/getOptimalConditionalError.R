@@ -34,8 +34,11 @@
 getOptimalConditionalError <- function(firstStagePValue, design) {
 
   # Check if firstStagePValue lies outside early decision boundaries
-  if(firstStagePValue <= design$alpha1) {
+  if(firstStagePValue <= design$alpha1 && design$alpha1!=0) {
     return(1)
+  }
+  else if (firstStagePValue == 0 && design$alpha1==0){
+    return(design$maximumConditionalError)
   }
   else if(firstStagePValue > design$alpha0) {
     return(0)
