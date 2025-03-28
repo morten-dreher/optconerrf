@@ -38,7 +38,7 @@
 #'
 getSecondStageInformation <- function(firstStagePValue, design) {
   # For p-values outside of the continuation region, return information 0
-  if (firstStagePValue <= design$alpha1 || firstStagePValue > design$alpha0) {
+  if ((firstStagePValue <= design$alpha1 && design$alpha1 > 0) || firstStagePValue > design$alpha0) {
     information <- 0
   } else {
     # For design with interim estimate, apply effect restrictions
