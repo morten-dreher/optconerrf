@@ -10,12 +10,12 @@ ncp <- design_fix$delta1 * sqrt(design_fix$firstStageInformation)
 power <- 1 - pnorm(qnorm(1 - design_fix$alpha1) - ncp) +
   design_fix$conditionalPower * (pnorm(qnorm(1 - design_fix$alpha1) - ncp) - pnorm(qnorm(1 - design_fix$alpha0) - ncp))
 
-expect_equal(getOverallPower(design_fix, design_fix$delta1), power, tolerance = 1e-4)
+expect_equal(getOverallPower(design_fix, design_fix$delta1)$overallPower, power, tolerance = 1e-4)
 
 # Skip remaining tests on CRAN
 skip_on_cran()
 
-expect_equal(getOverallPower(design_fix, 0), design_fix$alpha, tolerance = 1e-4)
+expect_equal(getOverallPower(design_fix, 0)$overallPower, design_fix$alpha, tolerance = 1e-4)
 
 # Test if the calculated overall power matches with two special cases (cp function, fixed LR, without use of Interim Estimate)
 design_function <- getDesignOptimalConditionalErrorFunction(
@@ -31,7 +31,7 @@ secondStageRejection <- function(firstStagePValue) {
 integral <- stats::integrate(f = secondStageRejection, lower = design_function$alpha1, upper = design_function$alpha0)$value
 power <- 1 - pnorm(qnorm(1 - design_function$alpha1) - ncp) + integral
 
-expect_equal(getOverallPower(design_function, design_function$delta1), power, tolerance = 1e-4)
-expect_equal(getOverallPower(design_function, 0), design_function$alpha, tolerance = 1e-4)
+expect_equal(getOverallPower(design_function, design_function$delta1)$overallPower, power, tolerance = 1e-4)
+expect_equal(getOverallPower(design_function, 0)$overallPower, design_function$alpha, tolerance = 1e-4)
 
 })
