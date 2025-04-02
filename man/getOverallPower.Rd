@@ -15,5 +15,9 @@ getOverallPower(design, alternative)
 The overall power of the design at the provided effect size.
 }
 \description{
-Calculate the overall power
+Calculate the overall power.
+}
+\details{
+This function can be used to evaluate the overall performance of a design.
+The probabilities for first-stage futility, first-stage efficacy and overall efficacy (i.e., overall power) are saved in an object of class \code{PowerResultsOptimalConditionalError}.
 }
