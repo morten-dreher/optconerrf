@@ -107,7 +107,7 @@ l(p_1) = e^{\Phi^{-1}(1-p_1)\cdot \vartheta -\frac{\vartheta^2}{2}}.
 $$
 
 To use a fixed effect for the likelihood ratio in the specification of the optimal conditional error function, `likelihoodRatioDistribution="fixed"` must be specified to `getDesignOptimalConditionalErrorFunction()`. In addition, the effect size $\Delta$ must be provided on the **mean difference scale** via the argument `deltaLR.`
-The first-stage information $I_1$ is extracted from the design object and then used together with $\Delta$ to calculate the non-centrality parameter $\vartheta$.
+How to specify the first-stage information $I_1$ is elaborated in more detail below.
 
 Selecting a single value for `deltaLR` (and consequently, $\vartheta$) may however provide an inefficient design under misspecification and instead, one may wish to use weighted alternatives for this parameter.
 
@@ -168,12 +168,11 @@ General two-sample z-test with $n_1$, $n_2$ patients per group: $I_1 = 1/(\frac{
 
 ## Optional: Minimum and maximum conditional error
 
-In certain scenarios, it may be feasible to restrict the values that the optimal conditional error function can take by a minimum and/or maximum.
+In certain scenarios, it may be desirable to restrict the values that the optimal conditional error function can take by a minimum and/or maximum.
 For the function `getDesignOptimalConditionalErrorFunction()`, this can be achieved by specifying values for the arguments `minimumConditionalError` and `maximumConditionalError`.
 The default values for the arguments are `minimumConditionalError = 0` and `maximumConditionalError = 1`, corresponding to no restrictions.
 Alternatively, the second-stage information may be restricted by using the arguments `minimumSecondStageInformation` and `maximumSecondStageInformation`.
-Internally, the restrictions are always applied on the conditional error scale and if they are provided on the information scale, a calculation of the respective values on the conditional error scale is performed.
-If constraints are provided on the conditional error scale as well as on the information scale, the information constraints are preferred and the constraints on the conditional error scale are ignored.
+If constraints are specified on both scales, the more restrictive constraint is applied.
 
 ## Calculating the level constant
 
@@ -219,17 +218,34 @@ design <- getDesignOptimalConditionalErrorFunction(
 ```
 
 Once the design object is created using `getDesignOptimalCondtionalErrorFunction()`, it can be easily passed to other functions of `optconerrf`.
-The design object is an instance of the class `TrialDesignOptimalConditionalError` and offers implementations of the generic functions `print()` and `plot()`:
+The design object is an instance of the class `TrialDesignOptimalConditionalError` and offers implementations of the generic functions `print()`, `plot()` and `summary()`.
+The `print()` function provides a comprehensive overview of user-specified parameters (such as early stopping boundaries and effect sizes) as well as internally calculated variables (such as the level constant):
 
 ```{r, message = FALSE, results = "markup"}
 # Comprehensive design output
 print(design)
 ```
 
+The `plot()` function has 4 different modes of operation, which are specified via the argument `type`:
+Passing `design` and `type = 1` to the `plot()` function produces a plot visualising the optimal conditional error function resulting from the specification in `design` in relation to the first-stage p-value.
+As `type = 1` is also the default value, the argument can be omitted to achieve this function behaviour:
+
 ```{r, fig.dim = c(6,4)}
 plot(design) # Plot of the optimal conditional error function
+```
+
+Using `type = 2` produces a plot of the second-stage information resulting from the design specification in relation to the first-stage p-value.
+The second-stage information $I_2(p_1)$ of a first-stage p-value $p_1$ is calculated as:
+
+$$
+I_2(p_1) = \frac{\bigl( \Phi^{-1}(1-\alpha_2(p_1)) + \Phi^{-1}(CP)  \bigr)^2}{\Delta_1^2}.
+$$
+
+```{r, fig.dim = c(6,4)}
 plot(design, type = 2) # Plot of the second-stage information
 ```
+
+The remaining plot types can be used to visualise the likelihood ratio $l(p_1)$ (`type = 3`) and the function $Q(p_1)$ (`type = 4`) resulting from the design specification and will not be shown here.
 
 To access individual fields of the object, e.g., the overall type I error rate (`alpha`) or the level constant (`levelConstant`) the following code can be used:
 
@@ -318,6 +334,8 @@ getExpectedSecondStageInformation(
 ```
 
 Multiplying the respective information values by a factor of 2 (approximately) yields the original results of Brannath & Bauer (2004).
+
+In addition to calculating the expected second-stage information for a single fixed effect size (by specifying `likelihoodRatioDistribution = "fixed"` and a single value for `deltaLR`), it is also possible to provide multiple weighted fixed effect sizes (by specifying `likelihoodRatioDistribution = "fixed"`, multiple values for `deltaLR` and possibly respective weights with `weightsDeltaLR`) or to use a distributional assumption for the effect size in the likelihood ratio (by specifying one of `"normal"`, `"exp"` or `"unif"` for `likelihoodRatioDistribution` and the respective parameters).
 
 # Complementary functions
 
