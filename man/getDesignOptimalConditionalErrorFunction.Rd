@@ -66,13 +66,13 @@ Each case requires different additional specifications: \cr
 \item \code{likelihoodRatioDistribution="maxlr"} estimates the non-centrality parameter to be used for the likelihood ratio from the data. No additional parameters must be specified.
 }}
 
-\item{minimumSecondStageInformation}{The minimum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{0}, i.e., no restriction. Supersedes restrictions provided by \code{maximumConditionalError}.}
+\item{minimumSecondStageInformation}{The minimum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{0}, i.e., no restriction.}
 
-\item{maximumSecondStageInformation}{The maximum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{Inf}, i.e., no restriction. Supersedes restrictions provided by \code{minimumConditionalError}.}
+\item{maximumSecondStageInformation}{The maximum information allowed in the second stage of the trial. Must be a numeric value. Default value is \code{Inf}, i.e., no restriction.}
 
-\item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction). Is superseded by restrictions provided by \code{maximumSecondStageInformation}.}
+\item{minimumConditionalError}{Lower boundary for the optimal conditional error function. Default 0 (no restriction).}
 
-\item{maximumConditionalError}{Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power. Is superseded by restrictions given by \code{minimumSecondStageInformation}.}
+\item{maximumConditionalError}{Upper boundary for the optimal conditional error function. Default value is 1, however, the optimal conditional error function is inherently bounded by the conditional power.}
 
 \item{conditionalPowerFunction}{A user-specified function which calculates the conditional power from the first-stage p-value. This function should not be increasing in the first-stage p-value or monotonicity issues may occur.}
 
