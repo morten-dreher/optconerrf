@@ -13,7 +13,7 @@ getExpectedSecondStageInformation(
 \arguments{
 \item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
 
-\item{likelihoodRatioDistribution}{The distribution to be used for the effect size of the likelihood ratio in the optimal conditional error function. Options are \code{"fixed", "normal", "exp", "unif", "maxlr"} for fixed effect size, normally distributed, exponentially distributed, uniformly distributed prior of the effect size and maximum likelihood ratio, respectively.
+\item{likelihoodRatioDistribution}{The distribution to be used for the effect size of the likelihood ratio in the calculation of the expected second-stage information. Options are \code{"fixed", "normal", "exp", "unif", "maxlr"} for fixed effect size, normally distributed, exponentially distributed, uniformly distributed prior of the effect size and maximum likelihood ratio, respectively.
 Each case requires different additional specifications: \cr
 \itemize{
 \item \code{likelihoodRatioDistribution="fixed"} uses one (or more) fixed effect sizes for the likelihood ratio and requires the parameter \code{deltaLR} which provides the mean difference under which to calculate the likelihood ratio. If \code{deltaLR} contains multiple values, they may be weighted using an additional argument \code{weightsDeltaLR}. Omitting \code{weightsDeltaLR} automatically leads to equal weighting.

@@ -15,7 +15,7 @@
 #' }}
 #'
 #' @template param_design
-#' @template param_likelihoodRatioDistribution
+#' @template param_likelihoodRatioDistribution_expected
 #' @param ... {Additional parameters required for the specification of \code{likelihoodRatioDistribution}}.
 #'
 #' @return Expected second-stage information.
