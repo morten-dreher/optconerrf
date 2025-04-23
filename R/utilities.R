@@ -402,7 +402,7 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
       if(length(object$weightsDeltaLR)<=1){
         delta1 <- object$deltaLR
       }else{
-        delta1 <- object$deltaLR %*% object$weightsDeltaLR
+        delta1 <- as.numeric(object$deltaLR %*% object$weightsDeltaLR)
       }
     }
     if(object$likelihoodRatioDistribution == "normal"){
