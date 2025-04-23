@@ -1,1 +1,1 @@
-#' @param minimumConditionalError Lower boundary for the optimal conditional error function. Default 0 (no restriction). Is superseded by restrictions provided by \code{maximumSecondStageInformation}.
+#' @param minimumConditionalError Lower boundary for the optimal conditional error function. Default 0 (no restriction).
