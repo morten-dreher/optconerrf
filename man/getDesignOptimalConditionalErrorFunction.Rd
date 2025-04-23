@@ -148,12 +148,9 @@ Although not recommended for the operating characteristics of the design, the tr
 In some applications, it may be feasible to restrict the optimal conditional error function by a lower and/or upper limit.
 These constraints can be directly implemented on the function by using the arguments \code{minimumConditionalError} and \code{maximumConditionalError}.
 By default, \code{minimumConditionalError=0} and \code{maximumConditionalError=1}, i.e., no constraints are applied.
-Alternatively, the constraints may also be specified on the second-stage information via \code{minimumSecondStageInformation} and \code{maximumSecondStageInformation}.
-If the constraints are specified on the information scale, \code{minimumConditionalError} is calculated from \code{maximumSecondStageInformation} and \code{maximumConditionalError}
-is calculated from \code{minimumSecondStageInformation}. This is done under the assumptions that the maximum second-stage information occurs for \eqn{p_1 = \alpha_0} and the
-minimum second-stage information is achieved for \eqn{p_1} just above \eqn{\alpha_1} (for the exact calculation, \eqn{p_1 = \alpha_1+1e-17} is used).
-Additional specifications of \code{minimumConditionalError} and \code{maximumConditionalError} will be ignored if \code{maximumSecondStageInformation} and
-\code{minimumSecondStageInformation} are provided.
+The constraints may also be specified on the second-stage information via \code{minimumSecondStageInformation} and \code{maximumSecondStageInformation}.
+If both \code{minimumConditionalError} and \code{maximumSecondStageInformation} respectively \code{maximumConditionalError} and \code{minimumSecondStageInformation}
+are provided, both constraints will be applied.
 }
 
 \section{Level constant}{
