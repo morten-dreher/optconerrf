@@ -46,5 +46,5 @@ The exact monotonisation process is outlined in Brannath & Dreher (2024), but sp
 The algorithm can easily be translated to the use of p-values by switching the maximum and minimum functions, i.e., replacing \eqn{min\{q, Q(z_1)\}} by \eqn{max\{q, Q(p_1)\}} and \eqn{min\{q, Q(z_1)\}} by \eqn{max\{q, Q(p_1\}}.
 }
 \references{
-Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
+Brannath, W., Dreher, M., zur Verth, J., Scharpenberg, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
 }

@@ -13,12 +13,13 @@
 #' @template param_design
 #'
 #' @return A list that contains the constant (element \code{$root}) and other components provided by \code{uniroot()}.
+#' The level constant is calculated on the mean difference scale.
 #'
 #' @export
 #'
 #'
-#' @references Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
-#' @references Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
+#' @template reference_optimal
+#' @template reference_monotone
 
 getLevelConstant <- function(design) {
   # Check basic condition for decision rules

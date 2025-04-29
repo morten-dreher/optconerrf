@@ -14,8 +14,7 @@
 #' @return Ratio of likelihood ratio and squared effect size.
 #' @export
 #'
-#'
-#' @references Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
+#' @template reference_monotone
 
 getQ <- function(firstStagePValue, design) {
 
@@ -25,11 +24,11 @@ getQ <- function(firstStagePValue, design) {
 
   # When using interim estimate, apply the restrictions given in the design
   if(design$useInterimEstimate) {
-    effect <- min(max(design$ncp1Min, stats::qnorm(1-firstStagePValue)), design$ncp1Max)
+    effect <- min(max(design$ncp1Min, stats::qnorm(1-firstStagePValue)), design$ncp1Max)/sqrt(design$firstStageInformation)
   }
   # Fixed effect case
   else {
-    effect <- design$ncp1
+    effect <- design$delta1
   }
 
   likelihoodRatio <- getLikelihoodRatio(firstStagePValue = firstStagePValue, design = design)

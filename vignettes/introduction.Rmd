@@ -55,17 +55,17 @@ The individual parameters and functions are the following:
 * $p_1$ is the first-stage p-value.
 * $\psi$ is the inverse of the function $\nu'(u) = -2\cdot(\Phi^{-1}(1-u)+\Phi^{-1}(CP))/\phi(\Phi^{-1}(1-u))$. For $\psi$, no closed form is available and its solution is found through the `uniroot()` function in `optconerrf`.
 * $c_0$ is the level constant, required for the optimal conditional error function to preserve the overall type I error rate.
-* $Q(p_1)=l(p_1)/\vartheta_1^2$ is the ratio of the likelihood ratio $l(p_1)$ of $p_1$ and an effect assumption $\vartheta_1$ at which the conditional power $CP$ should be reached. The likelihood ratio requires an assumption about the true treatment effect, denoted $\vartheta$. This is the effect assumption under which the second-stage information is minimised.
+* $Q(p_1)=l(p_1)/\Delta_1^2$ is the ratio of the likelihood ratio $l(p_1)$ of $p_1$ and an effect assumption $\Delta_1$ at which the conditional power $CP$ should be reached. The likelihood ratio requires an assumption about the true treatment effect, denoted $\vartheta$. This is the effect assumption under which the second-stage information is minimised.
 
-Note that $\vartheta$ and $\vartheta_1$ denote non-centrality parameters rather than the corresponding mean differences $\Delta$ and $\Delta_1$.
-The non-centrality parameter $\vartheta$ (respectively, $\vartheta_1$) is proportional to $\Delta$ (respectively, $\Delta_1$) and additionally takes into account the first-stage information $I_1$ of the trial.
+Note that $\vartheta$ denotes a non-centrality parameter rather than the corresponding mean difference $\Delta$.
+The non-centrality parameter $\vartheta$ is proportional to $\Delta$ and additionally takes into account the first-stage information $I_1$ of the trial.
 It is calculated as:
 
 $$
 \vartheta = \Delta\cdot \sqrt{I_1}.
 $$
 
-In `optconerrf`, the treatment effect for the conditional power can be specified either as the mean difference `delta1` or the non-centrality parameter `ncp1`.
+In `optconerrf`, the treatment effect for the conditional power can be specified either as the mean difference `delta1` or the non-centrality parameter `ncp1`, corresponding to $\vartheta_1 = \Delta_1 \cdot \sqrt{I_1}$.
 
 The `optconerrf` package is based on a design object which contains the required specifications of the optimal conditional error functions.
 This object is created by the function `getDesignOptimalConditionalErrorFunction()` and can be simply passed to other functions instead of specifying each argument separately.

@@ -34,8 +34,7 @@
 #' )
 #' }
 #'
-#' @references Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
-#'
+#' @template reference_optimal
 getSecondStageInformation <- function(firstStagePValue, design) {
   # For p-values outside of the continuation region, return information 0
   if ((firstStagePValue <= design$alpha1 && design$alpha1 > 0) || firstStagePValue > design$alpha0) {

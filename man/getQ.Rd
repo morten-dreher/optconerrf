@@ -23,5 +23,5 @@ In case the optimal conditional error function is ever increasing in the first-s
 is needed for logical consistency and type I error rate control. \cr
 }
 \references{
-Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
+Brannath, W., Dreher, M., zur Verth, J., Scharpenberg, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
 }

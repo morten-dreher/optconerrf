@@ -94,6 +94,7 @@
 #'
 #' @return An object of class \code{TrialDesignOptimalConditionalError}, which can be passed to other package functions.
 #'
+#'
 #' @examples
 #' \dontrun{
 #' # Create a design with fixed parameter for the likelihood ratio and a
@@ -116,6 +117,9 @@
 #' }
 #'
 #' @export
+#'
+#' @template reference_optimal
+#' @template reference_monotone
 #'
 getDesignOptimalConditionalErrorFunction <- function(
     alpha, alpha1, alpha0, conditionalPower = NA_real_, delta1 = NA_real_,

@@ -16,7 +16,7 @@
 #' @return A list containing the monotonisation constants (element \code{$qs}) and the intervals on which they must be applied, specified via minimum (element \code{qls}) and maximum (element \code{qus}).
 #' @export
 #'
-#' @references Brannath, W. & Dreher, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
+#' @template reference_monotone
 
 getMonotonisationConstants <- function(fun, lower = 0, upper = 1, argument, nSteps = 10^4, epsilon = 10^(-5), numberOfIterationsQ = 10^4, design) {
   # Sequence of argument values
