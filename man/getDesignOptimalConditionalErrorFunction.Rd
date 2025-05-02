@@ -169,22 +169,25 @@ For details, see \code{?print.TrialDesignOptimalConditionalError} and \code{?plo
 
 \examples{
 \dontrun{
-# Create a design with fixed parameter for the likelihood ratio and a
-# fixed effect for conditional power. The second-stage information is
-# restricted by a minimum and maximum.
+# Create a single-arm design with fixed parameter for the likelihood ratio
+# and a fixed effect for conditional power. 80 patients are observed in the
+# first-stage (firstStageInformation = 80 in the one-sample test, variance 1).
+# The second-stage information is restricted to be between 40 and 160.
 getDesignOptimalConditionalErrorFunction(
   alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
-  delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 1,
-  firstStageInformation = 2, useInterimEstimate = FALSE,
-  minimumSecondStageInformation = 2, maximumSecondStageInformation = 40
+  delta1 = 0.25, likelihoodRatioDistribution = "fixed", deltaLR = 0.25,
+  firstStageInformation = 80, useInterimEstimate = FALSE,
+  minimumSecondStageInformation = 40, maximumSecondStageInformation = 160
 )
 
-# Create a design using the maximum likelihood ratio and an interim
-# estimate for the effect for conditional power.
+# Create a design comparing two groups using the maximum likelihood ratio
+# and an interim estimate for the effect for conditional power.
+# 160 patients per arm are observed in the first stage
+# (firstStageInformation = 80 in the balanced two-sample test, variance 1).
 getDesignOptimalConditionalErrorFunction(
   alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
-  delta1Min = 0.5, likelihoodRatioDistribution = "maxlr",
-  firstStageInformation = 2, useInterimEstimate = TRUE
+  delta1Min = 0.25, likelihoodRatioDistribution = "maxlr",
+  firstStageInformation = 80, useInterimEstimate = TRUE
 )
 }
 
