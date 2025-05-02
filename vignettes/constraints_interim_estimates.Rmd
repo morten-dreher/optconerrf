@@ -1,5 +1,5 @@
 ---
-title: "Constraints, Conditional Power Functions and Interim Estimates for the Optimal Conditional Error Function"
+title: "Constraints, Interim Estimates and Conditional Power Functions for the Optimal Conditional Error Function"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Using Constraints and Interim Estimates for the Optimal Conditional Error Function}
@@ -66,7 +66,7 @@ and
 $$
 C_{\max} = \Phi(\Phi^{-1}(CP)- \Delta_1\sqrt{I_{2,\min}}).
 $$
-Note that the *maximum* second-stage information corresponds to the *minimum* conditional error and that the *minimum* second-stage information corresponds to the *maximum* conditional error.
+Note that constraining the *maximum* second-stage information corresponds to imposing a constraint on the *minimum* conditional error and that constraining the *minimum* second-stage information corresponds to imposing a constraint on the *maximum* conditional error.
 Plugging in $I_{2, \max} = 85\cdot 2$ and $I_{2,\min} = 85/2$, we get $C_{\min} \approx 0.02396$ and $C_{\max} \approx 0.36382$ and can create the same design, now using `minimumConditionalError` and `maximumConditionalError` for the constraints:
 
 ```{r}
@@ -196,7 +196,7 @@ For a fixed conditional power, the second-stage information required to achieve 
 A decreasing conditional power function may impact the second-stage information function in a way that it increases for small first-stage p-values, reaches a maximum and decreases for larger first-stage p-values.
 In `optconerrf`, the user may freely specify a conditional power function to `getDesignOptimalConditionalErrorFunction()` via the argument `conditionalPowerFunction`.
 In the current implementation, the first-stage p-value is passed as the first and only argument to the conditional power function.
-For illustration purposes, we consider the rather simple conditional power function $CP(p_1) = \Phi(1-p_1)$, which is decreasing in the first-stage p-value $p_1$:
+For illustration purposes, we consider the exemplary conditional power function $CP(p_1) = \Phi(1-p_1)$, which is decreasing in the first-stage p-value $p_1$:
 
 ```{r}
 myConditionalPowerFunction <- function(firstStagePValue) {
@@ -208,14 +208,12 @@ A simple plot shows the properties of this function:
 
 ```{r}
 p1 <- seq(0, 1, 0.01)
-plot(p1, myConditionalPowerFunction(p1))
+plot(p1, myConditionalPowerFunction(p1), type = "l")
 abline(h = myConditionalPowerFunction(c(0, 1)), col = "blue")
 ```
 
 For small first-stage p-values, the conditional power function leads to values just above 0.8 and approaches 0.5 as the first-stage p-value becomes larger.
-Considering that the final decision of a trial with conditional power 0.5 effectively equates a coin toss, we wish to implement a futility stop for first-stage p-values that lead to a conditional power below 0.65.
-Inverting the conditional power function thus leads to a futility boundary of $\alpha_0 = 1- \Phi^{-1}(0.65) = 0.6147$.
-As above, we will use $\alpha_1 = 0.000158$.
+As above, we will use $\alpha = 0.025$, $\alpha_1 = 0.000158$ and $\alpha_0 = 0.5$.
 Implementing this in a design object is straightforward:
 
 ```{r}
@@ -223,7 +221,7 @@ trialDesignConditionalPowerFunction <-
   getDesignOptimalConditionalErrorFunction(
     alpha = 0.025,
     alpha1 = 0.000158,
-    alpha0 = 0.6147,
+    alpha0 = 0.5,
     conditionalPowerFunction = myConditionalPowerFunction,
     delta1 = 0.25,
     useInterimEstimate = FALSE,
@@ -286,7 +284,7 @@ Plotting the optimal conditional error function resulting from this design shows
 plot(combinedDesign)
 ```
 
-This comes from the fact that now, the constraint functions are much more unhandy than before.
+This comes from the fact that now, the constraint functions are more difficult to handle than before.
 
 We see that:
 
