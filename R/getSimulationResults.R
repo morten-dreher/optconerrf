@@ -18,6 +18,8 @@
 #' @importFrom stats pnorm
 #' @importFrom stats rnorm
 #'
+#' @seealso [getDesignOptimalConditionalErrorFunction()], [getOverallPower()]
+#'
 #' @export
 #' @examples
 #' \dontrun{

@@ -21,6 +21,8 @@
 #' @return The second-stage information.
 #' @export
 #'
+#' @seealso [getDesignOptimalConditionalErrorFunction()], [getExpectedSecondStageInformation()], [getOptimalConditionalError()]
+#'
 #' @examples
 #' \dontrun{
 #' design <- getDesignOptimalConditionalErrorFunction(

@@ -46,3 +46,6 @@ getSimulationResults(
 
 }
 }
+\seealso{
+\code{\link[=getDesignOptimalConditionalErrorFunction]{getDesignOptimalConditionalErrorFunction()}}, \code{\link[=getOverallPower]{getOverallPower()}}
+}

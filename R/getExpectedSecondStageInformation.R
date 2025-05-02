@@ -38,7 +38,7 @@
 #' }
 #'
 #' @export
-#'
+#' @seealso [getDesignOptimalConditionalErrorFunction()], [getSecondStageInformation()]
 #' @template reference_optimal
 
 getExpectedSecondStageInformation <- function(design, likelihoodRatioDistribution = NULL, ...) {

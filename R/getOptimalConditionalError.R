@@ -17,6 +17,8 @@
 #'
 #' @template reference_optimal
 #'
+#' @seealso [getDesignOptimalConditionalErrorFunction()]
+#'
 #' @examples
 #' \dontrun{
 #' # Create a design

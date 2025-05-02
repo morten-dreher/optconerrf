@@ -10,6 +10,8 @@
 #' @template param_design
 #' @template param_alternative
 #'
+#' @seealso [getDesignOptimalConditionalErrorFunction()], [getSimulationResults()]
+#'
 #' @return The overall power of the design at the provided effect size.
 #' @export
 

@@ -42,3 +42,6 @@ firstStagePValue = c(0.1, 0.2, 0.3), design = design
 \references{
 Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics. https://www.jstor.org/stable/3695393
 }
+\seealso{
+\code{\link[=getDesignOptimalConditionalErrorFunction]{getDesignOptimalConditionalErrorFunction()}}
+}
