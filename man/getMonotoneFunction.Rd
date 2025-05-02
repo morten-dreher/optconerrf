@@ -42,7 +42,7 @@ Monotone function values.
 Applies the provided monotonisation constants to a specified, possibly non-monotone function. The returned function values are non-increasing.
 }
 \details{
-The exact monotonisation process is outlined in Brannath & Dreher (2024), but specified in terms of the first-stage test statistic \eqn{z_1} rather than the first-stage p-value \eqn{p_1}. \cr
+The exact monotonisation process is outlined in Brannath et al. (2024), but specified in terms of the first-stage test statistic \eqn{z_1} rather than the first-stage p-value \eqn{p_1}. \cr
 The algorithm can easily be translated to the use of p-values by switching the maximum and minimum functions, i.e., replacing \eqn{min\{q, Q(z_1)\}} by \eqn{max\{q, Q(p_1)\}} and \eqn{min\{q, Q(z_1)\}} by \eqn{max\{q, Q(p_1\}}.
 }
 \references{

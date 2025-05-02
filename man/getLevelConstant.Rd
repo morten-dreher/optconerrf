@@ -25,7 +25,7 @@ For a valid design, the additional following condition must be met to be able to
 This condition is checked by \code{getLevelConstant()} and the execution is terminated if it is not met. \cr
 }
 \references{
-Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics, 60 (3), 715–723. https://doi.org/10.1111/j.0006-341X.2004.00221.x
+Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics. https://www.jstor.org/stable/3695393
 
 Brannath, W., Dreher, M., zur Verth, J., Scharpenberg, M. (2024). Optimal monotone conditional error functions. https://arxiv.org/abs/2402.00814
 }
