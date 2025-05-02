@@ -12,7 +12,7 @@ getNu(alpha, conditionalPower)
 \item{conditionalPower}{The target conditional power \eqn{CP} of the design. Must be a numeric value.}
 }
 \value{
-Factor linking sample size and \eqn{\alpha_2}.
+Factor linking information and \eqn{\alpha_2}.
 }
 \description{
 Calculate the factor which relates \eqn{\alpha_2} to the second-stage information for given conditional power.

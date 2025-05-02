@@ -11,7 +11,7 @@ getLevelConstant(design)
 }
 \value{
 A list that contains the constant (element \code{$root}) and other components provided by \code{uniroot()}.
-The level constant is calculated on the mean difference scale.
+The level constant is calculated corresponding to the mean difference scale.
 }
 \description{
 Find the constant required such that the conditional error function meets the overall level condition.
@@ -23,6 +23,8 @@ The constant \eqn{c_0} of the optimal conditional error function is calibrated s
 For a valid design, the additional following condition must be met to be able to exhaust the level \eqn{\alpha}:
 \deqn{\alpha_1 + CP(\alpha_0-\alpha_1)>\alpha.}
 This condition is checked by \code{getLevelConstant()} and the execution is terminated if it is not met. \cr
+In case a conditional power function is used, the condition is instead:
+\deqn{\alpha_1 + \int_{\alpha_1}^{\alpha_0} CP(p_1)dp_1>\alpha.}
 }
 \references{
 Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics. https://www.jstor.org/stable/3695393

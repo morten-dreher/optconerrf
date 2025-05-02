@@ -8,6 +8,10 @@
 #' @details For more information on how to specify the likelihood ratio, see \code{?getLikelihoodRatio()}.
 #' In case the optimal conditional error function is ever increasing in the first-stage p-value \eqn{p_1}, a monotone transformation of \code{getQ()}
 #' is needed for logical consistency and type I error rate control. \cr
+#' The formula for \eqn{Q(p_1)} is:
+#' \deqn{Q(p_1) = l(p_1) / \Delta_1^2,}
+#' where \eqn{l(p_1)} is the likelihood ratio and \eqn{\Delta_1} is the effect size at which the conditional power should be achieved.
+#' The effect size may also depend on the interim data (i.e., on \eqn{p_1}) in case \code{useInterimEstimate = TRUE} was specified for the design object.
 #'
 #' @importFrom stats qnorm
 #'

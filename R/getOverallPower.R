@@ -1,10 +1,10 @@
 #' Calculate the overall power
 #' @name getOverallPower
 #'
-#' @description Calculate the overall power.
+#' @description Calculate the overall power and other operating characteristics of a design.
 #'
 #' @details
-#' This function can be used to evaluate the overall performance of a design.
+#' This function is used to evaluate the overall performance of a design.
 #' The probabilities for first-stage futility, first-stage efficacy and overall efficacy (i.e., overall power) are saved in an object of class \code{PowerResultsOptimalConditionalError}.
 #'
 #' @template param_design

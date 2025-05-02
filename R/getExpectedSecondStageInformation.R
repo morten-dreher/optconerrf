@@ -10,7 +10,7 @@
 #'        \item \eqn{\alpha_1, \alpha_0} are the first-stage efficacy and futility boundaries
 #'        \item \eqn{\alpha_2(p_1)} is the optimal conditional error calculated for \eqn{p_1}
 #'        \item \eqn{l(p_1)} is the "true" likelihood ratio under which to calculate the expected sample size. This can be different from the likelihood ratio used to calibrate the optimal conditional error function.
-#'        \item \eqn{\Delta_1} is the assumed treatment effect to power for, expressed as a mean difference
+#'        \item \eqn{\Delta_1} is the assumed treatment effect to power for, expressed as a mean difference. It may depend on the interim data (i.e., \eqn{p_1}) in case \code{useInterimEstimate = TRUE} was specified for the design object.
 #'        \item \eqn{\nu(\alpha_2(p_1)) = (\Phi^{-1}(1-\alpha_2(p_1))+\Phi^{-1}(CP))^2} is a factor calculated for the specific assumptions about the optimal conditional error function and the target conditional power \eqn{CP}.
 #' }}
 #'
@@ -25,8 +25,9 @@
 #' # Get a design
 #' design <- getDesignOptimalConditionalErrorFunction(
 #' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
-#' delta1 = 0.5, likelihoodRatioDistribution = "fixed", deltaLR = 0.5,
-#' firstStageInformation = 2, useInterimEstimate = FALSE)
+#' delta1 = 0.25, likelihoodRatioDistribution = "fixed", deltaLR = 0.25,
+#' firstStageInformation = 80, useInterimEstimate = FALSE,
+#' )
 #' # Calculate expected information under correct specification
 #' getExpectedSecondStageInformation(design)
 #'

@@ -6,15 +6,17 @@
 #' @param nuPrime The function value to be inverted.
 #' @template param_conditionalPower
 #'
-#' @return The value of alpha which corresponds to nuPrime and lies between 0 and conditionalPower.
+#' @return The value of alpha which corresponds to nuPrime and lies between 0 and \code{conditionalPower}.
 #' @export
 #'
 #' @details
-#' The function \eqn{psi} is the inverse of:
+#' The function \eqn{\psi} is the inverse of:
 #' \deqn{\nu'(\alpha) = -2 \cdot(\Phi^{-1}(1-\alpha) + \Phi^{-1}(1-CP)) / \phi(\Phi^{-1}(1-\alpha))}.
 #' If the conditional power \eqn{CP} lies outside of the range \eqn{1-\Phi(2) \leq CP \leq \Phi(2)}, the calculation is slightly more complicated.
+#' The argument \code{conditionalPower} is either the fixed target conditional power or the value of the conditional power function at the corresponding first-stage p-value.
 #'
 #' @examples
+#' # Returns 0.05
 #' getPsi(getNuPrime(alpha = 0.05, conditionalPower = 0.9), conditionalPower = 0.9)
 
 

@@ -9,7 +9,7 @@
 #' @template param_alpha_cerr
 #' @template param_conditionalPower
 #'
-#' @return Factor linking sample size and \eqn{\alpha_2}.
+#' @return Factor linking information and \eqn{\alpha_2}.
 #' @export
 #'
 #' @examples

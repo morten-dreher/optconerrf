@@ -331,7 +331,7 @@ plot.TrialDesignOptimalConditionalError <- function(x, range = c(0, 1), type = 1
 #' Summary of the optimal conditional error trial design
 #'
 #' @description
-#' Provide an overview of the optimal conditional error trial design.
+#' Provide an overview of the operating characteristics of the optimal conditional error trial design.
 #'
 #' @param object Design object of class \code{TrialDesignOptimalConditionalError}
 #' @param ... Additional arguments required for generic compatibility

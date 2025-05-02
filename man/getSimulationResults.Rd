@@ -39,13 +39,10 @@ design <- getDesignOptimalConditionalErrorFunction(
  firstStageInformation = 10
 )
 
-# Simulate under the null hypothesis (type I error rate)
+# Simulate under the null hypothesis and for a mean difference of 0.5
 getSimulationResults(
- design = design, alternative = 0
+ design = design, alternative = c(0, 0.5)
 )
 
-# Simulate for a mean difference of 0.5 (with variance 1)
-getSimulationResults(
- design = design, alternative = 0.5)
 }
 }

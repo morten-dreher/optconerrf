@@ -35,7 +35,7 @@ the returned information is 0 (since the trial is ended early in both cases).
 design <- getDesignOptimalConditionalErrorFunction(
   alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5,
   conditionalPower = 0.9, delta1 = 0.25, useInterimEstimate = FALSE,
-  firstStageInformation = 4, likelihoodRatioDistribution = "maxlr"
+  firstStageInformation = 40, likelihoodRatioDistribution = "maxlr"
 )
 
 getSecondStageInformation(

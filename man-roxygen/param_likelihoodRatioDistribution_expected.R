@@ -7,3 +7,5 @@
 #' \item \code{likelihoodRatioDistribution="unif"} uses a uniform prior for the effect size and requires the specification of \code{deltaMaxLR}, which is the maximum of the support for the uniform likelihood ratio distribution (on the mean difference scale).
 #' \item \code{likelihoodRatioDistribution="maxlr"} estimates the non-centrality parameter to be used for the likelihood ratio from the data. No additional parameters must be specified.
 #' }
+#' The default is \code{likelihoodRatioDistribution=NULL}.
+#' In this case, the likelihood ratio distribution under which the expected second-stage information is calculated is taken directly from the design object.

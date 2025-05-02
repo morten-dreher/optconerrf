@@ -12,5 +12,5 @@
 \item{...}{Additional arguments required for generic compatibility}
 }
 \description{
-Provide an overview of the optimal conditional error trial design.
+Provide an overview of the operating characteristics of the optimal conditional error trial design.
 }
