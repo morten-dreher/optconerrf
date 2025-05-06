@@ -9,7 +9,7 @@ getOptimalConditionalError(firstStagePValue, design)
 \arguments{
 \item{firstStagePValue}{First-stage p-value or p-values. Must be a numeric vector between 0 and 1.}
 
-\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the optimal conditional error function for the specified case.}
 }
 \value{
 Value of the optimal conditional error function.

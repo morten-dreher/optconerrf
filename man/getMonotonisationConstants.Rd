@@ -30,7 +30,7 @@ getMonotonisationConstants(
 
 \item{numberOfIterationsQ}{Maximum number of iterations allowed to determine each value of q. Must be a numeric value. Default 10^4.}
 
-\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the optimal conditional error function for the specified case.}
 }
 \value{
 A list containing the monotonisation constants (element \code{$qs}) and the intervals on which they must be applied, specified via minimum (element \code{qls}) and maximum (element \code{qus}).

@@ -7,7 +7,7 @@
 getOverallPower(design, alternative)
 }
 \arguments{
-\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the optimal conditional error function for the specified case.}
 
 \item{alternative}{Assumed relative effect size.}
 }

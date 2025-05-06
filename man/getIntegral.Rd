@@ -9,7 +9,7 @@ getIntegral(constant, design)
 \arguments{
 \item{constant}{Current value of the level constant for the optimal conditional error function, internally used as integral argument.}
 
-\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the non-increasing optimal conditional error function for the specified case.}
+\item{design}{An object of class \code{TrialDesignOptimalConditionalError} created by \code{getDesignOptimalConditionalErrorFunction()}. Contains all necessary arguments to calculate the optimal conditional error function for the specified case.}
 }
 \value{
 Distance of integral over psi to (alpha-alpha1).
