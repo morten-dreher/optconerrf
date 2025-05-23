@@ -1,6 +1,6 @@
 Package: optconerrf
 Title: Optimal Monotone Conditional Error Functions
-Version: 0.1.2.0010
+Version: 0.1.2.0020
 Authors@R: 
   c(person(given = "Morten", family = "Dreher", email = "morten.dreher@outlook.de", role = c("aut", "cre")),
     person(given = "Werner", family = "Brannath", role = "aut", comment = c(ORCID = "0000-0002-8622-3904")),
