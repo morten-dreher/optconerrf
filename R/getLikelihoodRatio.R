@@ -80,7 +80,7 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
   # Exponential prior
   else if(design$likelihoodRatioDistribution == "exp"){
 
-    # Get kap0
+    # Get ncp
 
     # Ensure that argument was specified
     # This is a fallback protection, as the design function should already ensure this
@@ -88,14 +88,14 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
       stop("Argument kappaLR required for exponential likelihood case, but not found in design object.")
     }
 
-    kap0 <- design$kappaLR * sqrt(design$firstStageInformation)
+    ncp <- design$kappaLR * sqrt(design$firstStageInformation)
 
     # Calculate likelihood ratio
-    likelihoodRatio <- sqrt(2*pi)*kap0*exp((qnorm(1-firstStagePValue)-kap0)^2/2)*pnorm(qnorm(1-firstStagePValue)-kap0)
+    likelihoodRatio <- sqrt(2*pi)*ncp*exp((stats::qnorm(1-firstStagePValue)-ncp)^2/2)*stats::pnorm(stats::qnorm(1-firstStagePValue)-ncp)
   }
   # Uniform prior
   else if(design$likelihoodRatioDistribution == "unif"){
-    # Get delMax
+    # Get ncp
 
     # Ensure that argument was specified
     # This is a fallback protection, as the design function should already ensure this
@@ -103,15 +103,15 @@ getLikelihoodRatio <- function(firstStagePValue, design) {
       stop("Argument deltaMaxLR required for uniform likelihood case, but not found in design object.")
     }
 
-    delMax <- design$deltaMaxLR * sqrt(design$firstStageInformation)
+    ncp <- design$deltaMaxLR * sqrt(design$firstStageInformation)
 
     # Calculate likelihood ratio
-    likelihoodRatio <- sqrt(2*pi)*exp(qnorm(1-firstStagePValue)^2/2)*(pnorm(delMax-qnorm(1-firstStagePValue))-firstStagePValue)/delMax
+    likelihoodRatio <- sqrt(2*pi)*exp(stats::qnorm(1-firstStagePValue)^2/2)*(stats::pnorm(ncp-stats::qnorm(1-firstStagePValue))-firstStagePValue)/ncp
   }
   # Maximum likelihood ratio case
   else if(design$likelihoodRatioDistribution == "maxlr") {
     # Calculate likelihood ratio
-    likelihoodRatio <- exp(max(0, qnorm(1-firstStagePValue))^2/2)
+    likelihoodRatio <- exp(max(0, stats::qnorm(1-firstStagePValue))^2/2)
   }
   else {
     stop("Distribution not matched.")
