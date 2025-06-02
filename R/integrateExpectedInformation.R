@@ -53,11 +53,11 @@ integrateExpectedInformation <- function(firstStagePValue, design, likelihoodRat
   }
   # Normal prior for effect
   else if(likelihoodRatioDistribution == "normal") {
-    ncpLR <- unlist(args["deltaLR"])
+    deltaLR <- unlist(args["deltaLR"])
     tauLR <- unlist(args["tauLR"])
 
     # Ensure arguments specified
-    if(is.null(ncpLR) || is.null(tauLR)) {
+    if(is.null(deltaLR) || is.null(tauLR)) {
       stop("Arguments deltaLR and tauLR must be provided for fixed likelihood ratio case.")
     }
 
@@ -74,16 +74,16 @@ integrateExpectedInformation <- function(firstStagePValue, design, likelihoodRat
   # Exponential prior for effect
   else if(likelihoodRatioDistribution == "exp") {
 
-    kap0 <- unlist(args["kappaLR"])
+    kappaLR <- unlist(args["kappaLR"])
 
     # Ensure argument specified
-    if(is.null(kap0)) {
+    if(is.null(kappaLR)) {
       stop("Argument kappaLR must be specified for exponential likelihood case.")
     }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
     ghostDesign <- list("likelihoodRatioDistribution" = likelihoodRatioDistribution,
-                        "kappaLR" = kap0,
+                        "kappaLR" = kappaLR,
                         "firstStageInformation" = design$firstStageInformation)
 
     # Calculate likelihood ratio
@@ -94,16 +94,16 @@ integrateExpectedInformation <- function(firstStagePValue, design, likelihoodRat
   # Uniform prior for effect
   else if(likelihoodRatioDistribution == "unif") {
 
-    delMax <- unlist(args["deltaMaxLR"])
+    deltaMax <- unlist(args["deltaMaxLR"])
 
     # Ensure argument specified
-    if(is.null(delMax)) {
+    if(is.null(deltaMax)) {
       stop("Argument deltaMaxLR must be specified for uniform likelihood case.")
     }
 
     # Create a list that acts as a design object to calculate true likelihood ratio
     ghostDesign <- list("likelihoodRatioDistribution" = likelihoodRatioDistribution,
-                        "deltaMaxLR" = delMax,
+                        "deltaMaxLR" = deltaMax,
                         "firstStageInformation" = design$firstStageInformation)
 
     # Calculate likelihood ratio
