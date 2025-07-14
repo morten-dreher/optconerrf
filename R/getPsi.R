@@ -58,8 +58,8 @@ getPsi <- function(nuPrime, conditionalPower){
                           lower = u_min, upper = conditionalPower, tol = 1e-16)
      psi_upper <- rootlist2$root
      # Calculate the quotient that is needed to decide if psi_lower or psi_upper is used
-     quotient <- getNu(alpha = min(conditionalPower, psi_upper), conditionalPower = conditionalPower) -
-          getNu(alpha = psi_lower, conditionalPower = conditionalPower)/(min(psi_upper, conditionalPower)- psi_lower)
+     quotient <- getNu(alpha = psi_upper, conditionalPower = conditionalPower) -
+          getNu(alpha = psi_lower, conditionalPower = conditionalPower)/(psi_upper - psi_lower)
      if (quotient <= nuPrime){
        return(psi_upper)
      } else {
