@@ -12,17 +12,43 @@
 #' @keywords internal
 
 getIntegral <- function(constant, design) {
-  # If there are no monotonisation constants or they are not enforced, use standard integration
-  if(TRUE || !design$enforceMonotonicity || is.null(unlist(design$monotonisationConstants)) || !is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+  enforceBasicIntegration <- isTRUE(as.logical(getOption(
+    "optconerrf.enforce.basic.integration",
+    FALSE
+  )))
+
+  designHasConstraints <- (design$maximumConditionalError < 1) ||
+    (design$minimumConditionalError > 0) ||
+    (design$minimumSecondStageInformation > 0) ||
+    (design$maximumSecondStageInformation < Inf)
+
+  # In the following cases, use basic integration:
+  # - enforced through option (see above)
+  # - design has constraints
+  # - monotonicity of design is not enforced
+  # - design has no monotonisation constants
+  # - design uses a conditional power function
+
+  if (
+    enforceBasicIntegration ||
+      designHasConstraints ||
+      !design$enforceMonotonicity ||
+      is.null(unlist(design$monotonisationConstants)) ||
+      !is.null(suppressWarnings(body(design$conditionalPowerFunction)))
+  ) {
     integral <- stats::integrate(
-      f = getInnerPsi, lower = design$alpha1, upper = design$alpha0, constant = constant,
-      design = design)$value
-  }
-  # If monotonisation constants exist, use alternative integration routine better adapted to constant functions
-  else {
+      f = getInnerPsi,
+      lower = design$alpha1,
+      upper = design$alpha0,
+      constant = constant,
+      design = design
+    )$value
+  } else {
+    # If monotonisation constants exist, use alternative integration routine better adapted to constant functions
     integral <- getIntegralWithConstants(
-      constant = constant, design = design
+      constant = constant,
+      design = design
     )
   }
-  return(integral - (design$alpha-design$alpha1))
+  return(integral - (design$alpha - design$alpha1))
 }
