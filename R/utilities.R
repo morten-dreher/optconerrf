@@ -352,7 +352,7 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
     cat("  Expected second-stage information (delta=delta1=", object$delta1,"): ",getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=object$delta1), "\n", sep= "")
   }
   if(object$useInterimEstimate == TRUE){
-    cat("  Expected Second Stage Information (delta=delta1Min=", object$delta1Min,"): ",getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=object$delta1Min), "\n", sep= "")
+    cat("  Expected second-stage information (delta=delta1Min=", object$delta1Min,"): ",getExpectedSecondStageInformation(design = object, likelihoodRatioDistribution = "fixed", deltaLR=object$delta1Min), "\n", sep= "")
   }
   cat("  Expected second-stage information (Given likelihood ratio distr.):", getExpectedSecondStageInformation(design = object), "\n")
   if(object$likelihoodRatioDistribution != "maxlr"){
