@@ -57,17 +57,17 @@ plot(trialDesignConstraints, type = 2) +
   ggplot2::geom_hline(yintercept = c(85/2, 85*2), linetype = "dashed", colour = "gray")
 ```
 
-Alternatively, the constraints may be directly specified on the conditional error function as $C_{\min}$ and $C_{\max}$ due to
+Alternatively, the constraints may be directly specified on the conditional error function as $\alpha_{2,\min}$ and $\alpha_{2,\max}$ due to
 
 $$
-C_{\min} = \Phi(\Phi^{-1}(CP)- \Delta_1\sqrt{I_{2,\max}})
+\alpha_{2,\min} = \Phi(\Phi^{-1}(CP)- \Delta_1\sqrt{I_{2,\max}})
 $$
 and
 $$
-C_{\max} = \Phi(\Phi^{-1}(CP)- \Delta_1\sqrt{I_{2,\min}}).
+\alpha_{2,\max} = \Phi(\Phi^{-1}(CP)- \Delta_1\sqrt{I_{2,\min}}).
 $$
 Note that constraining the *maximum* second-stage information corresponds to imposing a constraint on the *minimum* conditional error and that constraining the *minimum* second-stage information corresponds to imposing a constraint on the *maximum* conditional error.
-Plugging in $I_{2, \max} = 85\cdot 2$ and $I_{2,\min} = 85/2$, we get $C_{\min} \approx 0.02396$ and $C_{\max} \approx 0.36382$ and can create the same design, now using `minimumConditionalError` and `maximumConditionalError` for the constraints:
+Plugging in $I_{2, \max} = 85\cdot 2$ and $I_{2,\min} = 85/2$, we get $\alpha_{2,\min} \approx 0.02396$ and $\alpha_{2,\max} \approx 0.36382$ and can create the same design, now using `minimumConditionalError` and `maximumConditionalError` for the constraints:
 
 ```{r}
 trialDesignConstraintsConditionalError <- getDesignOptimalConditionalErrorFunction(
@@ -84,7 +84,7 @@ trialDesignConstraintsConditionalError <- getDesignOptimalConditionalErrorFuncti
 )
 ```
 
-Comparing the expected second-stage information of the designs for $\Delta=0.25$ yields essentially the same values, with a minor difference resulting from rounding of $C_{\min}$ and $C_{\max}$. 
+Comparing the expected second-stage information of the designs for $\Delta=0.25$ yields essentially the same values, with a minor difference resulting from rounding of $\alpha_{2,\min}$ and $\alpha_{2,\max}$. 
 
 ```{r}
 getExpectedSecondStageInformation(
@@ -101,10 +101,10 @@ getExpectedSecondStageInformation(
 
 It is also possible to specify constraints on *both* scales simultaneously, i.e., on the second-stage information and on the conditional error function at the same time.
 If this is done, the more restrictive constraint is applied. 
-However, when using a fixed effect size $\Delta_1$ and constant conditional power $CP$, the scales have a one-to-one correspondence (as seen above in the formulas for $C_{\min}$ and $C_{\max}$) and supplying one of them is sufficient. 
+However, when using a fixed effect size $\Delta_1$ and constant conditional power $CP$, the scales have a one-to-one correspondence (as seen above in the formulas for $\alpha_{2,\min}$ and $\alpha_{2,\max}$) and supplying one of them is sufficient. 
 
-Note that the specification of inappropriate constraints may make it impossible to fully exhaust (and not exceed) the $\alpha$ level, i.e., find a level constant for the design.
-(As an example, consider a design with $\alpha=0.025$, $\alpha_1=0$ and $\alpha_0=1$. Since the full $\alpha$ level is to be spent in the second stage, it follows from the level condition (see `?getLevelConstant`) that $0.025 = \int_0^1 \alpha_2(p_1)dp_1$. The exemplary constraint $C_{\max}=0.01$ is inappropriate since when applying it, $\int_0^1 \min(0.01, \alpha_2(p_1))dp_1 \leq \int_0^1 0.01 dp_1 = 0.01 \neq 0.025$ and the level condition cannot be fulfilled.)
+Note that the specification of inappropriate constraints can make it impossible to fully exhaust (and not exceed) the $\alpha$ level, i.e., find a level constant for the design.
+(As an example, consider a design with $\alpha=0.025$, $\alpha_1=0$ and $\alpha_0=1$. Since the full $\alpha$ level is to be spent in the second stage, it follows from the level condition (see `?getLevelConstant`) that $0.025 = \int_0^1 \alpha_2(p_1)dp_1$. The exemplary constraint $\alpha_{2,\max}=0.01$ is inappropriate since when applying it, $\int_0^1 \min(0.01, \alpha_2(p_1))dp_1 \leq \int_0^1 0.01 dp_1 = 0.01 \neq 0.025$ and the level condition cannot be fulfilled.)
 
 # Interim Estimate for Treatment Effect
 
@@ -158,7 +158,7 @@ plot(trialDesignInterimEstimate, type = 1)
 plot(trialDesignInterimEstimate, type = 2)
 ```
 
-Note that for a design with an early efficacy boundary $\alpha_1>0$, an upper limit for the effect is always implicitly given by $\Delta_{1,\max} = \Phi^{-1}(1-\alpha_1)/\sqrt{I_1}$, which is $\Phi^{-1}(1-0.000158)/\sqrt{85}=0.390672$ here.
+Note that for a design with an early efficacy boundary $\alpha_1>0$, an upper limit for the effect is always implicitly given by $\Delta_{1,\max} = \Phi^{-1}(1-\alpha_1)/\sqrt{I_1}$, which is $\Phi^{-1}(1-0.000158)/\sqrt{85}=0.390672$ in our example.
 While this always applies for the upper limit, a futility boundary $\alpha_0 < 1$ may not always correspond to a lower limit $\Delta_{1, \min}>0$ (more precisely, the implicit boundary $\Delta_{1,\min} \leq 0$ would occur if $0.5 \leq \alpha_0 < 1$).
 For this reason, it is mandatory that $\Delta_{1,\min}>0$ (or, alternatively, $\vartheta_{1,\min}>0$) are explicitly specified, regardless of the futility boundary $\alpha_0$.
 
@@ -167,20 +167,20 @@ Rescaling the constraints, as opposed to the above case using a fixed effect siz
 
 
 $$
-C_{\min}(p_1) = \Phi(\Phi^{-1}(CP)- \tilde{\Delta}_1(p_1)\sqrt{I_{2,\max}})
+\alpha_{2,\min}(p_1) = \Phi(\Phi^{-1}(CP)- \tilde{\Delta}_1(p_1)\sqrt{I_{2,\max}})
 $$
 and
 
 $$
-C_{\max}(p_1) = \Phi(\Phi^{-1}(CP)- \tilde{\Delta}_1(p_1)\sqrt{I_{2,\min}}).
+\alpha_{2,\max}(p_1) = \Phi(\Phi^{-1}(CP)- \tilde{\Delta}_1(p_1)\sqrt{I_{2,\min}}).
 $$
 
-Since $I_{2, \max} \geq I_{2,\min}$, it follows that $C_{\min}(p_1) \leq C_{\max}(p_1)$.
+Since $I_{2, \max} \geq I_{2,\min}$, it follows that $\alpha_{2,\min}(p_1) \leq \alpha_{2,\max}(p_1)$.
 Note that both constraint functions are *non-decreasing* in $p_1$, since $\tilde{\Delta}_1(p_1)$ is non-increasing in $p_1$.
 To ensure that the resulting conditional error function is nevertheless non-increasing, we may exploit a property of $\tilde{\Delta}_1(p_1)$:
 The smallest effect size of the interim estimate is always given by $\Delta_{1,\min}$ (or may occur for $p_1 = \alpha_0$).
-As the smallest effect size corresponds to the largest second-stage information, we can plug in the smallest effect in the formula for $C_{\min}(p_1)$ and achieve a constant constraint.
-If an upper limit for the effect size is provided, either via $\Delta_{1,\max}$ or at $p_1 = \alpha_1$, the same shortcut is applicable for $C_{\max}(p_1)$.
+As the smallest effect size corresponds to the largest second-stage information, we can plug in the smallest effect in the formula for $\alpha_{2,\min}(p_1)$ and achieve a constant constraint.
+If an upper limit for the effect size is provided, either via $\Delta_{1,\max}$ or at $p_1 = \alpha_1$, the same shortcut is applicable for $\alpha_{2,\max}(p_1)$.
 
 # Using a Conditional Power Function
 
@@ -289,12 +289,12 @@ This comes from the fact that now, the constraint functions are more difficult t
 We see that:
 
 $$
-C_{\min}(p_1) = \Phi(\Phi^{-1}(CP(p_1)) - \tilde{\Delta}_1(p_1)\sqrt{I_{2,\max}})
+\alpha_{2,\min}(p_1) = \Phi(\Phi^{-1}(CP(p_1)) - \tilde{\Delta}_1(p_1)\sqrt{I_{2,\max}})
 $$
 and
 
 $$
-C_{\max}(p_1) = \Phi(\Phi^{-1}(CP(p_1)) - \tilde{\Delta}_1(p_1)\sqrt{I_{2,\min}})
+\alpha_{2,\max}(p_1) = \Phi(\Phi^{-1}(CP(p_1)) - \tilde{\Delta}_1(p_1)\sqrt{I_{2,\min}})
 $$
 
 may not be monotone in $p_1$, because both $CP(p_1)$ and $\tilde{\Delta}_1(p_1)$ are non-increasing in $p_1$.
