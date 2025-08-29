@@ -21,6 +21,19 @@ Calculate the overall power and other operating characteristics of a design.
 This function is used to evaluate the overall performance of a design.
 The probabilities for first-stage futility, first-stage efficacy and overall efficacy (i.e., overall power) are saved in an object of class \code{PowerResultsOptimalConditionalError}.
 }
+\examples{
+\dontrun{
+# Get a design
+design <- getDesignOptimalConditionalErrorFunction(
+alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
+delta1 = 0.25, likelihoodRatioDistribution = "fixed", deltaLR = 0.25,
+firstStageInformation = 80, useInterimEstimate = FALSE,
+)
+
+getOverallPower(design, alternative = 0.25)
+}
+
+}
 \seealso{
 \code{\link[=getDesignOptimalConditionalErrorFunction]{getDesignOptimalConditionalErrorFunction()}}, \code{\link[=getSimulationResults]{getSimulationResults()}}
 }

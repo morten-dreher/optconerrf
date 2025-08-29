@@ -18,26 +18,44 @@
 #' @return Ratio of likelihood ratio and squared effect size.
 #' @export
 #'
+#' @examples
+#' \dontrun{
+#' # Get a design
+#' design <- getDesignOptimalConditionalErrorFunction(
+#' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
+#' delta1 = 0.25, likelihoodRatioDistribution = "fixed", deltaLR = 0.25,
+#' firstStageInformation = 80, useInterimEstimate = FALSE,
+#' )
+#'
+#' getQ(firstStagePValue = c(0.05, 0.1, 0.2), design = design)
+#' }
+#'
+#'
 #' @template reference_monotone
 
 getQ <- function(firstStagePValue, design) {
-
   # Initialise effect and likelihood ratio
   effect <- NA
   likelihoodRatio <- NA
 
   # When using interim estimate, apply the restrictions given in the design
-  if(design$useInterimEstimate) {
-    effect <- min(max(design$ncp1Min, stats::qnorm(1-firstStagePValue)), design$ncp1Max)/sqrt(design$firstStageInformation)
-  }
-  # Fixed effect case
-  else {
+  if (design$useInterimEstimate) {
+    effect <- min(
+      max(design$ncp1Min, stats::qnorm(1 - firstStagePValue)),
+      design$ncp1Max
+    ) /
+      sqrt(design$firstStageInformation)
+  } else {
+    # Fixed effect case
     effect <- design$delta1
   }
 
-  likelihoodRatio <- getLikelihoodRatio(firstStagePValue = firstStagePValue, design = design)
+  likelihoodRatio <- getLikelihoodRatio(
+    firstStagePValue = firstStagePValue,
+    design = design
+  )
 
-  Q <- likelihoodRatio/(effect^2)
+  Q <- likelihoodRatio / (effect^2)
 
   return(Q)
 }

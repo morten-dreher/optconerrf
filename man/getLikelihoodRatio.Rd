@@ -34,6 +34,19 @@ The different options require different parameters, elaborated in the following.
 The maximum likelihood ratio is always restricted to effect sizes \eqn{\vartheta \geq 0} (corresponding to \eqn{p_1 \leq 0.5}).
 }
 }
+\examples{
+\dontrun{
+# Get a design
+design <- getDesignOptimalConditionalErrorFunction(
+alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
+delta1 = 0.25, likelihoodRatioDistribution = "fixed", deltaLR = 0.25,
+firstStageInformation = 80, useInterimEstimate = FALSE,
+)
+
+getLikelihoodRatio(firstStagePValue = c(0.05, 0.1, 0.2), design = design)
+}
+
+}
 \references{
 Brannath, W. & Bauer, P. (2004). Optimal conditional error functions for the control of conditional power. Biometrics. https://www.jstor.org/stable/3695393
 

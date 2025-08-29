@@ -18,30 +18,40 @@
 #' @template param_design
 #'
 #' @return Monotone function values.
-#' @export
 #'
 #'
 #' @template reference_monotone
 
-getMonotoneFunction <- function(x, fun, lower=NULL, upper=NULL, argument=NULL, nSteps = 10^4, epsilon = 10^(-5), numberOfIterationsQ = 10^4, design) {
-
+getMonotoneFunction <- function(
+  x,
+  fun,
+  lower = NULL,
+  upper = NULL,
+  argument = NULL,
+  nSteps = 10^4,
+  epsilon = 10^(-5),
+  numberOfIterationsQ = 10^4,
+  design
+) {
   # If monotonisation is enforced, do it
-  if(design$enforceMonotonicity) {
+  if (design$enforceMonotonicity) {
     out <- design$monotonisationConstants
-  }
-  else {
+  } else {
     out <- list()
   }
 
   # If the length of object out is 0, the function is already non-increasing
-  if(length(out)==0) {
+  if (length(out) == 0) {
     modFunctionValues <- fun(x, design = design)
-  }
-  # If the length of out is larger than 0, a transformation is necessary
-  else {
+  } else {
+    # If the length of out is larger than 0, a transformation is necessary
     pos_lower <- apply(outer(x, out$dls, ">="), 1, sum)
     pos_upper <- apply(outer(x, out$dus, ">"), 1, sum) + 1
-    modFunctionValues <- ifelse(pos_lower == pos_upper, yes = out$qs[pmax(1, pos_lower)], fun(x, design = design))
+    modFunctionValues <- ifelse(
+      pos_lower == pos_upper,
+      yes = out$qs[pmax(1, pos_lower)],
+      fun(x, design = design)
+    )
   }
   return(modFunctionValues)
 }

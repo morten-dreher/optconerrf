@@ -17,30 +17,43 @@
 #' @return A list that contains the constant (element \code{$root}) and other components provided by \code{uniroot()}.
 #' The level constant is calculated corresponding to the mean difference scale.
 #'
-#' @export
-#'
-#'
 #' @template reference_optimal
 #' @template reference_monotone
 
 getLevelConstant <- function(design) {
   # Check basic condition for decision rules
   # Fixed conditional power
-  if(!is.na(design$conditionalPower)) {
-    if (design$alpha1 + design$conditionalPower * (design$alpha0 - design$alpha1) <= design$alpha) {
-      stop("(alpha1 + conditionalPower*(alpha0-alpha1)) must exceed alpha, otherwise no level constant fully exhausting alpha can be found.")
+  if (!is.na(design$conditionalPower)) {
+    if (
+      design$alpha1 +
+        design$conditionalPower * (design$alpha0 - design$alpha1) <=
+        design$alpha
+    ) {
+      stop(
+        "(alpha1 + conditionalPower*(alpha0-alpha1)) must exceed alpha, otherwise no level constant fully exhausting alpha can be found."
+      )
     }
-  }
-  # Conditional power function
-  else if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
-    if(stats::integrate(f = design$conditionalPowerFunction, lower = design$alpha1, upper = design$alpha0)$value
-    <= design$alpha - design$alpha1) {
-      stop("Integral over conditional power function from alpha1 to alpha0 must exceed (alpha-alpha1), otherwise no level constant fully exhausting alpha can be found.")
+  } else if (
+    !is.null(suppressWarnings(body(design$conditionalPowerFunction)))
+  ) {
+    # Conditional power function
+    if (
+      stats::integrate(
+        f = design$conditionalPowerFunction,
+        lower = design$alpha1,
+        upper = design$alpha0
+      )$value <=
+        design$alpha - design$alpha1
+    ) {
+      stop(
+        "Integral over conditional power function from alpha1 to alpha0 must exceed (alpha-alpha1), otherwise no level constant fully exhausting alpha can be found."
+      )
     }
-  }
-  # Unexpected issue
-  else {
-    stop("Unexpected error: both conditionalPower and conditionalPowerFunction are specified inappropriately.")
+  } else {
+    # Unexpected issue
+    stop(
+      "Unexpected error: both conditionalPower and conditionalPowerFunction are specified inappropriately."
+    )
   }
 
   # Find the level constant.
@@ -48,8 +61,10 @@ getLevelConstant <- function(design) {
   tryCatch(
     expr = {
       stats::uniroot(
-        f = getIntegral, lower = design$levelConstantMinimum,
-        upper = design$levelConstantMaximum, design = design,
+        f = getIntegral,
+        lower = design$levelConstantMinimum,
+        upper = design$levelConstantMaximum,
+        design = design,
         tol = 1e-16
       )
     },
@@ -57,10 +72,11 @@ getLevelConstant <- function(design) {
       # This specific error may occur if the given non-centrality parameter is too small or too large or if the
       # provided constraints are not suitable and is handled separately
       if (e$message == "f() values at end points not of opposite sign") {
-        stop("Root finding for level constant failed. Try changing the search interval via arguments levelConstantMinimum and levelConstantMaximum. \n Alternatively, the constraints on the optimal conditional error function or second-stage information may not be appropriate.")
-      }
-      # Print all other errors directly
-      else {
+        stop(
+          "Root finding for level constant failed. Try changing the search interval via arguments levelConstantMinimum and levelConstantMaximum. \n Alternatively, the constraints on the optimal conditional error function or second-stage information may not be appropriate."
+        )
+      } else {
+        # Print all other errors directly
         stop(e)
       }
     }
