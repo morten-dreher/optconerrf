@@ -39,7 +39,7 @@
 #' }
 #'
 #' @template reference_optimal
-#' @references Hung, H. M. J., O’Neill, R. T., Bauer, P. & Kohne, K. (1997). The behavior of the p-value when the alternative hypothesis is true. Biometrics. http://www.jstor.org/stable/2533093
+#' @references Hung, H. M. J., O’Neill, R. T., Bauer, P. & Kohne, K. (1997). The behavior of the p-value when the alternative hypothesis is true. Biometrics. https://www.jstor.org/stable/2533093
 
 getLikelihoodRatio <- function(firstStagePValue, design) {
   # Initialise likelihood ratio
