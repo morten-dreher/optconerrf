@@ -27,7 +27,6 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' # Get a design
 #' design <- getDesignOptimalConditionalErrorFunction(
 #' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -36,7 +35,6 @@
 #' )
 #'
 #' getLikelihoodRatio(firstStagePValue = c(0.05, 0.1, 0.2), design = design)
-#' }
 #'
 #' @template reference_optimal
 #' @references Hung, H. M. J., O’Neill, R. T., Bauer, P. & Kohne, K. (1997). The behavior of the p-value when the alternative hypothesis is true. Biometrics. https://www.jstor.org/stable/2533093

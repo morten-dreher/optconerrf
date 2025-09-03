@@ -6,7 +6,7 @@ Authors@R:
     person(given = "Werner", family = "Brannath", role = c("aut", "cph"), comment = c(ORCID = "0000-0002-8622-3904")),
     person(given = "Cornelia Ursula", family = "Kunz", role = "ctb", comment = c(ORCID = "0000-0002-8900-9401")),
     person(given = "Johanna", family = "zur Verth", role = "aut"))
-Description: Calculate and monotonise the optimal conditional error function.
+Description: Design and analysis of confirmatory adaptive clinical trials using the optimal conditional error framework according to Brannath and Bauer (2004) <doi:10.1111/j.0006-341X.2004.00221.x>. An extension to the optimal conditional error function using interim estimates as described in Brannath and Dreher (2024) <doi:10.48550/arXiv.2402.00814> and functions to ensure that the resulting conditional error function is non-increasing are also available.
 Imports: ggplot2, methods
 License: GPL (>= 3)
 Encoding: UTF-8

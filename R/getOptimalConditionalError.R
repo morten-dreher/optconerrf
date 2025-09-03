@@ -20,7 +20,6 @@
 #' @seealso [getDesignOptimalConditionalErrorFunction()]
 #'
 #' @examples
-#' \dontrun{
 #' # Create a design
 #' design <- getDesignOptimalConditionalErrorFunction(
 #' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -31,23 +30,26 @@
 #' getOptimalConditionalError(
 #' firstStagePValue = c(0.1, 0.2, 0.3), design = design
 #' )
-#' }
 
 getOptimalConditionalError <- function(firstStagePValue, design) {
-
   # Check if firstStagePValue lies outside early decision boundaries
-  if(firstStagePValue <= design$alpha1 && design$alpha1!=0) {
+  if (firstStagePValue <= design$alpha1 && design$alpha1 != 0) {
     return(1)
-  } else if(firstStagePValue > design$alpha0) {
+  } else if (firstStagePValue > design$alpha0) {
     return(0)
   }
 
   # If monotonisation constants specified and monotonisation enforced, perform non-increasing transformation
-  if(design$enforceMonotonicity && !is.null(unlist(design$monotonisationConstants))) {
+  if (
+    design$enforceMonotonicity &&
+      !is.null(unlist(design$monotonisationConstants))
+  ) {
     Q <- getMonotoneFunction(
-      x = firstStagePValue, fun = getQ, design = design)
-  }
-  else {
+      x = firstStagePValue,
+      fun = getQ,
+      design = design
+    )
+  } else {
     Q <- getQ(firstStagePValue = firstStagePValue, design = design)
   }
 
@@ -61,48 +63,78 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
   C_min_cond_error <- design$minimumConditionalError
 
   # Check if conditional power function should be used
-  if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+  if (!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
     conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
 
     #Check if interim estimate is used
-    if(design$useInterimEstimate) {
-      delta1 <- min(max(qnorm(1-firstStagePValue)/sqrt(design$firstStageInformation), design$delta1Min), design$delta1Max)
-    }
-    # Otherwise use fixed effect
-    else {
+    if (design$useInterimEstimate) {
+      delta1 <- min(
+        max(
+          qnorm(1 - firstStagePValue) / sqrt(design$firstStageInformation),
+          design$delta1Min
+        ),
+        design$delta1Max
+      )
+    } else {
+      # Otherwise use fixed effect
       delta1 <- design$delta1
     }
     #Calculate constraint based on minimumSecondStageInformation
-    if(design$minimumSecondStageInformation > 0){
-      C_max_Info <- 1 - pnorm(delta1* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
+    if (design$minimumSecondStageInformation > 0) {
+      C_max_Info <- 1 -
+        pnorm(
+          delta1 *
+            sqrt(design$minimumSecondStageInformation) -
+            qnorm(conditionalPower)
+        )
     }
 
     #Calculate constraint based on maximumSecondStageInformation
-    if(design$maximumSecondStageInformation < Inf){
-      C_min_Info <- 1 - pnorm(delta1* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
+    if (design$maximumSecondStageInformation < Inf) {
+      C_min_Info <- 1 -
+        pnorm(
+          delta1 *
+            sqrt(design$maximumSecondStageInformation) -
+            qnorm(conditionalPower)
+        )
     }
   } else {
     conditionalPower <- design$conditionalPower
 
     #Check if interim estimate is used
-    if(design$useInterimEstimate) {
-      delta_C_max <- min(qnorm(1-design$alpha1)/sqrt(design$firstStageInformation),design$delta1Max)
-      delta_C_min <- max(qnorm(1-design$alpha0)/sqrt(design$firstStageInformation),design$delta1Min)
-    }
-    # Otherwise use fixed effect
-    else {
+    if (design$useInterimEstimate) {
+      delta_C_max <- min(
+        qnorm(1 - design$alpha1) / sqrt(design$firstStageInformation),
+        design$delta1Max
+      )
+      delta_C_min <- max(
+        qnorm(1 - design$alpha0) / sqrt(design$firstStageInformation),
+        design$delta1Min
+      )
+    } else {
+      # Otherwise use fixed effect
       delta_C_max <- design$delta1
       delta_C_min <- design$delta1
     }
 
     #Calculate constraint based on minimumSecondStageInformation
-    if(design$minimumSecondStageInformation > 0){
-      C_max_Info <- 1 - pnorm(delta_C_max* sqrt(design$minimumSecondStageInformation)-qnorm(conditionalPower))
+    if (design$minimumSecondStageInformation > 0) {
+      C_max_Info <- 1 -
+        pnorm(
+          delta_C_max *
+            sqrt(design$minimumSecondStageInformation) -
+            qnorm(conditionalPower)
+        )
     }
 
     #Calculate constraint based on maximumSecondStageInformation
-    if(design$maximumSecondStageInformation < Inf){
-      C_min_Info <- 1 - pnorm(delta_C_min* sqrt(design$maximumSecondStageInformation)-qnorm(conditionalPower))
+    if (design$maximumSecondStageInformation < Inf) {
+      C_min_Info <- 1 -
+        pnorm(
+          delta_C_min *
+            sqrt(design$maximumSecondStageInformation) -
+            qnorm(conditionalPower)
+        )
     }
   }
 
@@ -111,18 +143,29 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
   C_min <- max(C_min_Info, C_min_cond_error)
 
   #Handling of the special case firstStagePValue=0 and no early stopping
-  if (firstStagePValue == 0 && design$alpha1==0){
+  if (firstStagePValue == 0 && design$alpha1 == 0) {
     # Calculate the specified conditional power for a firstStagePValue of 0
-    if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+    if (!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
       conditionalPower_0 <- design$conditionalPowerFunction(0)
-    }else{
+    } else {
       conditionalPower_0 <- design$conditionalPower
     }
     return(min(C_max, conditionalPower_0))
   }
 
-
-  return(max(C_min, min(C_max, getPsi(nuPrime = (-exp(design$levelConstant)/Q), conditionalPower = conditionalPower))))
+  return(max(
+    C_min,
+    min(
+      C_max,
+      getPsi(
+        nuPrime = (-exp(design$levelConstant) / Q),
+        conditionalPower = conditionalPower
+      )
+    )
+  ))
 }
 
-getOptimalConditionalError <- Vectorize(FUN = getOptimalConditionalError, vectorize.args = c("firstStagePValue"))
+getOptimalConditionalError <- Vectorize(
+  FUN = getOptimalConditionalError,
+  vectorize.args = c("firstStagePValue")
+)

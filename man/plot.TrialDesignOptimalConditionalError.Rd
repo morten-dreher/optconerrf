@@ -22,6 +22,9 @@
 
 \item{...}{Additional arguments required for generic compatibility}
 }
+\value{
+No return value, plots the design.
+}
 \description{
 The returned plot is a \code{ggplot2} object and can be supplemented with additional layers using \code{ggplot2} commands.
 }

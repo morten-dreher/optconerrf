@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments required for generic compatibility}
 }
+\value{
+No return value, prints the power calculation results.
+}
 \description{
 Print an overview of exact power results.
 }

@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments required for generic compatibility}
 }
+\value{
+No return value, prints a summary of design performance.
+}
 \description{
 Provide an overview of the operating characteristics of the optimal conditional error trial design.
 }

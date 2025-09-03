@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments required for generic compatibility}
 }
+\value{
+No return value, prints the design.
+}
 \description{
 Print an overview of the specified design parameters.
 }

@@ -35,7 +35,6 @@ The maximum likelihood ratio is always restricted to effect sizes \eqn{\vartheta
 }
 }
 \examples{
-\dontrun{
 # Get a design
 design <- getDesignOptimalConditionalErrorFunction(
 alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -44,7 +43,6 @@ firstStageInformation = 80, useInterimEstimate = FALSE,
 )
 
 getLikelihoodRatio(firstStagePValue = c(0.05, 0.1, 0.2), design = design)
-}
 
 }
 \references{

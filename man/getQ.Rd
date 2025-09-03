@@ -27,7 +27,6 @@ where \eqn{l(p_1)} is the likelihood ratio and \eqn{\Delta_1} is the effect size
 The effect size may also depend on the interim data (i.e., on \eqn{p_1}) in case \code{useInterimEstimate = TRUE} was specified for the design object.
 }
 \examples{
-\dontrun{
 # Get a design
 design <- getDesignOptimalConditionalErrorFunction(
 alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -36,8 +35,6 @@ firstStageInformation = 80, useInterimEstimate = FALSE,
 )
 
 getQ(firstStagePValue = c(0.05, 0.1, 0.2), design = design)
-}
-
 
 }
 \references{

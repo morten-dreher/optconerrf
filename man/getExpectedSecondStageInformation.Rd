@@ -46,7 +46,6 @@ where
 }}
 }
 \examples{
-\dontrun{
 # Get a design
 design <- getDesignOptimalConditionalErrorFunction(
 alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -60,7 +59,6 @@ getExpectedSecondStageInformation(design)
 getExpectedSecondStageInformation(
  design = design, likelihoodRatioDistribution = "fixed", deltaLR = 0
 )
-}
 
 }
 \references{

@@ -31,7 +31,7 @@ Simulates the probabilities of overall rejection as well as early futility and e
 This is done by generating random normally distributed test statistics and calculating their p-values.
 }
 \examples{
-\dontrun{
+\donttest{
 design <- getDesignOptimalConditionalErrorFunction(
  alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, delta1 = 0.25,
  useInterimEstimate = FALSE,

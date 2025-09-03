@@ -96,7 +96,7 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Create a single-arm design with fixed parameter for the likelihood ratio
 #' # and a fixed effect for conditional power. 80 patients are observed in the
 #' # first-stage (firstStageInformation = 80 in the one-sample test, variance 1).
@@ -125,15 +125,29 @@
 #' @template reference_monotone
 #'
 getDesignOptimalConditionalErrorFunction <- function(
-    alpha, alpha1, alpha0, conditionalPower = NA_real_, delta1 = NA_real_,
-    delta1Min = NA_real_, delta1Max = Inf, ncp1 = NA_real_,
-    ncp1Min = NA_real_, ncp1Max = Inf, useInterimEstimate = TRUE,
-    firstStageInformation, likelihoodRatioDistribution,
-    minimumSecondStageInformation = 0, maximumSecondStageInformation = Inf,
-    minimumConditionalError = 0, maximumConditionalError = 1,
-    conditionalPowerFunction = NA,
-    levelConstantMinimum = 0, levelConstantMaximum = 10,
-    enforceMonotonicity = TRUE, ...) {
+  alpha,
+  alpha1,
+  alpha0,
+  conditionalPower = NA_real_,
+  delta1 = NA_real_,
+  delta1Min = NA_real_,
+  delta1Max = Inf,
+  ncp1 = NA_real_,
+  ncp1Min = NA_real_,
+  ncp1Max = Inf,
+  useInterimEstimate = TRUE,
+  firstStageInformation,
+  likelihoodRatioDistribution,
+  minimumSecondStageInformation = 0,
+  maximumSecondStageInformation = Inf,
+  minimumConditionalError = 0,
+  maximumConditionalError = 1,
+  conditionalPowerFunction = NA,
+  levelConstantMinimum = 0,
+  levelConstantMaximum = 10,
+  enforceMonotonicity = TRUE,
+  ...
+) {
   design <- new(
     "TrialDesignOptimalConditionalError",
     alpha = alpha,

@@ -168,7 +168,7 @@ For details, see \code{?print.TrialDesignOptimalConditionalError} and \code{?plo
 }
 
 \examples{
-\dontrun{
+\donttest{
 # Create a single-arm design with fixed parameter for the likelihood ratio
 # and a fixed effect for conditional power. 80 patients are observed in the
 # first-stage (firstStageInformation = 80 in the one-sample test, variance 1).

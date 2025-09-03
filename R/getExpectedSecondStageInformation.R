@@ -21,7 +21,6 @@
 #' @return Expected second-stage information.
 #'
 #' @examples
-#' \dontrun{
 #' # Get a design
 #' design <- getDesignOptimalConditionalErrorFunction(
 #' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -35,16 +34,25 @@
 #' getExpectedSecondStageInformation(
 #'  design = design, likelihoodRatioDistribution = "fixed", deltaLR = 0
 #' )
-#' }
 #'
 #' @export
 #' @seealso [getDesignOptimalConditionalErrorFunction()], [getSecondStageInformation()]
 #' @template reference_optimal
 
-getExpectedSecondStageInformation <- function(design, likelihoodRatioDistribution = NULL, ...) {
-
+getExpectedSecondStageInformation <- function(
+  design,
+  likelihoodRatioDistribution = NULL,
+  ...
+) {
   # Integrate over a helper function from alpha1 to alpha0
-  return(stats::integrate(f = integrateExpectedInformation, lower = design$alpha1,
-                          upper = design$alpha0, design = design,
-                          likelihoodRatioDistribution = likelihoodRatioDistribution, ... = ...)$value)
+  return(
+    stats::integrate(
+      f = integrateExpectedInformation,
+      lower = design$alpha1,
+      upper = design$alpha0,
+      design = design,
+      likelihoodRatioDistribution = likelihoodRatioDistribution,
+      ... = ...
+    )$value
+  )
 }

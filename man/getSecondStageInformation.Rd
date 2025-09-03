@@ -31,7 +31,6 @@ For p-values smaller or equal to the first-stage efficacy boundary as well as p-
 the returned information is 0 (since the trial is ended early in both cases).
 }
 \examples{
-\dontrun{
 design <- getDesignOptimalConditionalErrorFunction(
   alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5,
   conditionalPower = 0.9, delta1 = 0.25, useInterimEstimate = FALSE,
@@ -41,7 +40,6 @@ design <- getDesignOptimalConditionalErrorFunction(
 getSecondStageInformation(
   firstStagePValue = c(0.05, 0.1, 0.2), design = design
 )
-}
 
 }
 \references{

@@ -19,7 +19,6 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' # Get a design
 #' design <- getDesignOptimalConditionalErrorFunction(
 #' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -28,8 +27,6 @@
 #' )
 #'
 #' getQ(firstStagePValue = c(0.05, 0.1, 0.2), design = design)
-#' }
-#'
 #'
 #' @template reference_monotone
 

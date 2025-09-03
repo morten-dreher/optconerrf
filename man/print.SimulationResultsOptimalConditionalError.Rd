@@ -11,6 +11,9 @@
 
 \item{...}{Additional arguments required for generic compatibility}
 }
+\value{
+No return value, prints the simulation results.
+}
 \description{
 Print an overview of simulation results.
 }

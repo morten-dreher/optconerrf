@@ -24,7 +24,6 @@
 #' @seealso [getDesignOptimalConditionalErrorFunction()], [getExpectedSecondStageInformation()], [getOptimalConditionalError()]
 #'
 #' @examples
-#' \dontrun{
 #' design <- getDesignOptimalConditionalErrorFunction(
 #'   alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5,
 #'   conditionalPower = 0.9, delta1 = 0.25, useInterimEstimate = FALSE,
@@ -34,40 +33,48 @@
 #' getSecondStageInformation(
 #'   firstStagePValue = c(0.05, 0.1, 0.2), design = design
 #' )
-#' }
 #'
 #' @template reference_optimal
 getSecondStageInformation <- function(firstStagePValue, design) {
   # For p-values outside of the continuation region, return information 0
-  if ((firstStagePValue <= design$alpha1 && design$alpha1 > 0) || firstStagePValue > design$alpha0) {
+  if (
+    (firstStagePValue <= design$alpha1 && design$alpha1 > 0) ||
+      firstStagePValue > design$alpha0
+  ) {
     information <- 0
   } else {
     # For design with interim estimate, apply effect restrictions
     if (design$useInterimEstimate) {
       effect <- min(
-        max(qnorm(1 - firstStagePValue) / design$firstStageInformation, design$delta1Min),
+        max(
+          qnorm(1 - firstStagePValue) / design$firstStageInformation,
+          design$delta1Min
+        ),
         design$delta1Max
       )
-    }
-    # For design without interim estimate, use fixed effect
-    else {
+    } else {
+      # For design without interim estimate, use fixed effect
       effect <- design$delta1
     }
 
     # Calculate conditional error
     conditionalError <- getOptimalConditionalError(
-      firstStagePValue = firstStagePValue, design = design
+      firstStagePValue = firstStagePValue,
+      design = design
     )
 
     # Check if conditional power function should be used
-    if(!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
+    if (!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
       conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
-    }
-    else {
+    } else {
       conditionalPower <- design$conditionalPower
     }
 
-    information <- (getNu(alpha = conditionalError, conditionalPower = conditionalPower)) / (effect^2)
+    information <- (getNu(
+      alpha = conditionalError,
+      conditionalPower = conditionalPower
+    )) /
+      (effect^2)
   }
   return(information)
 }

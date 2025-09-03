@@ -22,7 +22,6 @@ This function is used to evaluate the overall performance of a design.
 The probabilities for first-stage futility, first-stage efficacy and overall efficacy (i.e., overall power) are saved in an object of class \code{PowerResultsOptimalConditionalError}.
 }
 \examples{
-\dontrun{
 # Get a design
 design <- getDesignOptimalConditionalErrorFunction(
 alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -31,7 +30,6 @@ firstStageInformation = 80, useInterimEstimate = FALSE,
 )
 
 getOverallPower(design, alternative = 0.25)
-}
 
 }
 \seealso{

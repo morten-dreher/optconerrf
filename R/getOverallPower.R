@@ -13,7 +13,6 @@
 #' @seealso [getDesignOptimalConditionalErrorFunction()], [getSimulationResults()]
 #'
 #' @examples
-#' \dontrun{
 #' # Get a design
 #' design <- getDesignOptimalConditionalErrorFunction(
 #' alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5, conditionalPower = 0.9,
@@ -22,7 +21,6 @@
 #' )
 #'
 #' getOverallPower(design, alternative = 0.25)
-#' }
 #'
 #' @return The overall power of the design at the provided effect size.
 #' @export
