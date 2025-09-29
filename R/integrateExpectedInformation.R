@@ -136,7 +136,7 @@ integrateExpectedInformation <- function(firstStagePValue, design, likelihoodRat
   # Interim estimate
   else {
     # Apply restrictions that are given in the design object
-    delta1 <- pmin(pmax(design$delta1Min, qnorm(1-firstStagePValue)), design$delta1Max)
+    delta1 <- pmin(pmax(design$delta1Min, qnorm(1-firstStagePValue)/sqrt(design$firstStageInformation)), design$delta1Max)
   }
 
   # Check if conditional power function should be used
