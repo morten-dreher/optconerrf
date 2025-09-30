@@ -10,8 +10,6 @@
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/optconerrf?color=blue)](https://r-pkg.org/pkg/optconerrf)
 [![CRAN
 checks](https://badges.cranchecks.info/summary/optconerrf.svg)](https://cran.r-project.org/web/checks/check_results_optconerrf.html)
-[![Test
-coverage](https://github.com/morten-dreher/optconerrf/actions/workflows/test-coverage.yaml/badge.svg)](https://github.com/morten-dreher/optconerrf/actions/workflows/test-coverage.yaml)
 <!-- badges: end -->
 
 The goal of `optconerrf` is to enable the use of adaptive two-stage
