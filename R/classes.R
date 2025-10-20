@@ -256,18 +256,42 @@ TrialDesignOptimalConditionalError <- setRefClass(
       }
 
       # Context-related range checks
-      .rangeCheck(
-        variable = minimumConditionalError,
-        range = c(0, maximumConditionalError),
-        allowedEqual = TRUE,
-        hint = "It must not exceed maximumConditionalError."
-      )
-      .rangeCheck(
+
+      if (!is.na(conditionalPower)){
+
+        .rangeCheck(
+          variable = minimumConditionalError,
+          range = c(0, min(maximumConditionalError, conditionalPower)),
+          allowedEqual = TRUE,
+          hint = "It must not exceed maximumConditionalError or conditionalPower"
+        )
+
+            .rangeCheck(
         variable = maximumConditionalError,
-        range = c(minimumConditionalError, 1),
+        range = c(minimumConditionalError, conditionalPower),
         allowedEqual = TRUE,
-        hint = "It must not be smaller than minimumConditionalError."
+        hint = "It must not be smaller than minimumConditionalError or exceed conditionalPower."
       )
+      }
+
+      if (!is.null(suppressWarnings(body(conditionalPowerFunction)))){
+
+        conditionalPowerMinimum = conditionalPowerFunction(alpha0)
+
+        .rangeCheck(
+          variable = minimumConditionalError,
+          range = c(0, min(maximumConditionalError, conditionalPowerMinimum)),
+          allowedEqual = TRUE,
+          hint = "It must not exceed maximumConditionalError or conditionalPower"
+        )
+
+        .rangeCheck(
+          variable = maximumConditionalError,
+          range = c(minimumConditionalError, conditionalPowerMinimum),
+          allowedEqual = TRUE,
+          hint = "It must not be smaller than minimumConditionalError or exceed conditionalPower."
+        )
+      }
 
       .rangeCheck(
         variable = minimumSecondStageInformation,
