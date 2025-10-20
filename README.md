@@ -4,6 +4,12 @@
 # optconerrf
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/morten-dreher/optconerrf/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/morten-dreher/optconerrf/actions/workflows/R-CMD-check.yaml)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/optconerrf?color=blue)](https://r-pkg.org/pkg/optconerrf)
+[![CRAN
+checks](https://badges.cranchecks.info/summary/optconerrf.svg)](https://cran.r-project.org/web/checks/check_results_optconerrf.html)
 <!-- badges: end -->
 
 The goal of `optconerrf` is to enable the use of adaptive two-stage
