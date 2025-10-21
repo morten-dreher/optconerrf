@@ -39,34 +39,34 @@ TrialDesignOptimalConditionalError <- setRefClass(
   ),
   methods = list(
     initialize = function(
-      alpha = NA_real_,
-      alpha1 = NA_real_,
-      alpha0 = NA_real_,
-      conditionalPower = NA_real_,
-      conditionalPowerFunction = NA,
-      delta1 = NA_real_,
-      delta1Min = NA_real_,
-      delta1Max = NA_real_,
-      firstStageInformation = NA_real_,
-      useInterimEstimate = TRUE,
-      likelihoodRatioDistribution = "",
-      deltaLR = NA_real_,
-      weightsDeltaLR = NA_real_,
-      tauLR = NA_real_,
-      kappaLR = NA_real_,
-      deltaMaxLR = NA_real_,
-      levelConstant = NA_real_,
-      monotonisationConstants,
-      minimumSecondStageInformation = 0,
-      maximumSecondStageInformation = Inf,
-      minimumConditionalError = 0,
-      maximumConditionalError = 1,
-      levelConstantMinimum = 0,
-      levelConstantMaximum = 10,
-      ncp1 = NA_real_,
-      ncp1Min = NA_real_,
-      ncp1Max = NA_real_,
-      enforceMonotonicity = TRUE
+    alpha = NA_real_,
+    alpha1 = NA_real_,
+    alpha0 = NA_real_,
+    conditionalPower = NA_real_,
+    conditionalPowerFunction = NA,
+    delta1 = NA_real_,
+    delta1Min = NA_real_,
+    delta1Max = NA_real_,
+    firstStageInformation = NA_real_,
+    useInterimEstimate = TRUE,
+    likelihoodRatioDistribution = "",
+    deltaLR = NA_real_,
+    weightsDeltaLR = NA_real_,
+    tauLR = NA_real_,
+    kappaLR = NA_real_,
+    deltaMaxLR = NA_real_,
+    levelConstant = NA_real_,
+    monotonisationConstants,
+    minimumSecondStageInformation = 0,
+    maximumSecondStageInformation = Inf,
+    minimumConditionalError = 0,
+    maximumConditionalError = 1,
+    levelConstantMinimum = 0,
+    levelConstantMaximum = 10,
+    ncp1 = NA_real_,
+    ncp1Min = NA_real_,
+    ncp1Max = NA_real_,
+    enforceMonotonicity = TRUE
     ) {
       # Range checks for numeric variables
       # General range checks
@@ -80,7 +80,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
 
       if (
         is.na(conditionalPower) &&
-          is.null(suppressWarnings(body(conditionalPowerFunction)))
+        is.null(suppressWarnings(body(conditionalPowerFunction)))
       ) {
         stop(
           "Must specify either conditionalPower or a valid conditionalPowerFunction."
@@ -108,7 +108,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
           if (
             any(
               condPowerValues[2:(length(condPowerValues))] >
-                condPowerValues[1:(length(condPowerValues) - 1)]
+              condPowerValues[1:(length(condPowerValues) - 1)]
             )
           ) {
             warning(
@@ -118,8 +118,8 @@ TrialDesignOptimalConditionalError <- setRefClass(
 
           if (
             useInterimEstimate &&
-              (minimumSecondStageInformation > 0 ||
-                maximumSecondStageInformation < Inf)
+            (minimumSecondStageInformation > 0 ||
+             maximumSecondStageInformation < Inf)
           ) {
             warning(
               "Use of conditional power function, interim estimate and information constraints may lead to non-monotone conditional error function."
@@ -256,42 +256,18 @@ TrialDesignOptimalConditionalError <- setRefClass(
       }
 
       # Context-related range checks
-
-      if (!is.na(conditionalPower)){
-
-        .rangeCheck(
-          variable = minimumConditionalError,
-          range = c(0, min(maximumConditionalError, conditionalPower)),
-          allowedEqual = TRUE,
-          hint = "It must not exceed maximumConditionalError or conditionalPower"
-        )
-
-            .rangeCheck(
-        variable = maximumConditionalError,
-        range = c(minimumConditionalError, conditionalPower),
+      .rangeCheck(
+        variable = minimumConditionalError,
+        range = c(0, maximumConditionalError),
         allowedEqual = TRUE,
-        hint = "It must not be smaller than minimumConditionalError or exceed conditionalPower."
+        hint = "It must not exceed maximumConditionalError."
       )
-      }
-
-      if (!is.null(suppressWarnings(body(conditionalPowerFunction)))){
-
-        conditionalPowerMinimum = conditionalPowerFunction(alpha0)
-
-        .rangeCheck(
-          variable = minimumConditionalError,
-          range = c(0, min(maximumConditionalError, conditionalPowerMinimum)),
-          allowedEqual = TRUE,
-          hint = "It must not exceed maximumConditionalError or conditionalPower"
-        )
-
-        .rangeCheck(
-          variable = maximumConditionalError,
-          range = c(minimumConditionalError, conditionalPowerMinimum),
-          allowedEqual = TRUE,
-          hint = "It must not be smaller than minimumConditionalError or exceed conditionalPower."
-        )
-      }
+      .rangeCheck(
+        variable = maximumConditionalError,
+        range = c(minimumConditionalError, 1),
+        allowedEqual = TRUE,
+        hint = "It must not be smaller than minimumConditionalError."
+      )
 
       .rangeCheck(
         variable = minimumSecondStageInformation,
@@ -395,9 +371,9 @@ TrialDesignOptimalConditionalError <- setRefClass(
       # but a minimum constraint on the second-stage information, which may not be achievable, is specified.
       if (
         useInterimEstimate &&
-          alpha1 == 0 &&
-          delta1Max == Inf &&
-          minimumSecondStageInformation > 0
+        alpha1 == 0 &&
+        delta1Max == Inf &&
+        minimumSecondStageInformation > 0
       ) {
         warning(
           "When using an interim estimate with no upper restriction (delta1Max = Inf) and alpha1=0, the second-stage information may become arbitrarily small.
