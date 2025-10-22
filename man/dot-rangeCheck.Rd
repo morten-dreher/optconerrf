@@ -15,6 +15,9 @@
 
 \item{hint}{Additional message that may be printed after the error.}
 }
+\value{
+Invisibly returns \code{TRUE} if the check was successful.
+}
 \description{
 This function performs very basic range checks for numeric variables and throws
 an error if the range is violated. A custom hint may be added to the message.

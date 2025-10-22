@@ -801,6 +801,7 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
 #' @param allowedEqual Logical. Are the borders of range valid values?
 #' @param hint Additional message that may be printed after the error.
 #'
+#' @return Invisibly returns \code{TRUE} if the check was successful.
 .rangeCheck <- function(variable, range, allowedEqual, hint = "") {
   if (allowedEqual) {
     if (any(variable < range[1]) || any(variable > range[2])) {
@@ -829,4 +830,5 @@ summary.TrialDesignOptimalConditionalError <- function(object, ...) {
       ))
     }
   }
+  return(base::invisible(TRUE))
 }
