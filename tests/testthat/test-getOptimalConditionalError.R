@@ -19,7 +19,10 @@ test_that("Correct result for optimal conditional error function", {
   )
   expect_equal(cond_error, setting_1$fixed[-1], tolerance = 1e-4)
   testthat::expect_equal(
-    object = getOptimalConditionalError(firstStagePValue = c(0, 1)),
+    object = getOptimalConditionalError(
+      firstStagePValue = c(0, 1),
+      design = design_fixed_delta_1
+    ),
     expected = c(1, 0)
   )
 
