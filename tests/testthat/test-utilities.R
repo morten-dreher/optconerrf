@@ -12,9 +12,27 @@ design <- getDesignOptimalConditionalErrorFunction(
 )
 
 # More elaborate design
-design2 <- getDesignOptimalConditionalErrorFunction(
-  alpha =
-)
+design2 <-
+  suppressWarnings(
+    getDesignOptimalConditionalErrorFunction(
+      alpha = 0.025,
+      alpha1 = 0.001,
+      alpha0 = 0.5,
+      delta1Min = 0.2,
+      useInterimEstimate = TRUE,
+      firstStageInformation = 40,
+      likelihoodRatioDistribution = "maxlr",
+      conditionalPowerFunction = function(x) {
+        1 - pnorm(x)
+      },
+      minimumConditionalError = 0.01,
+      maximumConditionalError = 0.9,
+      minimumSecondStageInformation = 5,
+      maximumSecondStageInformation = 400,
+      levelConstantMinimum = 0.5,
+      levelConstantMaximum = 10.5
+    )
+  )
 
 
 testthat::test_that(desc = "print.TrialDesignOptimalConditionalError works", code = {
@@ -55,6 +73,7 @@ testthat::test_that(desc = "print.TrialDesignOptimalConditionalError works", cod
       )
     )
   )
+  print_output <- capture.output(print(design2))
 })
 
 testthat::test_that(desc = "print.SimulationResultsOptimalConditionalError works", code = {
