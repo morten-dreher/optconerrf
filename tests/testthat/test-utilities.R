@@ -74,6 +74,18 @@ testthat::test_that(desc = "print.TrialDesignOptimalConditionalError works", cod
     )
   )
   print_output <- capture.output(print(design2))
+  testthat::expect_true(
+    all(c(
+      grepl(pattern = "Conditional power specification", x = print_output[10]),
+      grepl(
+        pattern = "Alternative: interim estimate restricted",
+        x = print_output[12]
+      ),
+      grepl(pattern = "Monotonisation constants", x = print_output[23]),
+      grepl(pattern = "Constraints on optimal", x = print_output[7]),
+      grepl(pattern = "Constraints on second-stage", x = print_output[8])
+    ))
+  )
 })
 
 testthat::test_that(desc = "print.SimulationResultsOptimalConditionalError works", code = {
