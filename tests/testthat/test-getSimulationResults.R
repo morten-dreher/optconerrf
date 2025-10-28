@@ -22,7 +22,6 @@ testthat::test_that("Tests for getSimulationResults() work", {
     seed = 1234
   )
 
-  # Tests are limited to general structure, as exact results may vary due to simulation
   # Test class
   testthat::expect_s4_class(
     object = simulationResults,
@@ -39,5 +38,26 @@ testthat::test_that("Tests for getSimulationResults() work", {
   testthat::expect_equal(
     object = simulationResults$maxNumberOfIterations,
     expected = 10000
+  )
+
+  # Test first-stage futility
+  testthat::expect_equal(
+    object = simulationResults$firstStageFutility,
+    expected = c(0.4984, 0.0119),
+    tolerance = 1e-2
+  )
+
+  # Test first-stage efficacy
+  testthat::expect_equal(
+    object = simulationResults$firstStageEfficacy,
+    expected = c(0.0011, 0.1952),
+    tolerance = 1e-2
+  )
+
+  # Test overall power
+  testthat::expect_equal(
+    object = simulationResults$overallPower,
+    expected = c(0.0252, 0.9079),
+    tolerance = 1e-2
   )
 })
