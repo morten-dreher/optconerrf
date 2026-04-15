@@ -1,3 +1,7 @@
+# optconerrf 1.0.2
+
+Improved unit test coverage
+
 # optconerrf 1.0.1
 
 Corrected some bugs that led to incorrect (expected) second-stage informations for interim estimates: 
