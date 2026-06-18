@@ -24,6 +24,7 @@ knitr::opts_chunk$set(
 The goal of `optconerrf` is to enable the use of adaptive two-stage clinical trial designs with the optimal conditional error function approach proposed by Brannath & Bauer (2004).
 The optimal conditional error function minimises the expected second-stage sample size/information under the assumption that the true effect size is known.
 As an extension to the original methodology, `optconerrf` allows the effect size used to plan the second stage to depend on the interim data.
+In `optconerrf`, tested hypotheses for a treatment effect $\Delta$ are always one-sided of the form $H_0: \Delta \leq 0$ and $H_1: \Delta > 0$.
 
 ## Installation
 
@@ -42,7 +43,7 @@ install.packages("optconerrf")
 
 ## Example
 
-A design object with the following properties:
+A trial design object with the following properties:
  
  * overall type I error rate 0.025 (`alpha = 0.025`)
  * early efficacy boundary 0.0001 (`alpha1 = 0.0001`, p-value scale)
@@ -82,7 +83,7 @@ getExpectedSecondStageInformation(
 
 The above code calculates the expected second-stage information of the design for a scenario under the null hypothesis (`deltaLR = 0`).
 
-`optconerrf` also implements `plot()` and `print()` generics:
+`optconerrf` also implements `plot()` and `print()` generics for the trial design object:
 
 ```{r}
 plot(trialDesign)
