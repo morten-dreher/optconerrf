@@ -53,94 +53,18 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
     Q <- getQ(firstStagePValue = firstStagePValue, design = design)
   }
 
-  #Take constraints into account (minimumConditionalError, maximumConditionalError,
-  #minimumSecondStageInformation, maximumSecondStageInformation)
-
-  C_max_Info <- NULL
-  C_min_Info <- NULL
-
-  C_max_cond_error <- design$maximumConditionalError
-  C_min_cond_error <- design$minimumConditionalError
-
   # Check if conditional power function should be used
   if (!is.null(suppressWarnings(body(design$conditionalPowerFunction)))) {
     conditionalPower <- design$conditionalPowerFunction(firstStagePValue)
-
-    #Check if interim estimate is used
-    if (design$useInterimEstimate) {
-      delta1 <- min(
-        max(
-          qnorm(1 - firstStagePValue) / sqrt(design$firstStageInformation),
-          design$delta1Min
-        ),
-        design$delta1Max
-      )
-    } else {
-      # Otherwise use fixed effect
-      delta1 <- design$delta1
-    }
-    #Calculate constraint based on minimumSecondStageInformation
-    if (design$minimumSecondStageInformation > 0) {
-      C_max_Info <- 1 -
-        pnorm(
-          delta1 *
-            sqrt(design$minimumSecondStageInformation) -
-            qnorm(conditionalPower)
-        )
-    }
-
-    #Calculate constraint based on maximumSecondStageInformation
-    if (design$maximumSecondStageInformation < Inf) {
-      C_min_Info <- 1 -
-        pnorm(
-          delta1 *
-            sqrt(design$maximumSecondStageInformation) -
-            qnorm(conditionalPower)
-        )
-    }
   } else {
     conditionalPower <- design$conditionalPower
-
-    #Check if interim estimate is used
-    if (design$useInterimEstimate) {
-      delta_C_max <- min(
-        qnorm(1 - design$alpha1) / sqrt(design$firstStageInformation),
-        design$delta1Max
-      )
-      delta_C_min <- max(
-        qnorm(1 - design$alpha0) / sqrt(design$firstStageInformation),
-        design$delta1Min
-      )
-    } else {
-      # Otherwise use fixed effect
-      delta_C_max <- design$delta1
-      delta_C_min <- design$delta1
-    }
-
-    #Calculate constraint based on minimumSecondStageInformation
-    if (design$minimumSecondStageInformation > 0) {
-      C_max_Info <- 1 -
-        pnorm(
-          delta_C_max *
-            sqrt(design$minimumSecondStageInformation) -
-            qnorm(conditionalPower)
-        )
-    }
-
-    #Calculate constraint based on maximumSecondStageInformation
-    if (design$maximumSecondStageInformation < Inf) {
-      C_min_Info <- 1 -
-        pnorm(
-          delta_C_min *
-            sqrt(design$maximumSecondStageInformation) -
-            qnorm(conditionalPower)
-        )
-    }
   }
 
   #Use the constraint that is the stronger restriction
-  C_max <- min(C_max_Info, C_max_cond_error)
-  C_min <- max(C_min_Info, C_min_cond_error)
+  #Calculate the constraints
+  C <- getConstraints(firstStagePValue = firstStagePValue, design = design)
+  C_max <- C$C_max
+  C_min <- C$C_min
 
   #Handling of the special case firstStagePValue=0 and no early stopping
   if (firstStagePValue == 0 && design$alpha1 == 0) {
