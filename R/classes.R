@@ -229,6 +229,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
 
       # Range checks for constraints
       # General range checks
+
       .rangeCheck(
         variable = minimumConditionalError,
         range = c(0, 1),
@@ -239,7 +240,6 @@ TrialDesignOptimalConditionalError <- setRefClass(
         range = c(0, 1),
         allowedEqual = TRUE
       )
-
       .rangeCheck(
         variable = minimumSecondStageInformation,
         range = c(0, Inf),
@@ -262,6 +262,7 @@ TrialDesignOptimalConditionalError <- setRefClass(
         allowedEqual = TRUE,
         hint = "It must not exceed maximumConditionalError."
       )
+
       .rangeCheck(
         variable = maximumConditionalError,
         range = c(minimumConditionalError, 1),
@@ -281,6 +282,20 @@ TrialDesignOptimalConditionalError <- setRefClass(
         allowedEqual = TRUE,
         hint = "It must not be smaller than minimumSecondStageInformation."
       )
+
+      # Check if the maximumConditionalError exceeds the conditionalPower
+      if (!is.na(conditionalPower)){
+        if (maximumConditionalError > conditionalPower && 1 > maximumConditionalError){
+          message("Note that the restriction of not exceeding the conditionalPower is stricter than the specified maximumConditionalError.")
+        }
+      }
+
+      # Check if the maximumConditionalError exceeds the conditionalPowerFunction
+      if (!is.null(suppressWarnings(body(conditionalPowerFunction)))){
+        if (!is.na(maximumConditionalError) && maximumConditionalError > conditionalPowerFunction(alpha0) && 1 > maximumConditionalError){
+          message("Note that there exist first stage p-values for which the restriction of not exceeding the conditionalPowerFunction is stricter than the specified maximumConditionalError.")
+        }
+      }
 
       # Identify constraints for minimum conditional error / maximum second-stage information
       .self$minimumConditionalError <- minimumConditionalError
