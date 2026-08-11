@@ -30,9 +30,8 @@ getIntegralWithConstants <- function(constant, design) {
   # Calculate integral for all constant parts
   constantParts <- 0
   for (x in 1:numberOfIntervals){
-    newPart <- min(max(getPsi(nuPrime = -exp(constant)/design$monotonisationConstants$qs[x],
-                   conditionalPower = conditionalPower), design$minimumConditionalError),
-        design$maximumConditionalError)*
+    newPart <- getPsi(nuPrime = -exp(constant)/design$monotonisationConstants$qs[x],
+                   conditionalPower = conditionalPower)*
       (design$monotonisationConstants$dus[x] - design$monotonisationConstants$dls[x])
     constantParts <- constantParts + newPart
   }
