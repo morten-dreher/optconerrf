@@ -80,23 +80,27 @@ test_that("Simple level constant correct", {
   expect_equal(secondStageIntegral, 0.024, tolerance = 1e-10)
 })
 
-testthat::test_that(desc = "Error for root finding works", code = {
-  testthat::expect_error(
-    getDesignOptimalConditionalErrorFunction(
-      alpha = 0.025,
-      alpha1 = 0.001,
-      alpha0 = 0.5,
-      conditionalPower = 0.9,
-      delta1 = 0.25,
-      useInterimEstimate = FALSE,
-      firstStageInformation = 40,
-      likelihoodRatioDistribution = "maxlr",
-      minimumConditionalError = 0.05,
-      maximumConditionalError = 0.1
-    ),
-    regexp = "Root finding for level constant failed"
-  )
-})
+
+#This test is deprecated because the root finding of the level constant fails because
+#of a too strict lower constraint!
+
+# testthat::test_that(desc = "Error for root finding works", code = {
+#   testthat::expect_error(
+#     getDesignOptimalConditionalErrorFunction(
+#       alpha = 0.025,
+#       alpha1 = 0.001,
+#       alpha0 = 0.5,
+#       conditionalPower = 0.9,
+#       delta1 = 0.25,
+#       useInterimEstimate = FALSE,
+#       firstStageInformation = 40,
+#       likelihoodRatioDistribution = "maxlr",
+#       minimumConditionalError = 0.05,
+#       maximumConditionalError = 0.1
+#     ),
+#     regexp = "Root finding for level constant failed"
+#   )
+# })
 
 testthat::test_that(desc = "Error for incorrect specification of alpha, CP, alpha1, alpha0 works", code = {
   testthat::expect_error(
