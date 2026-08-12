@@ -60,11 +60,9 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
     conditionalPower <- design$conditionalPower
   }
 
-  #Use the constraint that is the stronger restriction
   #Calculate the constraints
-  C <- getConstraints(firstStagePValue = firstStagePValue, design = design)
-  C_max <- C$C_max
-  C_min <- C$C_min
+  C_max <- getConstraintC_max(firstStagePValue = firstStagePValue, design = design)
+  C_min <- getConstraintC_min(firstStagePValue = firstStagePValue, design = design)
 
   #Handling of the special case firstStagePValue=0 and no early stopping
   if (firstStagePValue == 0 && design$alpha1 == 0) {
