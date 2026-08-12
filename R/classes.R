@@ -305,6 +305,17 @@ TrialDesignOptimalConditionalError <- setRefClass(
       .self$maximumConditionalError <- maximumConditionalError
       .self$minimumSecondStageInformation <- minimumSecondStageInformation
 
+      # Check if the constraints are too strict
+      if(alpha1 + integrate(f = function(firstStagePValue) {getConstraintC_max(firstStagePValue, design = .self)},
+                            lower = alpha1, upper = alpha0)$value < alpha){
+        stop("The upper constraint (maximumConditionalError and/or minimumSecondStageInformation) is too strict.")
+      }
+
+      if(alpha1 + integrate(f = function(firstStagePValue) {getConstraintC_min(firstStagePValue, design = .self)},
+                         lower = alpha1, upper = alpha0)$value > alpha){
+        stop("The lower constraint (minimumConditionalError and/or maximumSecondStageInformation) is too strict.")
+      }
+
       .self$enforceMonotonicity <- enforceMonotonicity
 
       # Identify specific distribution parameters
