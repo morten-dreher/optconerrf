@@ -306,12 +306,15 @@ TrialDesignOptimalConditionalError <- setRefClass(
       .self$minimumSecondStageInformation <- minimumSecondStageInformation
 
       # Check if the constraints are too strict
-      if(alpha1 + integrate(f = function(firstStagePValue) {getConstraintC_max(firstStagePValue, design = .self)},
+      getConstraintC_max_int <- Vectorize(getConstraintC_max, vectorize.args = "firstStagePValue")
+      getConstraintC_min_int <- Vectorize(getConstraintC_min, vectorize.args = "firstStagePValue")
+
+      if(alpha1 + integrate(f = function(firstStagePValue) {getConstraintC_max_int(firstStagePValue, design = .self)},
                             lower = alpha1, upper = alpha0)$value < alpha){
         stop("The upper constraint (maximumConditionalError and/or minimumSecondStageInformation) is too strict.")
       }
 
-      if(alpha1 + integrate(f = function(firstStagePValue) {getConstraintC_min(firstStagePValue, design = .self)},
+      if(alpha1 + integrate(f = function(firstStagePValue) {getConstraintC_min_int(firstStagePValue, design = .self)},
                          lower = alpha1, upper = alpha0)$value > alpha){
         stop("The lower constraint (minimumConditionalError and/or maximumSecondStageInformation) is too strict.")
       }

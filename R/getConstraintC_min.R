@@ -56,5 +56,3 @@ getConstraintC_min <- function(firstStagePValue, design){
   C_min <- max(C_min_Info, C_min_cond_error)
   return(C_min)
 }
-
-getConstraintC_min <- Vectorize(getConstraintC_min, vectorize.args = "firstStagePValue")

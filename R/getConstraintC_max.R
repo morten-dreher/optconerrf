@@ -58,5 +58,3 @@ getConstraintC_max <- function(firstStagePValue, design){
 
   return(C_max)
 }
-
-getConstraintC_max <- Vectorize(getConstraintC_max, vectorize.args = "firstStagePValue")
