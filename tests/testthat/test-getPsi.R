@@ -1,8 +1,15 @@
 testthat::test_that(desc = "getPsi works correctly", code = {
+
+  #The design and the value of the first stage p-value,
+  #only need to be provided, if the cp is not within the bounds
+  #pnorm(2) and pnorm(-2).
+
   testthat::expect_equal(
     object = getPsi(
       nuPrime = getNuPrime(alpha = 0.05, conditionalPower = 0.9),
-      conditionalPower = 0.9
+      conditionalPower = 0.9,
+      design = NULL,
+      firstStagePValue = NULL
     ),
     expected = 0.05
   )
@@ -10,7 +17,9 @@ testthat::test_that(desc = "getPsi works correctly", code = {
   testthat::expect_equal(
     object = getPsi(
       nuPrime = getNuPrime(alpha = 0.01, conditionalPower = 0.8),
-      conditionalPower = 0.8
+      conditionalPower = 0.8,
+      design = NULL,
+      firstStagePValue = NULL
     ),
     expected = 0.01
   )
@@ -18,7 +27,9 @@ testthat::test_that(desc = "getPsi works correctly", code = {
   testthat::expect_equal(
     object = getPsi(
       nuPrime = c(-10, -11, -12, -13, -14),
-      conditionalPower = 0.9
+      conditionalPower = 0.9,
+      design = NULL,
+      firstStagePValue = NULL
     ),
     expected = c(
       0.312539192762,
@@ -30,10 +41,20 @@ testthat::test_that(desc = "getPsi works correctly", code = {
     tolerance = 1e-8
   )
 
+  #Create an example design
+  design_example1 <- getDesignOptimalConditionalErrorFunction(
+    alpha = 0.025, alpha1 = 0.001, alpha0 = 0.5,
+    conditionalPower = 0.995, delta1 = 0.5, useInterimEstimate = FALSE,
+    firstStageInformation = 4, likelihoodRatioDistribution = "fixed",
+    deltaLR = 1, enforceMonotonicity = FALSE
+  )
+
   testthat::expect_equal(
     object = getPsi(
       nuPrime = c(-10, -11, -12, -13, -14),
-      conditionalPower = 0.995
+      conditionalPower = 0.995,
+      design = design_example1,
+      firstStagePValue = NULL
     ),
     expected = c(
       0.993518878813,
@@ -45,10 +66,19 @@ testthat::test_that(desc = "getPsi works correctly", code = {
     tolerance = 1e-8
   )
 
+  design_example2 <- getDesignOptimalConditionalErrorFunction(
+    alpha = 0.0005, alpha1 = 0, alpha0 = 1,
+    conditionalPower = 0.021, delta1 = 0.5, useInterimEstimate = FALSE,
+    firstStageInformation = 4, likelihoodRatioDistribution = "fixed",
+    deltaLR = 1, enforceMonotonicity = FALSE
+  )
+
   testthat::expect_equal(
     object = getPsi(
       nuPrime = c(-10, -11, -12, -13, -14),
-      conditionalPower = 0.021
+      conditionalPower = 0.021,
+      design = design_example2,
+      firstStagePValue = NULL
     ),
     expected = c(
       0.0136273452348,

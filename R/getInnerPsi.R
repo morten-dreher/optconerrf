@@ -37,6 +37,6 @@ getInnerPsi <- function(firstStagePValue, constant, design) {
   C_max <- getConstraintC_max(firstStagePValue = firstStagePValue, design = design)
   C_min <- getConstraintC_min(firstStagePValue = firstStagePValue, design = design)
 
-  return(pmin(pmax(getPsi(nuPrime = inner, conditionalPower = conditionalPower),
+  return(pmin(pmax(getPsi(nuPrime = inner, conditionalPower = conditionalPower, design = design, firstStagePValue = firstStagePValue),
                    C_min), C_max))
 }

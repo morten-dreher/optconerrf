@@ -81,7 +81,9 @@ getOptimalConditionalError <- function(firstStagePValue, design) {
       C_max,
       getPsi(
         nuPrime = (-exp(design$levelConstant) / Q),
-        conditionalPower = conditionalPower
+        conditionalPower = conditionalPower,
+        design = design,
+        firstStagePValue = firstStagePValue
       )
     )
   ))
