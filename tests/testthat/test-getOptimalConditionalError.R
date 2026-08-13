@@ -228,22 +228,9 @@ test_that("Correct result for optimal conditional error function", {
       c(0.01, 0.025, 0.05, 0.1, 0.2),
       design = design_cpfun_fixed_constr
     ),
-    c(0.98106911, 0.39271706, 0.17044327, 0.08305286, 0.04328955),
+    c(0.981069106, 0.396877529, 0.171916330, 0.083727926, 0.043628517),
     tolerance = 1e-4
   )
-
-
-  # Applying the function Vectorize to the function C_max leads to a slight
-  # numeric change of the values
-  #
-  # expect_equal(
-  #   getOptimalConditionalError(
-  #     c(0.01, 0.025, 0.05, 0.1, 0.2),
-  #     design = design_cpfun_fixed_constr
-  #   ),
-  #   c(0.981069106, 0.396877529, 0.171916330, 0.083727926, 0.043628517),
-  #   tolerance = 1e-4
-  # )
 
   # Design with fixed CP and information constraints
   design_inf_constraints <- getDesignOptimalConditionalErrorFunction(
