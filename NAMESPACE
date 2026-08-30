@@ -17,6 +17,8 @@ export(getQ)
 export(getSecondStageInformation)
 export(getSimulationResults)
 importFrom(methods,new)
-importFrom(stats,pnorm)
-importFrom(stats,qnorm)
-importFrom(stats,rnorm)
+importFrom(stats,
+  pnorm,
+  qnorm,
+  rnorm
+)
