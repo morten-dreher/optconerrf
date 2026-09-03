@@ -189,11 +189,11 @@ Aiming to achieve the same value for the conditional power, e.g., 80%, regardles
 Instead, one may aim for a higher conditional power if the interim results are promising and settle for a lower conditional power for poor interim results.
 Such an approach can be realised through the use of a conditional power function which depends on the interim data.
 Generally, a small first-stage p-value may warrant a large conditional power, whereas for weaker first-stage evidence, a lower conditional power may be more appropriate.
-Thus, the conditional power function should be decreasing (or at least non-increasing) in the first-stage p-value.
+Thus, the conditional power function should be decreasing (or at least non-increasing) in the first-stage p-value. Note that if a conditional power function is used, the calculated conditional error function is not necessarily the optimal conditional error function anymore. However, we assume that it is still a sufficiently efficient option.
 
 Importantly, the use of a (decreasing) conditional power function may lead to a non-monotone second-stage information function.
 For a fixed conditional power, the second-stage information required to achieve that conditional power will always be increasing in $p_1$ (provided the conditional error function is non-increasing in $p_1$).
-A decreasing conditional power function may impact the second-stage information function in a way that it increases for small first-stage p-values, reaches a maximum and decreases for larger first-stage p-values.
+A decreasing conditional power function may impact the second-stage information function in a way that it increases for small first-stage p-values, reaches a maximum and decreases for larger first-stage p-values.  
 In `optconerrf`, the user may freely specify a conditional power function to `getDesignOptimalConditionalErrorFunction()` via the argument `conditionalPowerFunction`.
 In the current implementation, the first-stage p-value is passed as the first and only argument to the conditional power function.
 For illustration purposes, we consider the exemplary conditional power function $CP(p_1) = \Phi(1-p_1)$, which is decreasing in the first-stage p-value $p_1$:
