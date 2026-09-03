@@ -29,5 +29,6 @@ The argument \code{conditionalPower} is either the fixed target conditional powe
 }
 \examples{
 # Returns 0.05
-getPsi(getNuPrime(alpha = 0.05, conditionalPower = 0.9), conditionalPower = 0.9, design = NULL, firstStagePValue = NULL)
+getPsi(getNuPrime(alpha = 0.05, conditionalPower = 0.9), conditionalPower = 0.9,
+  design = NULL, firstStagePValue = NULL)
 }
